@@ -1,99 +1,186 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>THE PYNE PLUS | COLLECTION</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>THE PYNE PLUS | Luxury Catalog V116</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #fff; padding: 20px; color: #1e293b; }
-    .pyne-title { color: #C9A84C; font-weight: 800; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
-    .search-box { width: 100%; border: 2px solid #C9A84C; border-radius: 1rem; padding: 14px 24px; font-weight: 700; color: #475569; margin-bottom: 1rem; outline: none; }
-    .filter-btn { border: 1px solid #f1f5f9; background: #f8fafc; border-radius: 0.75rem; padding: 10px; font-size: 11px; font-weight: 800; color: #1e293b; width: 100%; text-transform: uppercase; outline: none; }
-    .unit-card { background: white; border-radius: 1.5rem; padding: 12px; border: 1px solid #f1f5f9; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-    .status-badge { padding: 3px 10px; border-radius: 6px; font-size: 9px; font-weight: 800; text-transform: uppercase; border-width: 1px; }
+    :root {
+      /* ปรับสีเป็นสีทองหรูหราของ Pyne Plus */
+      --brand-main: #C9A84C; --brand-dark: #0B1829; --gold-lt: #E4C46A;
+      --white: #FDFAF5; --muted: #7A9BB5; --border: rgba(0, 0, 0, 0.05);
+      --card-bg: #FFFFFF; --row-h: 80px; --thumb-w: 105px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: #FAF8F2; color: #1e293b; font-family: 'Montserrat', 'Sarabun', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* MASTER SPLASH SCREEN */
+    #pageSplash { position: fixed; inset: 0; background: var(--brand-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out, visibility 0.6s; }
+    .ducky-wrap { display: flex; gap: 18px; margin-bottom: 25px; font-size: 50px; }
+    .ducky { animation: bounceDucky 0.8s ease-in-out infinite alternate; }
+    @keyframes bounceDucky { 0% { transform: translateY(0); } 100% { transform: translateY(-18px); } }
+
+    header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
+    .logo { font-size: 1rem; font-weight: 800; color: var(--brand-main); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; }
+    .btn-contact { background: var(--brand-main); color: white; padding: 6px 12px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; text-decoration: none; }
+
+    .hero { padding: 75px 15px 10px; text-align: center; }
+    .search-box { position: relative; margin-bottom: 10px; }
+    .search-input { width: 100%; background: #FFFFFF; border: 1.5px solid var(--brand-main); border-radius: 50px; padding: 10px 15px 10px 40px; color: #1A3617; font-weight: 700; font-size: 0.85rem; outline: none; }
+    
+    .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+    .filter-select { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px; color: #475569; font-size: 0.72rem; font-weight: 700; text-align: center; outline: none; appearance: none; }
+
+    /* PILL FILTER AREA (MASTER STYLE) */
+    .pill-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+    .pill-container::-webkit-scrollbar { display: none; }
+    .pill { white-space: nowrap; padding: 6px 14px; border-radius: 50px; background: #F1EDDF; border: 1px solid transparent; color: #8D732B; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+    .pill.active { background: var(--brand-main); color: white; }
+
+    .section-bar { display: flex; justify-content: space-between; align-items: baseline; padding: 15px 15px 10px; margin-top: 10px; }
+    .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 8px; }
+
+    /* MASTER CARD LAYOUT MATCH */
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: rgba(255, 255, 255, 0.7); z-index: 2; background: rgba(0,0,0,0.2); padding: 1px 3px; border-radius: 2px; }
+    
+    .card-info { flex: 1; padding: 4px 10px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
+    .prop-name { font-size: 0.82rem; font-weight: 800; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .price-new { font-size: 1rem; font-weight: 800; color: var(--brand-main); white-space: nowrap; }
+    .status-tag { font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
+    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: rgba(46, 204, 138, 0.05); }
+
+    @media (min-width: 768px) { :root { --row-h: 90px; --thumb-w: 140px; } .prop-list { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
 <body>
-  <header class="mb-8 text-center">
-    <h1 class="pyne-title">THE PYNE <span class="text-slate-200">+2</span></h1>
+
+  <div id="pageSplash">
+    <div class="ducky-wrap"><span class="ducky">🐚</span><span class="ducky">🌊</span><span class="ducky">🌴</span></div>
+    <div class="splash-welcome" style="color:var(--brand-main); font-size:0.75rem; letter-spacing:6px; margin-bottom:8px;">WELCOME</div>
+    <div class="splash-text" style="color:white; font-size:1.1rem; font-weight:800; letter-spacing:3px;">THE PYNE PLUS</div>
+  </div>
+
+  <header>
+    <a href="#" class="logo">THE PYNE PLUS</a>
+    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-contact">Contact</a>
   </header>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="SEARCH COLLECTION..." onkeyup="filter()">
+  <section class="hero">
+    <div class="search-container">
+      <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="Search Plot or ID..."></div>
+      <div class="filters-grid">
+        <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
+        <select id="sortFilter" class="filter-select"><option value="">Price Sort</option><option value="low">Low → High</option><option value="high">High → Low</option></select>
+        <select id="bedFilter" class="filter-select"><option value="">Bedrooms</option></select>
+      </div>
+      <div class="pill-container" id="pillBox">
+        <div class="pill active" data-f="all">All</div>
+        <div class="pill" data-f="Sale">Sale</div>
+        <div class="pill" data-f="Rent">Rent</div>
+        <div class="pill" data-f="Pool Villa">Pool Villa</div>
+        <div class="pill" data-f="Condo">Condo</div>
+        <div class="pill" data-f="House">House</div>
+        <div class="pill" data-f="Land">Land</div>
+        <div class="pill" data-f="Others">Others</div>
+        <div class="pill" data-f="Commercial">Commercial</div>
+      </div>
+    </div>
+  </section>
 
-  <div class="grid grid-cols-3 gap-2 mb-8">
-    <select id="plotFilter" onchange="filter()" class="filter-btn"><option value="all">ALL PLOTS</option></select>
-    <select id="priceSort" onchange="filter()" class="filter-btn"><option value="none">SORT PRICE</option><option value="asc">LOW TO HIGH</option></select>
-    <select id="bedFilter" onchange="filter()" class="filter-btn"><option value="all">BEDROOMS</option></select>
+  <div class="section-bar border-t border-slate-100">
+    <h2 class="section-title" style="font-size:0.85rem; color:var(--brand-main); font-weight:800; letter-spacing:1px; text-transform:uppercase;">Asset Collections</h2>
+    <span id="unitCount" style="font-size:0.65rem; color:var(--muted); font-weight:800;">Loading...</span>
   </div>
 
-  <div id="container"></div>
-
-  <div id="loading" class="text-center py-20">
-    <div class="animate-spin inline-block w-8 h-8 border-4 border-[#C9A84C] border-t-transparent rounded-full mb-4"></div>
-  </div>
+  <main class="prop-list" id="propGrid"></main>
 
   <script>
-    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    let allData = [];
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    let rawData = [];
 
-    async function loadData() {
+    async function init() {
       try {
-        const res = await fetch(`${API}?mode=getListSmall&project=pyne`);
-        allData = await res.json();
+        // ดึงเฉพาะโครงการ Pyne Plus
+        const response = await fetch(`${SCRIPT_URL}?mode=getListSmall&project=pyne`);
+        rawData = await response.json();
         
-        // Setup dropdowns
-        const plots = [...new Set(allData.map(i => i.Plot))].sort();
+        // Setup Dynamic Dropdowns
+        const plots = [...new Set(rawData.map(p => p.Plot))].filter(Boolean).sort();
         plots.forEach(p => document.getElementById('plotFilter').innerHTML += `<option value="${p}">${p}</option>`);
-        const beds = [...new Set(allData.map(i => i.Bedrooms))].sort((a,b)=>a-b);
-        beds.forEach(b => document.getElementById('bedFilter').innerHTML += `<option value="${b}">${b} BEDS</option>`);
+        const beds = [...new Set(rawData.map(p => p.Bedrooms))].sort((a,b)=>a-b);
+        beds.forEach(b => document.getElementById('bedFilter').innerHTML += `<option value="${b}">${b} Bed</option>`);
         
-        document.getElementById('loading').style.display = 'none';
-        filter();
-      } catch (e) { console.error("Load error", e); }
+        render(rawData);
+      } catch (err) { console.error("Load Error:", err); }
+      
+      const splash = document.getElementById('pageSplash');
+      splash.style.opacity = '0';
+      setTimeout(() => { splash.style.display = 'none'; }, 600);
+    }
+
+    function render(items) {
+      document.getElementById('unitCount').textContent = `${items.length} UNITS`;
+      document.getElementById('propGrid').innerHTML = items.map(p => {
+        const label = p.Listing_Type === 'Rent' ? 'For Rent' : 'For Sale';
+        const price = p.Listing_Type === 'Rent' ? Number(p.Monthly_Rent || 0) : Number(p.Sale_Price || 0);
+        return `
+          <a href="details.html?id=${p.HP_ID}" class="card">
+            <div class="card-img">
+              <span class="hp-id">#${p.HP_ID}</span>
+              <img src="${p.Thumbnail_Image}" loading="lazy">
+            </div>
+            <div class="card-info">
+              <div class="info-row"><div class="prop-name">PLOT ${p.Plot || 'N/A'}</div></div>
+              <div class="info-row">
+                <div class="prop-specs">${p.Bedrooms} Bed | ${p.Living_Area_sq_m || 0} M²</div>
+                <div class="price-new">฿${price.toLocaleString()}${p.Listing_Type==='Rent'?'/mo':''}</div>
+              </div>
+              <div class="info-row">
+                <span class="status-tag s-available">${p.Status || 'Available'}</span>
+                <div style="font-size:0.58rem; color:var(--muted); font-weight:600;">THE PYNE PLUS</div>
+              </div>
+            </div>
+          </a>`;
+      }).join('');
     }
 
     function filter() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
+      const q = document.getElementById('searchInput').value.toLowerCase();
       const plot = document.getElementById('plotFilter').value;
       const bed = document.getElementById('bedFilter').value;
-      const sort = document.getElementById('priceSort').value;
+      const pill = document.querySelector('.pill.active').dataset.f;
+      const sort = document.getElementById('sortFilter').value;
 
-      let filtered = allData.filter(u => {
-        const matchSearch = u.HP_ID.toLowerCase().includes(search) || u.Plot.toLowerCase().includes(search);
-        const matchPlot = plot === 'all' || u.Plot === plot;
-        const matchBed = bed === 'all' || String(u.Bedrooms) === bed;
-        return matchSearch && matchPlot && matchBed;
+      let filtered = rawData.filter(p => {
+        const matchQ = !q || `${p.HP_ID} ${p.Plot}`.toLowerCase().includes(q);
+        const matchPlot = !plot || p.Plot === plot;
+        const matchBed = !bed || String(p.Bedrooms) === bed;
+        const matchPill = pill === 'all' || p.Listing_Type === pill || p.Type === pill;
+        return matchQ && matchPlot && matchBed && matchPill;
       });
 
-      if(sort === 'asc') filtered.sort((a,b) => a.Sale_Price - b.Sale_Price);
+      if (sort === "low") filtered.sort((a,b) => (a.Sale_Price || a.Monthly_Rent) - (b.Sale_Price || b.Monthly_Rent));
+      else if (sort === "high") filtered.sort((a,b) => (b.Sale_Price || b.Monthly_Rent) - (a.Sale_Price || a.Monthly_Rent));
 
-      // Render Horizontal Cards
-      document.getElementById('container').innerHTML = filtered.map(u => `
-        <div class="unit-card flex items-center gap-4" onclick="location.href='details.html?id=${u.HP_ID}'">
-          <div class="relative w-32 h-32 flex-shrink-0">
-            <img src="${u.Thumbnail_Image}" class="w-full h-full object-cover rounded-2xl shadow-sm">
-            <span class="absolute top-2 left-2 text-[8px] bg-black/40 px-1 rounded text-white/70">#${u.HP_ID}</span>
-          </div>
-          <div class="flex-1 flex flex-col justify-between h-32 py-1">
-            <div>
-              <h3 class="font-800 text-slate-800 text-lg uppercase">PLOT ${u.Plot}</h3>
-              <p class="text-[10px] font-700 text-slate-400 uppercase tracking-tighter">${u.Bedrooms} Bed | ${u.Bathrooms || 0} Bath</p>
-            </div>
-            <div>
-              <span class="status-badge ${u.Status === 'Available' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'}">${u.Status}</span>
-              <p class="text-[9px] text-slate-400 mt-1 uppercase">${u.District} | ${u.Zone}</p>
-            </div>
-          </div>
-          <div class="text-right flex flex-col justify-end h-32">
-            <p class="text-xl font-800 text-[#C9A84C]">฿${Number(u.Sale_Price).toLocaleString()}</p>
-          </div>
-        </div>
-      `).join('');
+      render(filtered);
     }
 
-    window.onload = loadData;
+    document.querySelectorAll('input, select').forEach(el => el.addEventListener('change', filter));
+    document.getElementById('searchInput').addEventListener('input', filter);
+    document.getElementById('pillBox').addEventListener('click', (e) => {
+      if (e.target.classList.contains('pill')) {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        filter();
+      }
+    });
+
+    window.onload = init;
   </script>
 </body>
 </html>
