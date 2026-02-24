@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+  <title>The Pyne Plus | Modern Luxury Pool Villas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --pyne: #C9A84C; --dark: #1A1A1A; --border: rgba(201,168,76,0.15); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #fff; color: var(--dark); font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
+    #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
+    header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--pyne); text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .hero { padding: 85px 15px 10px; text-align: center; }
+    .search-bar { width: 100%; max-width: 550px; border: 1.5px solid var(--pyne); border-radius: 12px; padding: 12px 20px; font-size: 0.85rem; outline: none; margin-bottom: 15px; background: #fff; color: var(--dark); font-weight: 600; }
+    .filter-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; max-width: 550px; margin: 0 auto 20px; padding: 0 15px; }
+    .filter-sel { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--dark); font-size: 0.65rem; font-weight: 700; outline: none; text-align: center; text-transform: uppercase; }
+    .prop-grid { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .card { background: #fff; border-radius: 20px; display: flex; height: 110px; overflow: hidden; text-decoration: none; color: inherit; border: 1px solid var(--border); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
+    .card-img { width: 140px; flex-shrink: 0; background: #f8f8f8; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .card-info { flex: 1; padding: 12px 18px; display: flex; flex-direction: column; justify-content: center; }
+    .p-title { font-size: 0.85rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+    .p-price { font-size: 1rem; font-weight: 700; color: var(--pyne); }
+    .p-meta { font-size: 0.6rem; color: #888; text-transform: uppercase; font-weight: 600; margin-top: 6px; letter-spacing: 0.5px; }
+    @media (min-width: 768px) { .prop-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div id="pageSplash"><div style="font-size:45px; filter: drop-shadow(0 0 10px rgba(201,168,76,0.3));">✨</div><div style="color:var(--pyne); font-weight:700; margin-top:15px; letter-spacing:3px;">THE PYNE PLUS</div></div>
+  <header><a href="#" class="logo">THE PYNE +2</a><div style="width:34px;"></div></header>
+  <section class="hero">
+    <input type="text" id="q" class="search-bar" placeholder="SEARCH COLLECTION..." oninput="applyFilters()">
+    <div class="filter-grid">
+      <select id="fPlot" class="filter-sel" onchange="applyFilters()"><option value="">ALL PLOTS</option></select>
+      <select id="fSort" class="filter-sel" onchange="applyFilters()"><option value="">SORT PRICE</option><option value="low">LOWEST</option><option value="high">HIGHEST</option></select>
+      <select id="fBed" class="filter-sel" onchange="applyFilters()"><option value="">BEDROOMS</option><option value="3">3 BED</option><option value="4">4 BED</option></select>
+    </div>
+  </section>
+  <main class="prop-grid" id="grid"></main>
+  <script>
+    const API = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    const PROJECT = 'The Pyne Plus'; // ✅ ล็อคชื่อโครงการตามใน Sheet
+    let fullData = [];
 
+    async function init() {
+      try {
+        const res = await fetch(`${API}?mode=getListSmall&project=${encodeURIComponent(PROJECT)}&t=${Date.now()}`);
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          fullData = data; updateUI(data); hideSplash();
+        }
+      } catch (e) { hideSplash(); }
+    }
+    function updateUI(items) {
+      const sel = document.getElementById('fPlot');
+      const plots = [...new Set(items.map(u => u.Plot).filter(Boolean))].sort();
+      sel.innerHTML = '<option value="">ALL PLOTS</option>';
+      plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `PLOT ${p}`; sel.appendChild(opt); });
+      render(items);
+    }
+    function applyFilters() {
+      const q = document.getElementById('q').value.toLowerCase();
+      const plot = document.getElementById('fPlot').value;
+      const bed = document.getElementById('fBed').value;
+      const sort = document.getElementById('fSort').value;
+      let filtered = fullData.filter(u => (u.HP_ID.toLowerCase().includes(q) || u.Plot.toLowerCase().includes(q)) && (plot==="" || u.Plot===plot) && (bed==="" || parseInt(u.Bedrooms)===parseInt(bed)));
+      if (sort === "low") filtered.sort((a,b) => (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
+      if (sort === "high") filtered.sort((a,b) => (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
+      render(filtered);
+    }
+    function render(items) {
+      document.getElementById('grid').innerHTML = items.map(u => {
+        let p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, ''));
+        return `<a href="details.html?id=${u.HP_ID}" class="card">
+          <div class="card-img"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/140x110'}" loading="lazy"></div>
+          <div class="card-info">
+            <div class="p-title">PLOT ${u.Plot || u.HP_ID}</div>
+            <div class="p-price">฿${p.toLocaleString()}</div>
+            <div class="p-meta">${u.Bedrooms||0} BED | ${u.Living_Area_sq_m||0} M² | <span style="color:var(--pyne);">${u.Status}</span></div>
+          </div></a>`;
+      }).join('');
+    }
+    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
+    init();
+  </script>
+</body>
+</html>
