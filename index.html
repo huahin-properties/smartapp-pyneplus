@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>THE PYNE PLUS | Luxury Catalog V116</title>
+  <title>THE PYNE PLUS | Index V117</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      /* ปรับสีเป็นสีทองหรูหราของ Pyne Plus */
       --brand-main: #C9A84C; --brand-dark: #0B1829; --gold-lt: #E4C46A;
       --white: #FDFAF5; --muted: #7A9BB5; --border: rgba(0, 0, 0, 0.05);
       --card-bg: #FFFFFF; --row-h: 80px; --thumb-w: 105px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #FAF8F2; color: #1e293b; font-family: 'Montserrat', 'Sarabun', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { background-color: #FAF8F2; color: #1e293b; font-family: 'Montserrat', 'Sarabun', sans-serif; overflow-x: hidden; }
 
-    /* MASTER SPLASH SCREEN */
     #pageSplash { position: fixed; inset: 0; background: var(--brand-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out, visibility 0.6s; }
     .ducky-wrap { display: flex; gap: 18px; margin-bottom: 25px; font-size: 50px; }
     .ducky { animation: bounceDucky 0.8s ease-in-out infinite alternate; }
@@ -26,22 +24,14 @@
     .btn-contact { background: var(--brand-main); color: white; padding: 6px 12px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; text-decoration: none; }
 
     .hero { padding: 75px 15px 10px; text-align: center; }
-    .search-box { position: relative; margin-bottom: 10px; }
     .search-input { width: 100%; background: #FFFFFF; border: 1.5px solid var(--brand-main); border-radius: 50px; padding: 10px 15px 10px 40px; color: #1A3617; font-weight: 700; font-size: 0.85rem; outline: none; }
-    
     .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
     .filter-select { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px; color: #475569; font-size: 0.72rem; font-weight: 700; text-align: center; outline: none; appearance: none; }
-
-    /* PILL FILTER AREA (MASTER STYLE) */
     .pill-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-    .pill-container::-webkit-scrollbar { display: none; }
     .pill { white-space: nowrap; padding: 6px 14px; border-radius: 50px; background: #F1EDDF; border: 1px solid transparent; color: #8D732B; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; cursor: pointer; }
     .pill.active { background: var(--brand-main); color: white; }
 
-    .section-bar { display: flex; justify-content: space-between; align-items: baseline; padding: 15px 15px 10px; margin-top: 10px; }
     .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 8px; }
-
-    /* MASTER CARD LAYOUT MATCH */
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
@@ -53,26 +43,20 @@
     .price-new { font-size: 1rem; font-weight: 800; color: var(--brand-main); white-space: nowrap; }
     .status-tag { font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
     .s-available { color: #2ECC8A; border-color: #2ECC8A; background: rgba(46, 204, 138, 0.05); }
+    .furnish-tag { color: var(--brand-main); border-color: var(--brand-main); background: rgba(201, 168, 76, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
 
     @media (min-width: 768px) { :root { --row-h: 90px; --thumb-w: 140px; } .prop-list { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
 <body>
-
   <div id="pageSplash">
     <div class="ducky-wrap"><span class="ducky">🐚</span><span class="ducky">🌊</span><span class="ducky">🌴</span></div>
-    <div class="splash-welcome" style="color:var(--brand-main); font-size:0.75rem; letter-spacing:6px; margin-bottom:8px;">WELCOME</div>
     <div class="splash-text" style="color:white; font-size:1.1rem; font-weight:800; letter-spacing:3px;">THE PYNE PLUS</div>
   </div>
-
-  <header>
-    <a href="#" class="logo">THE PYNE PLUS</a>
-    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-contact">Contact</a>
-  </header>
-
+  <header><a href="#" class="logo">THE PYNE PLUS</a><a href="https://line.me/R/ti/p/@qap7218t" class="btn-contact">Contact</a></header>
   <section class="hero">
-    <div class="search-container">
-      <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="Search Plot or ID..."></div>
+    <div class="search-container" style="max-width:550px; margin:0 auto;">
+      <div style="position:relative; margin-bottom:10px;"><input type="text" id="searchInput" class="search-input" placeholder="Search Plot or ID..."></div>
       <div class="filters-grid">
         <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
         <select id="sortFilter" class="filter-select"><option value="">Price Sort</option><option value="low">Low → High</option><option value="high">High → Low</option></select>
@@ -91,38 +75,27 @@
       </div>
     </div>
   </section>
-
-  <div class="section-bar border-t border-slate-100">
-    <h2 class="section-title" style="font-size:0.85rem; color:var(--brand-main); font-weight:800; letter-spacing:1px; text-transform:uppercase;">Asset Collections</h2>
+  <div class="section-bar" style="display:flex; justify-content:space-between; padding:15px; border-top:1px solid var(--border); margin-top:10px;">
+    <h2 style="font-size:0.85rem; color:var(--brand-main); font-weight:800; text-transform:uppercase;">Asset Collections</h2>
     <span id="unitCount" style="font-size:0.65rem; color:var(--muted); font-weight:800;">Loading...</span>
   </div>
-
   <main class="prop-list" id="propGrid"></main>
-
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     let rawData = [];
-
     async function init() {
       try {
-        // ดึงเฉพาะโครงการ Pyne Plus
         const response = await fetch(`${SCRIPT_URL}?mode=getListSmall&project=pyne`);
         rawData = await response.json();
-        
-        // Setup Dynamic Dropdowns
         const plots = [...new Set(rawData.map(p => p.Plot))].filter(Boolean).sort();
         plots.forEach(p => document.getElementById('plotFilter').innerHTML += `<option value="${p}">${p}</option>`);
         const beds = [...new Set(rawData.map(p => p.Bedrooms))].sort((a,b)=>a-b);
         beds.forEach(b => document.getElementById('bedFilter').innerHTML += `<option value="${b}">${b} Bed</option>`);
-        
         render(rawData);
       } catch (err) { console.error("Load Error:", err); }
-      
-      const splash = document.getElementById('pageSplash');
-      splash.style.opacity = '0';
-      setTimeout(() => { splash.style.display = 'none'; }, 600);
+      document.getElementById('pageSplash').style.opacity = '0';
+      setTimeout(() => { document.getElementById('pageSplash').style.display = 'none'; }, 600);
     }
-
     function render(items) {
       document.getElementById('unitCount').textContent = `${items.length} UNITS`;
       document.getElementById('propGrid').innerHTML = items.map(p => {
@@ -130,32 +103,21 @@
         const price = p.Listing_Type === 'Rent' ? Number(p.Monthly_Rent || 0) : Number(p.Sale_Price || 0);
         return `
           <a href="details.html?id=${p.HP_ID}" class="card">
-            <div class="card-img">
-              <span class="hp-id">#${p.HP_ID}</span>
-              <img src="${p.Thumbnail_Image}" loading="lazy">
-            </div>
+            <div class="card-img"><span class="hp-id">#${p.HP_ID}</span><img src="${p.Thumbnail_Image}" loading="lazy"></div>
             <div class="card-info">
-              <div class="info-row"><div class="prop-name">PLOT ${p.Plot || 'N/A'}</div></div>
-              <div class="info-row">
-                <div class="prop-specs">${p.Bedrooms} Bed | ${p.Living_Area_sq_m || 0} M²</div>
-                <div class="price-new">฿${price.toLocaleString()}${p.Listing_Type==='Rent'?'/mo':''}</div>
-              </div>
-              <div class="info-row">
-                <span class="status-tag s-available">${p.Status || 'Available'}</span>
-                <div style="font-size:0.58rem; color:var(--muted); font-weight:600;">THE PYNE PLUS</div>
-              </div>
+              <div class="info-row"><div class="prop-name">PLOT ${p.Plot || 'N/A'}</div><div class="furnish-tag">${p.Furnishing || '-'}</div></div>
+              <div class="info-row"><div class="prop-specs">${p.Bedrooms} Bed | ${p.Living_Area_sq_m || 0} M²</div><div class="price-new">฿${price.toLocaleString()}${p.Listing_Type==='Rent'?'/mo':''}</div></div>
+              <div class="info-row"><span class="status-tag s-available">${p.Status || 'Available'}</span><div style="font-size:0.58rem; color:var(--muted); font-weight:600;">THE PYNE PLUS</div></div>
             </div>
           </a>`;
       }).join('');
     }
-
     function filter() {
       const q = document.getElementById('searchInput').value.toLowerCase();
       const plot = document.getElementById('plotFilter').value;
       const bed = document.getElementById('bedFilter').value;
       const pill = document.querySelector('.pill.active').dataset.f;
       const sort = document.getElementById('sortFilter').value;
-
       let filtered = rawData.filter(p => {
         const matchQ = !q || `${p.HP_ID} ${p.Plot}`.toLowerCase().includes(q);
         const matchPlot = !plot || p.Plot === plot;
@@ -163,13 +125,10 @@
         const matchPill = pill === 'all' || p.Listing_Type === pill || p.Type === pill;
         return matchQ && matchPlot && matchBed && matchPill;
       });
-
       if (sort === "low") filtered.sort((a,b) => (a.Sale_Price || a.Monthly_Rent) - (b.Sale_Price || b.Monthly_Rent));
       else if (sort === "high") filtered.sort((a,b) => (b.Sale_Price || b.Monthly_Rent) - (a.Sale_Price || a.Monthly_Rent));
-
       render(filtered);
     }
-
     document.querySelectorAll('input, select').forEach(el => el.addEventListener('change', filter));
     document.getElementById('searchInput').addEventListener('input', filter);
     document.getElementById('pillBox').addEventListener('click', (e) => {
@@ -179,7 +138,6 @@
         filter();
       }
     });
-
     window.onload = init;
   </script>
 </body>
