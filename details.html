@@ -1,1 +1,127 @@
-
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Specifications | The Pyne Plus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --pyne: #C9A84C; --dark: #1A1A1A; --white: #FFFFFF; --border: rgba(201,168,76,0.1); --card-bg: #FCFCFC; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--white); color: var(--dark); font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
+    #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
+    header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
+    .back { text-decoration: none; color: var(--pyne); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+    .gallery-container { margin-top: 65px; padding: 0 15px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+    .gallery-card { background: #000; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .main-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #000; overflow: hidden; } 
+    .main-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+    .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+    .thumb-row { display: flex; gap: 10px; padding: 12px; overflow-x: auto; background: rgba(0,0,0,0.03); scrollbar-width: none; }
+    .thumb-row::-webkit-scrollbar { display: none; }
+    .thumb { width: 90px; aspect-ratio: 16 / 10; border-radius: 8px; object-fit: cover; opacity: 0.5; border: 2px solid transparent; flex-shrink: 0; }
+    .thumb.active { opacity: 1; border-color: var(--pyne); }
+    .tag-count { position: absolute; right: 15px; bottom: 15px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: 600; }
+    .content { padding: 10px 15px 120px; max-width: 900px; margin: 0 auto; }
+    .info-card { background: var(--card-bg); border-radius: 15px; padding: 25px; margin-bottom: 15px; border: 1px solid var(--border); }
+    .section-title { font-size: 0.65rem; font-weight: 700; color: var(--pyne); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .label { font-size: 0.55rem; color: #999; text-transform: uppercase; font-weight: 400; letter-spacing: 1px; margin-bottom: 3px; }
+    .val { font-size: 0.85rem; font-weight: 500; color: var(--dark); }
+    .gold { color: var(--pyne); font-weight: 700; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .nearby-grid { display: grid; grid-template-columns: 1fr; gap: 2px; }
+    .nearby-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+    .map-box { width: 100%; height: 230px; border-radius: 15px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
+    .btn-nav { width: 100%; background: var(--dark); color: #fff; text-decoration: none; padding: 14px; border-radius: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; margin-top: 10px; }
+    .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
+    .btn-chat { background: var(--pyne); color: #fff; text-decoration: none; padding: 15px; border-radius: 8px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; box-shadow: 0 10px 20px rgba(201,168,76,0.15); }
+    @media (min-width: 768px) { .grid { grid-template-columns: repeat(4, 1fr); } .nearby-grid { grid-template-columns: 1fr 1fr; gap: 0 40px; } }
+  </style>
+</head>
+<body>
+  <div id="pageSplash">✨<div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700; margin-top:10px;">THE PYNE PLUS</div></div>
+  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700;">THE PYNE +2</div><div style="width:40px;"></div></header>
+  <div class="gallery-container"><div class="gallery-card"><div class="main-stage"><img id="mainImg" class="main-img" src=""><div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div><div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div><div class="tag-count" id="countLabel">0 / 0</div></div><div class="thumb-row" id="thumbStrip"></div></div></div>
+  <main class="content">
+    <div class="info-card">
+      <h1 id="pPlot" style="font-family:'Playfair Display',serif; font-size: 2rem; color: var(--dark); margin-bottom: 5px;">PLOT ...</h1>
+      <div id="pLocText" style="color:var(--pyne); font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:20px;">📍 -</div>
+      <div id="pPrice" style="font-size: 1.5rem; font-weight: 500; color: var(--pyne); margin-bottom: 25px;">฿0</div>
+      <div class="grid">
+        <div><div class="label">Bed / Bath</div><div class="val" id="vBB">-</div></div>
+        <div><div class="label">Living Area</div><div class="val" id="vLiving">-</div></div>
+        <div><div class="label">Land Size</div><div class="val" id="vLand">-</div></div>
+        <div><div class="label">Price / Sq.m</div><div class="val gold" id="vPriceSq">-</div></div>
+      </div>
+    </div>
+    <div class="info-card"><h2 class="section-title">Exclusive Specs</h2><div class="grid">
+        <div><div class="label">Status</div><div class="val" id="vStatus">-</div></div>
+        <div><div class="label">District</div><div class="val" id="vDistrict">-</div></div>
+        <div><div class="label">Sub-District</div><div class="val" id="vSubDistrict">-</div></div>
+        <div><div class="label">Zone</div><div class="val gold" id="vZone">-</div></div>
+        <div><div class="label">Pool System</div><div class="val gold" id="vPoolSys">-</div></div>
+        <div><div class="label">Kitchen Type</div><div class="val" id="vKitchen">-</div></div>
+        <div><div class="label">Parking</div><div class="val" id="vParking">-</div></div>
+        <div><div class="label">Direction</div><div class="val" id="vDirect">-</div></div>
+    </div></div>
+    <div class="info-card" style="border-left: 5px solid var(--pyne);"><h2 class="section-title">Ownership & Fees</h2><div class="grid">
+        <div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div>
+        <div><div class="label">Yearly Total</div><div class="val gold" id="vFeeY">-</div></div>
+        <div><div class="label">Ownership</div><div class="val" id="vOwner">-</div></div>
+        <div><div class="label">Transfer Exp.</div><div class="val" id="vTransfer">-</div></div>
+    </div></div>
+    <div class="info-card"><h2 class="section-title">Bespoke Narrative</h2><p id="vDesc" style="font-size: 0.85rem; line-height: 1.9; color: #555; font-weight: 400; white-space: pre-line;">-</p></div>
+    <div class="info-card"><h2 class="section-title">Location & Navigation</h2><div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div><a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a></div>
+    <div class="info-card"><h2 class="section-title">Nearby Lifestyle</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
+  </main>
+  <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 CONTACT CONCIERGE</a></div>
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    const hpId = new URLSearchParams(window.location.search).get('id');
+    let images = [], idx = 0;
+    const LANDMARKS = [
+      { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Market Village", lat: 12.5598, lon: 99.9602 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Khao Takiab", lat: 12.5186, lon: 99.9774 }, { name: "Airport", lat: 12.6370, lon: 99.9515 }, { name: "Black Mountain", lat: 12.6146, lon: 99.8924 }, { name: "Water Park", lat: 12.5273, lon: 99.9642 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Golf Course", lat: 12.5946, lon: 99.9124 }
+    ];
+    function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
+    async function init() { if(!hpId) return; try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) renderData(json.data); } catch(e) {} hideSplash(); }
+    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
+    function renderData(u) {
+      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0;
+      const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
+      document.getElementById('pPlot').textContent = `PLOT ${u.Plot || u.HP_ID}`;
+      document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict || '-'}, ${u.District || '-'} (${u.Zone || '-'})`;
+      document.getElementById('pPrice').textContent = `฿${p.toLocaleString()}`;
+      document.getElementById('vBB').textContent = `${u.Bedrooms || 0} Bed | ${u.Bathrooms || 0} Bath`;
+      document.getElementById('vLiving').textContent = `${u.Living_Area_sq_m || '-'} m²`;
+      document.getElementById('vLand').textContent = `${u.Land_Area_sq_m || '-'} m²`;
+      document.getElementById('vPriceSq').textContent = `฿${Math.round(p/a).toLocaleString()} / m²`;
+      document.getElementById('vFeeM').textContent = `฿${(parseFloat(u.Common_Fee_Rate)||0).toLocaleString()} / m²`;
+      document.getElementById('vFeeY').textContent = `฿${Math.round((parseFloat(u.Common_Fee_Rate)||0)*a*12).toLocaleString()} / Yr`;
+      document.getElementById('vOwner').textContent = u.Ownership_Type || "-";
+      document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
+      document.getElementById('vStatus').textContent = u.Status || "-";
+      document.getElementById('vDistrict').textContent = u.District || "-";
+      document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-";
+      document.getElementById('vZone').textContent = u.Zone || "-";
+      document.getElementById('vPoolSys').textContent = u.Pool_System || "-";
+      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-";
+      document.getElementById('vParking').textContent = u.Parking || "-";
+      document.getElementById('vDirect').textContent = u.Direction || "-";
+      document.getElementById('vDesc').textContent = u.Description || "-";
+      if (u.Coordinates && u.Coordinates !== "#") {
+        document.getElementById('mapBox').style.display='block'; document.getElementById('navLink').style.display='flex';
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
+        const [la, lo] = u.Coordinates.split(','); const grid = document.getElementById('nearbyGrid');
+        grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div style="font-size:0.8rem;">${loc.name}</div><div style="font-size:0.8rem; font-weight:700; color:var(--pyne);">${d.toFixed(1)} km</div></div>`; }).join('');
+      }
+      images = u.__album || [u.Thumbnail_Image]; if (images.length > 0) { renderThumbs(); setMain(0); }
+    }
+    function setMain(i) { idx = (i + images.length) % images.length; const mainImg = document.getElementById('mainImg'); mainImg.src = images[idx]; document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`; document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx)); }
+    function changeSlide(n) { setMain(idx + n); }
+    function renderThumbs() { document.getElementById('thumbStrip').innerHTML = images.map((src, i) => `<img class="thumb" src="${src}" onclick="setMain(${i})">`).join(''); }
+    init();
+  </script>
+</body>
+</html>
