@@ -3,122 +3,93 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Unit Detail | THE PYNE PLUS TWO</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
+  <title>Asset Specifications | THE PYNE PLUS TWO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
-    :root { --pyne: #C9A84C; --dark: #1E1E1E; --white: #FAF8F2; --border: rgba(201, 168, 76, 0.15); --card-bg: #FFFFFF; }
+    :root { --pyne: #C9A84C; --white: #FAF8F2; --border: rgba(201, 168, 76, 0.15); --card-bg: #FFFFFF; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: #2D2D2D; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
-    
-    #pageSplash { position: fixed; inset: 0; background: #FAF8F2; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
-    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s infinite alternate; margin-bottom: 20px; color: var(--pyne); }
+    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
+    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
-    .splash-brand { color: var(--pyne); font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 3px; }
-
+    .splash-brand { color: var(--pyne); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(250, 248, 242, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
-    .back { text-decoration: none; color: var(--pyne); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
-    
+    .back { text-decoration: none; color: var(--pyne); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
     .gallery-container { margin-top: 65px; padding: 0 15px; max-width: 1100px; margin-left: auto; margin-right: auto; }
-    .gallery-card { background: #FFF; border-radius: 25px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 15px 35px rgba(201,168,76,0.1); margin-bottom: 20px; }
-    .main-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #EEE; overflow: hidden; } 
+    .gallery-card { background: #FFF; border-radius: 18px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 15px 35px rgba(201,168,76,0.1); margin-bottom: 20px; }
+    .main-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #FDFCF9; overflow: hidden; } 
     .main-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
-    .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.7); color: var(--dark); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+    .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.7); color: #1e1e1e; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
     .thumb-row { display: flex; gap: 10px; padding: 12px; overflow-x: auto; background: #FDFCF9; scrollbar-width: none; }
     .thumb-row::-webkit-scrollbar { display: none; }
-    .thumb { width: 90px; aspect-ratio: 16 / 10; border-radius: 12px; object-fit: cover; opacity: 0.5; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; transition: 0.2s; }
+    .thumb { width: 90px; aspect-ratio: 16 / 10; border-radius: 8px; object-fit: cover; opacity: 0.5; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; transition: 0.2s; }
     .thumb.active { opacity: 1; border-color: var(--pyne); }
     .tag-count { position: absolute; right: 15px; bottom: 15px; background: rgba(30,30,30,0.8); color: white; padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: 600; }
-
     .content { padding: 10px 15px 120px; max-width: 900px; margin: 0 auto; }
-    .info-card { background: var(--card-bg); border-radius: 20px; padding: 25px; margin-bottom: 15px; border: 1px solid var(--border); }
-    .section-title { font-size: 0.65rem; font-weight: 700; color: var(--pyne); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+    .info-card { background: var(--card-bg); border-radius: 12px; padding: 22px; margin-bottom: 15px; border: 1px solid var(--border); }
+    .section-title { font-size: 0.65rem; font-weight: 700; color: var(--pyne); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .label { font-size: 0.55rem; color: #9B8E72; text-transform: uppercase; font-weight: 500; letter-spacing: 1.5px; margin-bottom: 4px; }
-    .val { font-size: 0.85rem; font-weight: 400; color: #1E1E1E; }
-    .pyne-val { color: var(--pyne); font-weight: 700; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    
-    .nearby-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
-    .loc-name { font-size: 0.8rem; font-weight: 300; }
-    .loc-dist { font-size: 0.75rem; font-weight: 600; color: var(--pyne); }
-    
-    .map-box { width: 100%; height: 230px; border-radius: 15px; overflow: hidden; border: 1px solid var(--border); margin: 15px 0; }
-    .btn-nav { width: 100%; background: #1E1E1E; color: #FFF; text-decoration: none; padding: 15px; border-radius: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; }
+    .label { font-size: 0.55rem; color: #9B8E72; text-transform: uppercase; font-weight: 500; letter-spacing: 1.2px; margin-bottom: 3px; }
+    .val { font-size: 0.82rem; font-weight: 400; color: #1E1E1E; }
+    .pyne-txt { color: var(--pyne); font-weight: 600; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .nearby-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+    .loc-name { font-size: 0.78rem; font-weight: 300; }
+    .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--pyne); }
+    .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
+    .btn-nav { width: 100%; background: #1E1E1E; color: #FFF; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; margin-top: 10px; }
     .footer { position: fixed; bottom: 0; width: 100%; background: #FFF; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
-    .btn-chat { background: var(--pyne); color: #FFF; text-decoration: none; padding: 16px; border-radius: 10px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+    .btn-chat { background: var(--pyne); color: #FFF; text-decoration: none; padding: 15px; border-radius: 4px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
   </style>
 </head>
 <body>
   <div id="pageSplash"><div class="leaf-anim">✨</div><div class="splash-brand">THE PYNE PLUS</div></div>
-  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700; letter-spacing:1px;">THE PYNE PLUS TWO</div><div style="width:40px;"></div></header>
-  
+  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700;">THE PYNE PLUS TWO</div><div style="width:40px;"></div></header>
   <div class="gallery-container"><div class="gallery-card"><div class="main-stage"><img id="mainImg" class="main-img" src=""><div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div><div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div><div class="tag-count" id="countLabel">0 / 0</div></div><div class="thumb-row" id="thumbStrip"></div></div></div>
-  
   <main class="content">
     <div class="info-card">
-      <h1 id="pPlot" style="font-family:'Playfair Display',serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 5px;">Plot ...</h1>
-      <div id="pLocText" style="font-size: 0.78rem; color: #9B8E72; margin-bottom: 20px;">📍 -</div>
-      <div id="pPrice" style="font-size: 1.5rem; font-weight: 600; color: var(--pyne); margin-bottom: 20px;">฿0</div>
+      <h1 id="pPlot" style="font-family:'Playfair Display',serif; font-size: 1.8rem; color: #1E1E1E; margin-bottom: 5px;">Plot ...</h1>
+      <div id="pLocText" style="font-size: 0.75rem; color: #9B8E72; margin-bottom: 20px;">📍 -</div>
+      <div id="pPrice" style="font-size: 1.4rem; font-weight: 500; color: var(--pyne); margin-bottom: 20px;">฿0</div>
       <div class="grid">
         <div><div class="label">Bed / Bath</div><div class="val" id="vBB">-</div></div>
         <div><div class="label">Living Area</div><div class="val" id="vLiving">-</div></div>
         <div><div class="label">Land Size</div><div class="val" id="vLand">-</div></div>
-        <div><div class="label">Price per Sq.m</div><div class="val pyne-val" id="vPriceSq">-</div></div>
+        <div><div class="label">Price per Sq.m</div><div class="val pyne-txt" id="vPriceSq">-</div></div>
       </div>
     </div>
-
     <div class="info-card">
       <h2 class="section-title">Specifications</h2>
       <div class="grid">
         <div><div class="label">Status</div><div class="val" id="vStatus">-</div></div>
         <div><div class="label">Furnishing</div><div class="val" id="vFurnish">-</div></div>
         <div><div class="label">District</div><div class="val" id="vDistrict">-</div></div>
-        <div><div class="label">Zone</div><div class="val pyne-val" id="vZone">-</div></div>
+        <div><div class="label">Zone</div><div class="val pyne-txt" id="vZone">-</div></div>
         <div><div class="label">Pool System</div><div class="val" id="vPoolSys">-</div></div>
-        <div><div class="label">Pool Size</div><div class="val" id="vPool">-</div></div>
         <div><div class="label">Kitchen Type</div><div class="val" id="vKitchen">-</div></div>
         <div><div class="label">Parking</div><div class="val" id="vParking">-</div></div>
-        <div><div class="label">Direction</div><div class="val" id="vDirect">-</div></div>
         <div><div class="label">Utility Info</div><div class="val" id="vUtil">-</div></div>
       </div>
     </div>
-
     <div class="info-card" style="border-left: 4px solid var(--pyne);">
       <h2 class="section-title">Ownership & Fees</h2>
       <div class="grid">
         <div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div>
-        <div><div class="label">Yearly Total</div><div class="val pyne-val" id="vFeeY">-</div></div>
+        <div><div class="label">Yearly Total</div><div class="val pyne-txt" id="vFeeY">-</div></div>
         <div><div class="label">Ownership</div><div class="val" id="vOwner">-</div></div>
         <div><div class="label">Transfer Exp.</div><div class="val" id="vTransfer">-</div></div>
       </div>
     </div>
-
-    <div class="info-card">
-      <h2 class="section-title">Project Narrative</h2>
-      <p id="vDesc" style="font-size: 0.85rem; line-height: 1.8; color: #555; font-weight: 300; white-space: pre-line;">-</p>
-    </div>
-
-    <div class="info-card">
-      <h2 class="section-title">Map & Location</h2>
-      <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
-      <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
-    </div>
-
-    <div class="info-card">
-      <h2 class="section-title">Nearby Lifestyle</h2>
-      <div id="nearbyGrid" class="grid grid-cols-1 md:grid-cols-2 gap-x-8"></div>
-    </div>
+    <div class="info-card"><h2 class="section-title">Description</h2><p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #555; font-weight: 300; white-space: pre-line;">-</p></div>
+    <div class="info-card"><h2 class="section-title">Location & Navigation</h2><div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div><a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a></div>
+    <div class="info-card"><h2 class="section-title">Nearby Lifestyle</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
   </main>
-
-  <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">Live Concierge Service</a></div>
-
+  <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
     let images = [], idx = 0;
-    const LANDMARKS = [
-      { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Bluport Mall", lat: 12.5518, lon: 99.9633 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }
-    ];
+    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Mall", lat: 12.5518, lon: 99.9631 }];
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
     async function init() { if(!hpId) return; const cached = localStorage.getItem(`pyne_unit_${hpId}`); if(cached) { renderData(JSON.parse(cached).data); setTimeout(hideSplash, 300); } await fetchFreshData(); }
     async function fetchFreshData() { try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) { localStorage.setItem(`pyne_unit_${hpId}`, JSON.stringify({data: json.data})); renderData(json.data); hideSplash(); } } catch(e) { hideSplash(); } }
@@ -127,7 +98,7 @@
       const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0;
       const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
       document.getElementById('pPlot').textContent = `Plot ${u.Plot || u.HP_ID}`;
-      document.getElementById('pLocText').textContent = `📍 ${u.District || '-'}, ${u.Zone || '-'}`;
+      document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict || '-'}, ${u.District || '-'} (${u.Zone || '-'})`;
       document.getElementById('pPrice').textContent = `฿${p.toLocaleString()}`;
       document.getElementById('vBB').textContent = `${u.Bedrooms || 0} Bed | ${u.Bathrooms || 0} Bath`;
       document.getElementById('vLiving').textContent = `${u.Living_Area_sq_m || '-'} m²`;
@@ -142,10 +113,8 @@
       document.getElementById('vStatus').textContent = u.Status || "-";
       document.getElementById('vFurnish').textContent = u.Furnishing || "-";
       document.getElementById('vPoolSys').textContent = u.Pool_System || "-";
-      document.getElementById('vPool').textContent = u.Pool_Size || "-";
       document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-";
       document.getElementById('vParking').textContent = u.Parking || "-";
-      document.getElementById('vDirect').textContent = u.Direction || "-";
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
       if (u.Coordinates && u.Coordinates !== "#") {
@@ -153,7 +122,7 @@
         document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
         document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
         const [la, lo] = u.Coordinates.split(','); const grid = document.getElementById('nearbyGrid');
-        grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div class="loc-name">${loc.name}</div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; }).join('');
+        grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; }).join('');
       }
       images = u.__album || [u.Thumbnail_Image]; if (images.length > 0) { renderThumbs(); setMain(0); }
     }
