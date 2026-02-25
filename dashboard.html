@@ -1,1 +1,46 @@
-
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>The Pyne Plus Dashboard | Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { font-family: 'Montserrat', sans-serif; background: #FAF8F2; color: #0B1829; padding: 20px; }
+    .unit-row { background: white; border: 1px solid rgba(201, 168, 76, 0.2); border-radius: 1.2rem; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; }
+  </style>
+</head>
+<body>
+  <div class="flex justify-between items-center mb-8 mt-4 px-2">
+    <div><h1 class="text-xl font-800 uppercase text-[#C9A84C]">Pyne Plus Dashboard</h1><p class="text-[9px] font-700 text-slate-400 uppercase tracking-widest italic">Elite Property Management</p></div>
+    <button onclick="location.href='edit.html'" class="bg-[#C9A84C] text-white px-5 py-2.5 rounded-xl font-800 text-[10px] uppercase shadow-lg shadow-gold/20"><i class="fas fa-plus mr-2"></i>Add Asset</button>
+  </div>
+  <input type="text" id="sI" onkeyup="filter()" placeholder="SEARCH ASSET ID..." class="w-full bg-white border border-gold/10 rounded-2xl px-6 py-4 mb-6 outline-none focus:border-[#C9A84C] text-sm font-700">
+  <div id="list"></div>
+  <script>
+    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
+    let data = [];
+    async function init() {
+      const res = await fetch(`${API}?mode=getListSmall&project=pyne`);
+      data = await res.json(); render(data);
+    }
+    function render(items) {
+      document.getElementById('list').innerHTML = items.map(u => `
+        <div class="unit-row">
+          <img src="${u.Thumbnail_Image}" class="w-16 h-16 rounded-xl object-cover bg-slate-50 border border-slate-100">
+          <div class="flex-1 min-width-0">
+            <div class="text-[9px] text-slate-400 font-800 uppercase">#${u.HP_ID}</div>
+            <div class="font-800 text-sm truncate uppercase text-[#0B1829]">PLOT ${u.Plot || 'N/A'}</div>
+            <div class="text-[9px] text-[#C9A84C] font-800 uppercase">${u.Status} | ฿${Number(u.Sale_Price || 0).toLocaleString()}</div>
+          </div>
+          <button onclick="location.href='edit.html?id=${u.HP_ID}'" class="bg-slate-50 p-3.5 rounded-2xl hover:bg-[#C9A84C] hover:text-white transition-all text-[#C9A84C] border border-gold/10">
+            <i class="fas fa-edit text-xs"></i>
+          </button>
+        </div>`).join('');
+    }
+    function filter() { render(data.filter(u => u.HP_ID.toLowerCase().includes(document.getElementById('sI').value.toLowerCase()))); }
+    window.onload = init;
+  </script>
+</body>
+</html>
