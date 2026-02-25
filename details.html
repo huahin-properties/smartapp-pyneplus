@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Unit Detail | THE PYNE PLUS</title>
+  <title>Unit Detail | THE PYNE PLUS TWO</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     :root { --pyne: #C9A84C; --dark: #1E1E1E; --white: #FAF8F2; --border: rgba(201, 168, 76, 0.15); --card-bg: #FFFFFF; }
@@ -49,8 +49,8 @@
   </style>
 </head>
 <body>
-  <div id="pageSplash"><div class="leaf-anim">✧</div><div class="splash-brand">THE PYNE PLUS</div></div>
-  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700; letter-spacing:1px;">THE PYNE PLUS</div><div style="width:40px;"></div></header>
+  <div id="pageSplash"><div class="leaf-anim">✨</div><div class="splash-brand">THE PYNE PLUS</div></div>
+  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700; letter-spacing:1px;">THE PYNE PLUS TWO</div><div style="width:40px;"></div></header>
   
   <div class="gallery-container"><div class="gallery-card"><div class="main-stage"><img id="mainImg" class="main-img" src=""><div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div><div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div><div class="tag-count" id="countLabel">0 / 0</div></div><div class="thumb-row" id="thumbStrip"></div></div></div>
   
@@ -117,11 +117,11 @@
     const hpId = new URLSearchParams(window.location.search).get('id');
     let images = [], idx = 0;
     const LANDMARKS = [
-      { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Bluport Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Black Mountain", lat: 12.6146, lon: 99.8924 }
+      { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Bluport Mall", lat: 12.5518, lon: 99.9633 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }
     ];
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
-    async function init() { if(!hpId) return; await fetchFreshData(); }
-    async function fetchFreshData() { try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) { renderData(json.data); hideSplash(); } } catch(e) { hideSplash(); } }
+    async function init() { if(!hpId) return; const cached = localStorage.getItem(`pyne_unit_${hpId}`); if(cached) { renderData(JSON.parse(cached).data); setTimeout(hideSplash, 300); } await fetchFreshData(); }
+    async function fetchFreshData() { try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) { localStorage.setItem(`pyne_unit_${hpId}`, JSON.stringify({data: json.data})); renderData(json.data); hideSplash(); } } catch(e) { hideSplash(); } }
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
     function renderData(u) {
       const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0;
@@ -151,7 +151,7 @@
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display='block'; document.getElementById('navLink').style.display='flex';
         document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-        document.getElementById('navLink').href = `https://www.google.com/maps?q=${u.Coordinates.trim()}`;
+        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
         const [la, lo] = u.Coordinates.split(','); const grid = document.getElementById('nearbyGrid');
         grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div class="loc-name">${loc.name}</div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; }).join('');
       }
