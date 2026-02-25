@@ -2,134 +2,87 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Add New Unit | MASTER SYSTEM V143</title>
+  <title>Add Asset | The Pyne Plus</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #060F1A; color: white; margin: 0; padding: 0; }
+    body { font-family: 'Montserrat', sans-serif; background: #FAF8F2; color: #2D2D2D; margin: 0; padding: 0; }
     .content-wrapper { padding: 20px 20px 200px; max-width: 1024px; margin: 0 auto; }
     .tab-active { border-bottom: 4px solid #C9A84C; color: #C9A84C; }
-    .input-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem; }
-    .field-label { font-size: 10px; font-weight: 800; color: #7A9BB5; text-transform: uppercase; margin-bottom: 0.5rem; display: block; letter-spacing: 1px; }
-    .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 0.75rem; color: white; outline: none; transition: 0.2s; font-size: 14px; }
-    .img-tile { position: relative; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; }
-    .img-x { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(239,68,68,0.95); color: white; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; border: 2px solid #060F1A; }
-    .upload-overlay { position: fixed; inset: 0; background: rgba(6,15,26,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-    .loader { border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid #C9A84C; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+    .input-card { background: white; border: 1px solid rgba(201, 168, 76, 0.2); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+    .field-label { font-size: 10px; font-weight: 800; color: #9B8E72; text-transform: uppercase; margin-bottom: 0.5rem; display: block; letter-spacing: 1px; }
+    .field-input { width: 100%; background: #F9F7F0; border: 1px solid transparent; border-radius: 0.85rem; padding: 0.85rem; color: #1A1A1A; outline: none; transition: 0.2s; font-size: 14px; }
+    .field-input:focus { border-color: #C9A84C; background: white; }
+    .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid #eee; background: #fdfdfd; margin-bottom: 1rem; }
+    .img-tile { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; }
+    .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+    .loader { border: 4px solid #eee; border-top: 4px solid #C9A84C; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(6,15,26,0.98); backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.1); padding: 25px 20px; z-index: 1000; }
-    .btn-create { background: #10B981; color: white; width: 100%; max-width: 1000px; margin: 0 auto; display: block; height: 60px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 4px; }
+    .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); border-top: 1px solid rgba(201, 168, 76, 0.1); padding: 25px 20px; z-index: 1000; }
+    .btn-create { background: #C9A84C; color: white; width: 100%; max-width: 1000px; margin: 0 auto; display: block; height: 60px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 4px; }
   </style>
 </head>
 <body>
-  <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 tracking-[0.3em]">GENERATING ID...</div></div>
-
+  <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#C9A84C] tracking-[0.3em]">SECURE ID GENERATION...</div></div>
   <div class="content-wrapper">
-    <div class="bg-slate-900 rounded-[2.5rem] p-8 text-white flex justify-between items-center mb-8 border border-white/5">
-      <div><p class="text-[#10B981] font-800 uppercase tracking-widest text-[10px] mb-2">Create New Entry</p><h1 id="displayId" class="text-3xl font-800 tracking-tighter italic">HP00-XXXX</h1></div>
-      <button onclick="location.href='dashboard.html'" class="bg-white/5 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
+    <div class="bg-[#C9A84C] rounded-[2.5rem] p-8 text-white flex justify-between items-center mb-8 shadow-xl">
+      <div><p class="text-white/70 font-800 uppercase tracking-widest text-[10px] mb-2">New Asset Registry</p><h1 id="displayId" class="text-3xl font-800 tracking-tighter italic">HP00-XXXX</h1></div>
+      <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
-
-    <div class="flex gap-8 mb-8 border-b border-white/10 px-4">
-      <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Images & Files</button>
-      <button onclick="switchTab('info')" id="btn-info" class="pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-500">Property Details</button>
+    <div class="flex gap-8 mb-8 border-b border-gold/20 px-4">
+      <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Visual Assets</button>
+      <button onclick="switchTab('info')" id="btn-info" class="pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400">Specifications</button>
     </div>
-
     <div id="tab-photo" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="input-card">
-          <span class="field-label">Main Cover Thumbnail</span>
-          <div id="thumbPreview" class="thumb-stage flex items-center justify-center relative h-48 bg-black/20 rounded-xl mb-4 overflow-hidden border border-dashed border-white/10"><span class="text-4xl opacity-20">🖼️</span></div>
-          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 uppercase text-xs">Pick Cover</button>
-          <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image">
-        </div>
-        <div class="input-card">
-          <span class="field-label">Gallery Album</span>
-          <div id="galleryPreview" class="h-48 bg-white/5 rounded-2xl border-2 border-dashed border-white/10 p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div>
-          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 uppercase text-xs">Add Photos</button>
-          <input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image">
-        </div>
+        <div class="input-card"><span class="field-label">Main Image</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><span class="text-4xl opacity-10">✨</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-[#C9A84C] text-white rounded-xl font-800 uppercase text-xs">Select Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image"></div>
+        <div class="input-card"><span class="field-label">Asset Gallery</span><div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div><button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-slate-800 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button><input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image"></div>
       </div>
     </div>
-
     <div id="tab-info" class="hidden space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">HP-ID (Auto)</label><input id="HP_ID" class="field-input bg-white/10" readonly></div>
-        <div><label class="field-label">Plot</label><input id="Plot" class="field-input"></div>
-        <div><label class="field-label">Project Name</label><select id="Project_Name" class="field-input"></select></div>
+        <div><label class="field-label">Sequential ID</label><input id="HP_ID" class="field-input !bg-slate-100" readonly></div>
+        <div><label class="field-label">Asset Plot</label><input id="Plot" class="field-input"></div>
         <div><label class="field-label">Status</label><select id="Status" class="field-input"></select></div>
-        <div><label class="field-label">Living Area</label><input id="Living_Area_sq_m" class="field-input"></div>
-        <div class="bg-blue-900/20 p-3 rounded-xl"><label class="field-label">Sale Price</label><input id="Sale_Price" class="field-input font-800 text-[#C9A84C]"></div>
+        <div class="bg-gold/5 p-3 rounded-xl col-span-full border border-gold/10"><label class="field-label text-[#C9A84C]">Market Value</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]"></div>
       </div>
     </div>
   </div>
-
-  <div class="save-bar"><button onclick="createNewEntry()" id="saveBtn" class="btn-create shadow-2xl">Create New Unit</button></div>
-
+  <div class="save-bar"><button onclick="createNew()" id="saveBtn" class="btn-create shadow-2xl">Publish to Pyne Database</button></div>
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    let currentGallery = [], hpId = "";
-
+    let gallery = [], hpId = "";
     async function init() {
-      showLoading("GENERATING NEW ID...");
-      // 🎯 ดึงเลข ID ใหม่จากเซิร์ฟเวอร์
+      showLoading("FETCHING SECURE ID...");
       const resId = await (await fetch(`${API}?mode=getNextID`)).json();
-      if (resId.ok) {
-        hpId = resId.nextID;
-        document.getElementById('HP_ID').value = hpId;
-        document.getElementById('displayId').innerText = hpId;
-      }
-      // ดึง Metadata สำหรับ Dropdown
+      if(resId.ok) { hpId = resId.nextID; document.getElementById('HP_ID').value = hpId; document.getElementById('displayId').innerText = hpId; }
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
-      ["Status", "Project_Name"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
+      ["Status", "Listing_Type"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
       hideLoading();
     }
-
-    async function handleUpload(input, target, fieldId) {
-      const filesArr = Array.from(input.files); if (!filesArr.length) return;
-      showLoading("UPLOADING...");
-      for (let i = 0; i < filesArr.length; i++) {
-        const base64 = await toBase64(filesArr[i]);
-        const res = await fetch(API, { method: 'POST', body: JSON.stringify({ mode: 'uploadFile', target, hpId, data: base64, type: filesArr[i].type, name: filesArr[i].name }) });
+    async function handleUpload(input, target) {
+      const files = Array.from(input.files); if(!files.length) return; showLoading("SYNCING Media...");
+      for(let f of files) {
+        const base64 = await new Promise(res => { const r = new FileReader(); r.readAsDataURL(f); r.onload = () => res(r.result.split(',')[1]); });
+        const res = await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId, data: base64, type: f.type, name: f.name }) });
         const result = await res.json();
-        if (result.ok) {
-          if (target === 'thumb') renderMainThumb(result.url);
-          else if (target === 'album') { currentGallery.push(result.url); document.getElementById('Album_Image').value = currentGallery.join(','); }
+        if(result.ok) {
+          if(target==='thumb') { document.getElementById('thumbPreview').innerHTML = `<img src="${result.url}" class="w-full h-full object-cover">`; document.getElementById('Thumbnail_Image').value = result.url; }
+          else { gallery.push(result.url); document.getElementById('Album_Image').value = gallery.join(','); renderGallery(); }
         }
       }
-      renderGallery(); hideLoading();
+      hideLoading();
     }
-
-    function renderMainThumb(url) {
-      const box = document.getElementById('thumbPreview');
-      box.innerHTML = `<img src="${url.split('=')[0]+'=s600'}" class="w-full h-full object-cover">`;
-      document.getElementById('Thumbnail_Image').value = url;
+    function renderGallery() { document.getElementById('galleryPreview').innerHTML = gallery.map(url => `<div class="img-tile"><img src="${url}" class="w-full h-full object-cover"></div>`).join('') || '🗂️'; }
+    async function createNew() {
+      if(!confirm("Push new asset to Pyne Database?")) return;
+      showLoading("SYNCING..."); const p = { mode: "addNewUnit", HP_ID: hpId, Project_Name: "The Pyne Plus" };
+      document.querySelectorAll('input, select').forEach(el => { if(el.id) p[el.id] = el.value; });
+      const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
+      if((await res.json()).ok) { alert('PUBLISHED SUCCESSFULLY! ✅'); location.href='dashboard.html'; }
     }
-
-    function renderGallery() {
-      const box = document.getElementById('galleryPreview');
-      box.innerHTML = currentGallery.map(url => `<div class="img-tile"><img src="${url.split('=')[0]+'=s400'}" class="w-full h-full object-cover"></div>`).join('') || '🗂️';
-    }
-
-    async function createNewEntry() {
-      if(!confirm("Create this new property entry?")) return;
-      const btn = document.getElementById('saveBtn'); showLoading("CREATING ROW..."); btn.disabled = true;
-      const payload = { mode: "addNewUnit", HP_ID: hpId };
-      document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) payload[el.id] = el.value; });
-      try {
-        const res = await fetch(API, { method: 'POST', body: JSON.stringify(payload) });
-        if ((await res.json()).ok) { hideLoading(); alert('CREATED SUCCESSFULLY! ✅'); location.href = 'dashboard.html'; }
-      } catch (e) { hideLoading(); alert('Error: ' + e); btn.disabled = false; }
-    }
-
-    function switchTab(t) {
-      document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info');
-      document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-500';
-      document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-500';
-    }
-
-    const toBase64 = f => new Promise((res, rej) => { const r = new FileReader(); r.readAsDataURL(f); r.onload = () => res(r.result.split(',')[1]); r.onerror = rej; });
+    function switchTab(t) { document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info'); document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; }
     function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('upLoading').style.display = 'flex'; }
     function hideLoading() { document.getElementById('upLoading').style.display = 'none'; }
     window.onload = init;
