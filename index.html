@@ -1,104 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>THE PYNE PLUS | Catalog V118</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>The Pyne Plus Two Hua Hin | Property Catalog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Sarabun:wght@200;400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root { --brand: #C9A84C; --navy: #0B1829; --row-h: 80px; --thumb-w: 105px; }
+    :root {
+      --brand-main: #C9A84C; --brand-dark: #0B1829; --gold-lt: #E4C46A;
+      --white: #FDFAF5; --muted: #7A9BB5; --border: rgba(0, 0, 0, 0.05);
+      --card-bg: #FFFFFF; --row-h: 80px; --thumb-w: 105px;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #FAF8F2; color: #1e293b; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-    header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    body { background-color: #FAF8F2; color: #1e293b; font-family: 'Montserrat', 'Sarabun', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* SPLASH SCREEN */
+    #pageSplash { position: fixed; inset: 0; background: var(--brand-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out, visibility 0.6s; }
+    .ducky-wrap { display: flex; gap: 18px; margin-bottom: 25px; font-size: 50px; }
+    .ducky { animation: bounceDucky 0.8s ease-in-out infinite alternate; }
+    @keyframes bounceDucky { 0% { transform: translateY(0); } 100% { transform: translateY(-18px); } }
+
+    header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
+    /* ปรับปรุงดีไซน์ Logo ให้สวยงามเหมือนแบรนด์หลัก */
+    .logo { font-size: 0.82rem; font-weight: 800; color: var(--brand-main); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+    .logo span { font-weight: 300; color: #64748b; }
+
+    .btn-contact { background: var(--brand-main); color: white; padding: 6px 12px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; text-decoration: none; }
+
     .hero { padding: 75px 15px 10px; text-align: center; }
-    .search-input { width: 100%; background: #FFFFFF; border: 2px solid var(--brand); border-radius: 50px; padding: 12px 15px 12px 40px; color: var(--navy); font-weight: 700; font-size: 0.85rem; outline: none; margin-bottom: 10px; }
+    .search-box { position: relative; margin-bottom: 10px; }
+    .search-input { width: 100%; background: #FFFFFF; border: 1.5px solid var(--brand-main); border-radius: 50px; padding: 10px 15px 10px 40px; color: #1A3617; font-weight: 700; font-size: 0.85rem; outline: none; }
+    
     .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
     .filter-select { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px; color: #475569; font-size: 0.72rem; font-weight: 700; text-align: center; outline: none; appearance: none; text-transform: uppercase; }
+
     .pill-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+    .pill-container::-webkit-scrollbar { display: none; }
     .pill { white-space: nowrap; padding: 6px 14px; border-radius: 50px; background: #F1EDDF; color: #8D732B; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; cursor: pointer; }
-    .pill.active { background: var(--brand); color: white; }
+    .pill.active { background: var(--brand-main); color: white; }
+
+    .section-bar { display: flex; justify-content: space-between; align-items: baseline; padding: 15px 15px 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 10px; }
     .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 8px; }
+
     .card { background: white; border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
     .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.2); padding: 1px 3px; border-radius: 2px; }
+    
     .card-info { flex: 1; padding: 4px 10px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
     .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
     .prop-name { font-size: 0.82rem; font-weight: 800; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .price-new { font-size: 1rem; font-weight: 800; color: var(--brand); white-space: nowrap; }
+    .price-new { font-size: 1rem; font-weight: 800; color: var(--brand-main); white-space: nowrap; }
     .status-tag { font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
-    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: rgba(46, 204, 138, 0.05); }
-    .furnish-tag { color: var(--brand); border-color: var(--brand); background: rgba(201, 168, 76, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
-    
-    /* 🔑 Admin Floating Icon (เด่นชัดพิเศษเพื่อป้องกันการมองไม่เห็น) */
-    .admin-float { position: fixed; bottom: 25px; right: 20px; width: 50px; height: 50px; background: var(--navy); border: 2px solid var(--brand); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--brand); font-size: 20px; z-index: 10000; text-decoration: none; box-shadow: 0 15px 30px rgba(0,0,0,0.3); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .admin-float:hover { transform: scale(1.15) rotate(15deg); background: var(--brand); color: white; }
+    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: rgba(46,204,138,0.05); }
+    .furnish-tag { color: var(--brand-main); border-color: var(--brand-main); background: rgba(201, 168, 76, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+
+    .admin-float { position: fixed; bottom: 25px; right: 20px; width: 50px; height: 50px; background: var(--brand-dark); border: 2px solid var(--brand-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--brand-main); font-size: 20px; z-index: 10000; text-decoration: none; box-shadow: 0 15px 30px rgba(0,0,0,0.3); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .admin-float:hover { transform: scale(1.15) rotate(15deg); background: var(--brand-main); color: white; }
+
     @media (min-width: 768px) { :root { --row-h: 90px; --thumb-w: 140px; } .prop-list { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
 <body>
-  <header><a href="#" style="color:var(--brand); font-weight:800; text-decoration:none; text-transform:uppercase; letter-spacing: 2px;">The Pyne Plus</a></header>
+
+  <div id="pageSplash">
+    <div class="ducky-wrap"><span class="ducky">🐚</span><span class="ducky">🌊</span><span class="ducky">🌴</span></div>
+    <div class="splash-text" style="color:white; font-size:1rem; font-weight:800; letter-spacing:2px; text-align:center; padding: 0 20px; text-transform: uppercase;">The Pyne Plus Two<br><span style="font-weight:300; font-size:0.75rem; letter-spacing:5px;">Hua Hin</span></div>
+  </div>
+
+  <header>
+    <a href="#" class="logo">The Pyne Plus Two <span>Hua Hin</span></a>
+    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-contact">Contact</a>
+  </header>
+
   <section class="hero">
-    <div style="max-width:550px; margin:0 auto;">
-      <input type="text" id="sI" class="search-input" placeholder="SEARCH COLLECTION..." onkeyup="f()">
+    <div class="search-container" style="max-width:550px; margin:0 auto;">
+      <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="SEARCH COLLECTION..."></div>
       <div class="filters-grid">
-        <select id="pF" onchange="f()" class="filter-select"><option value="">All Plots</option></select>
-        <select id="sF" onchange="f()" class="filter-select"><option value="">Price Sort</option><option value="low">Lowest</option><option value="high">Highest</option></select>
-        <select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select>
+        <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
+        <select id="sortFilter" class="filter-select"><option value="">Price Sort</option><option value="low">Low → High</option><option value="high">High → Low</option></select>
+        <select id="bedFilter" class="filter-select"><option value="">Bedrooms</option></select>
       </div>
       <div class="pill-container" id="pillBox">
         <div class="pill active" data-f="all">All</div>
-        <div class="pill" data-f="Sale">Sale</div><div class="pill" data-f="Rent">Rent</div>
-        <div class="pill" data-f="Pool Villa">Pool Villa</div><div class="pill" data-f="Condo">Condo</div>
-        <div class="pill" data-f="House">House</div><div class="pill" data-f="Land">Land</div>
+        <div class="pill" data-f="Sale">Sale</div>
+        <div class="pill" data-f="Rent">Rent</div>
+        <div class="pill" data-f="Pool Villa">Pool Villa</div>
+        <div class="pill" data-f="Condo">Condo</div>
+        <div class="pill" data-f="House">House</div>
+        <div class="pill" data-f="Land">Land</div>
       </div>
     </div>
   </section>
-  <div style="display:flex; justify-content:space-between; padding:15px; border-top:1px solid rgba(0,0,0,0.05); margin-top:10px;">
-    <h2 style="font-size:0.85rem; color:var(--brand); text-transform:uppercase; font-weight:800;">Asset Collections</h2>
+
+  <div class="section-bar" style="display:flex; justify-content:space-between; padding:15px; margin-top:10px;">
+    <h2 style="font-size:0.85rem; color:var(--brand-main); font-weight:800; text-transform:uppercase;">Collections</h2>
     <span id="unitCount" style="font-size:0.65rem; color:#7A9BB5; font-weight:800;">Loading...</span>
   </div>
+
   <main class="prop-list" id="propGrid"></main>
+
   <a href="gateway.html" class="admin-float"><i class="fas fa-key"></i></a>
+
   <script>
-    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    let data = [];
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    let rawData = [];
     async function init() {
       try {
-        const res = await fetch(`${API}?mode=getListSmall&project=pyne`);
-        data = await res.json();
-        const plots = [...new Set(data.map(p => p.Plot))].filter(Boolean).sort();
-        plots.forEach(p => document.getElementById('pF').innerHTML += `<option value="${p}">${p}</option>`);
-        const beds = [...new Set(data.map(p => p.Bedrooms))].sort((a,b)=>a-b);
-        beds.forEach(b => document.getElementById('bF').innerHTML += `<option value="${b}">${b} Bed</option>`);
-        f();
+        const response = await fetch(`${SCRIPT_URL}?mode=getListSmall&project=pyne`);
+        rawData = await response.json();
+        const plots = [...new Set(rawData.map(p => p.Plot))].filter(Boolean).sort();
+        plots.forEach(p => document.getElementById('plotFilter').innerHTML += `<option value="${p}">${p}</option>`);
+        const beds = [...new Set(rawData.map(p => p.Bedrooms))].sort((a,b)=>a-b);
+        beds.forEach(b => document.getElementById('bedFilter').innerHTML += `<option value="${b}">${b} Bed</option>`);
+        render(rawData);
       } catch (err) { console.error("Load Error:", err); }
+      const splash = document.getElementById('pageSplash');
+      splash.style.opacity = '0';
+      setTimeout(() => { splash.style.display = 'none'; }, 600);
     }
-    function f() {
-      const q = document.getElementById('sI').value.toLowerCase();
-      const p = document.getElementById('pF').value;
-      const b = document.getElementById('bF').value;
-      const pill = document.querySelector('.pill.active').dataset.f;
-      const sort = document.getElementById('sF').value;
-      let res = data.filter(u => (!q || `${u.HP_ID} ${u.Plot}`.toLowerCase().includes(q)) && (!p || u.Plot === p) && (!b || String(u.Bedrooms) === b) && (pill === 'all' || u.Listing_Type === pill || u.Type === pill));
-      if (sort === "low") res.sort((x,y) => (x.Sale_Price || x.Monthly_Rent) - (y.Sale_Price || y.Monthly_Rent));
-      else if (sort === "high") res.sort((x,y) => (y.Sale_Price || y.Monthly_Rent) - (x.Sale_Price || x.Monthly_Rent));
-      document.getElementById('unitCount').textContent = `${res.length} UNITS`;
-      document.getElementById('propGrid').innerHTML = res.map(u => {
-        const label = u.Listing_Type === 'Rent' ? 'For Rent' : 'For Sale';
-        const price = u.Listing_Type === 'Rent' ? Number(u.Monthly_Rent || 0) : Number(u.Sale_Price || 0);
+    function render(items) {
+      document.getElementById('unitCount').textContent = `${items.length} UNITS`;
+      document.getElementById('propGrid').innerHTML = items.map(p => {
+        const label = p.Listing_Type === 'Rent' ? 'For Rent' : 'For Sale';
+        const price = p.Listing_Type === 'Rent' ? Number(p.Monthly_Rent || 0) : Number(p.Sale_Price || 0);
         return `
-          <a href="details.html?id=${u.HP_ID}" class="card">
-            <div class="card-img"><span class="hp-id">#${u.HP_ID}</span><img src="${u.Thumbnail_Image}" loading="lazy"></div>
+          <a href="details.html?id=${p.HP_ID}" class="card">
+            <div class="card-img"><span class="hp-id">#${p.HP_ID}</span><img src="${p.Thumbnail_Image}" loading="lazy"></div>
             <div class="card-info">
-              <div class="info-row"><div class="prop-name">PLOT ${u.Plot}</div><div class="furnish-tag">${u.Furnishing || '-'}</div></div>
-              <div class="info-row"><div style="font-size:0.65rem; color:#7A9BB5;">${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} M²</div><div class="price-new">฿${price.toLocaleString()}</div></div>
-              <div class="info-row"><span class="status-tag s-available">${u.Status}</span><div style="font-size:0.58rem; color:#7A9BB5;">THE PYNE PLUS</div></div>
+              <div class="info-row"><div class="prop-name">PLOT ${p.Plot || 'N/A'}</div><div class="furnish-tag">${p.Furnishing || '-'}</div></div>
+              <div class="info-row"><div style="font-size:0.65rem; color:#7A9BB5;">${p.Bedrooms} Bed | ${p.Living_Area_sq_m || 0} M²</div><div class="price-new">฿${price.toLocaleString()}${p.Listing_Type==='Rent'?'/mo':''}</div></div>
+              <div class="info-row"><span class="status-tag s-available">${p.Status || 'Available'}</span><div style="font-size:0.58rem; color:#7A9BB5;">THE PYNE PLUS</div></div>
             </div>
           </a>`;
       }).join('');
     }
-    document.getElementById('pillBox').addEventListener('click', (e) => { if (e.target.classList.contains('pill')) { document.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); e.target.classList.add('active'); f(); } });
+    function filter() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const plot = document.getElementById('plotFilter').value;
+      const bed = document.getElementById('bedFilter').value;
+      const pill = document.querySelector('.pill.active').dataset.f;
+      const sort = document.getElementById('sortFilter').value;
+      let filtered = rawData.filter(p => {
+        const matchQ = !q || `${p.HP_ID} ${p.Plot}`.toLowerCase().includes(q);
+        const matchPlot = !plot || p.Plot === plot;
+        const matchBed = !bed || String(p.Bedrooms) === bed;
+        const matchPill = pill === 'all' || p.Listing_Type === pill || p.Type === pill;
+        return matchQ && matchPlot && matchBed && matchPill;
+      });
+      if (sort === "low") filtered.sort((a,b) => (a.Sale_Price || a.Monthly_Rent) - (b.Sale_Price || b.Monthly_Rent));
+      else if (sort === "high") filtered.sort((a,b) => (b.Sale_Price || b.Monthly_Rent) - (a.Sale_Price || a.Monthly_Rent));
+      render(filtered);
+    }
+    document.querySelectorAll('input, select').forEach(el => el.addEventListener('change', filter));
+    document.getElementById('searchInput').addEventListener('input', filter);
+    document.getElementById('pillBox').addEventListener('click', (e) => {
+      if (e.target.classList.contains('pill')) {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        filter();
+      }
+    });
     window.onload = init;
   </script>
 </body>
