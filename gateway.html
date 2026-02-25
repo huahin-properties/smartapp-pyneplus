@@ -7,11 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* 🎨 ปรับโทนสีพื้นหลังให้เป็นกรมท่าเข้มดูพรีเมียม */
-    body { font-family: 'Montserrat', sans-serif; background: #091422; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    /* 🎨 พื้นหลังเปลี่ยนเป็นสีขาวครีม สว่าง หรูหรา */
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAF8; color: #1A1A1A; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
     
-    /* 🎨 ปรับการ์ดให้มีกรอบสีทองชัดเจนและมีมิติมากขึ้น */
-    .gate-card { background: rgba(11, 24, 41, 0.98); border: 2px solid #C9A84C; padding: 40px; border-radius: 2.5rem; text-align: center; max-width: 350px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 25px rgba(201, 168, 76, 0.15); }
+    /* 🎨 การ์ดสีขาวล้วน ขอบทองบางๆ และเงาสีทองฟุ้งๆ */
+    .gate-card { background: #FFFFFF; border: 1px solid rgba(201, 168, 76, 0.3); padding: 40px; border-radius: 2.5rem; text-align: center; max-width: 350px; width: 90%; box-shadow: 0 20px 40px rgba(201, 168, 76, 0.15); }
   </style>
 </head>
 <body>
@@ -19,17 +19,17 @@
     <div class="text-6xl text-[#C9A84C] mb-8"><i class="fas fa-user-lock"></i></div>
     
     <h1 class="text-2xl font-800 mb-2 uppercase tracking-tighter text-[#C9A84C]">Pyne Plus Gateway</h1>
-    <p class="text-[10px] text-[#7A9BB5] font-700 uppercase tracking-[0.3em] mb-10">Exclusive Asset Console</p>
+    <p class="text-[10px] text-[#1A1A1A] font-700 uppercase tracking-[0.3em] mb-10 opacity-80">Exclusive Asset Console</p>
     
-    <div class="bg-[#0B1829] border border-[#C9A84C]/30 p-5 rounded-2xl text-[11px] text-[#C9A84C]/80 mb-8 italic">
+    <div class="bg-[#FFF9EC] border border-[#C9A84C] p-5 rounded-2xl text-[11px] text-[#8D732B] mb-8 italic font-600 shadow-sm">
       "Gateway Active: Direct to Dashboard"
     </div>
 
-    <button onclick="location.href='dashboard.html'" class="bg-[#C9A84C] text-[#091422] w-full py-4 rounded-xl font-800 uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-gold/10">
+    <button onclick="location.href='dashboard.html'" class="bg-[#C9A84C] text-[#1A1A1A] w-full py-4 rounded-xl font-800 uppercase tracking-widest hover:bg-[#1A1A1A] hover:text-[#C9A84C] transition-all shadow-lg shadow-[#C9A84C]/20">
       Enter Console
     </button>
     
-    <button onclick="location.href='index.html'" class="mt-6 text-[10px] text-[#7A9BB5] font-800 uppercase hover:text-[#C9A84C] transition-colors block w-full text-center">
+    <button onclick="location.href='index.html'" class="mt-6 text-[10px] text-[#1A1A1A] font-800 uppercase hover:text-[#C9A84C] transition-colors block w-full text-center">
       Back to Home
     </button>
   </div>
