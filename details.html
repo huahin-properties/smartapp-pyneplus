@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Asset Specifications | THE PYNE PLUS TWO</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
@@ -9,7 +10,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: #2D2D2D; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
     #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
-    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s infinite alternate; margin-bottom: 20px; color: var(--pyne); }
+    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
     .splash-brand { color: var(--pyne); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(250, 248, 242, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
@@ -32,6 +33,7 @@
     .val { font-size: 0.82rem; font-weight: 400; color: #1E1E1E; }
     .pyne-txt { color: var(--pyne); font-weight: 600; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .nearby-grid { display: grid; grid-template-columns: 1fr; gap: 2px; }
     .nearby-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
     .loc-name { font-size: 0.78rem; font-weight: 300; }
     .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--pyne); }
@@ -39,6 +41,7 @@
     .btn-nav { width: 100%; background: #1E1E1E; color: #FFF; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; margin-top: 10px; }
     .footer { position: fixed; bottom: 0; width: 100%; background: #FFF; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
     .btn-chat { background: var(--pyne); color: #FFF; text-decoration: none; padding: 15px; border-radius: 4px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+    @media (min-width: 768px) { .nearby-grid { grid-template-columns: 1fr 1fr; gap: 0 30px; } }
   </style>
 </head>
 <body>
@@ -63,10 +66,13 @@
         <div><div class="label">Status</div><div class="val" id="vStatus">-</div></div>
         <div><div class="label">Furnishing</div><div class="val" id="vFurnish">-</div></div>
         <div><div class="label">District</div><div class="val" id="vDistrict">-</div></div>
+        <div><div class="label">Sub-district</div><div class="val" id="vSubDistrict">-</div></div>
         <div><div class="label">Zone</div><div class="val pyne-txt" id="vZone">-</div></div>
         <div><div class="label">Pool System</div><div class="val" id="vPoolSys">-</div></div>
+        <div><div class="label">Pool Info</div><div class="val" id="vPool">-</div></div>
         <div><div class="label">Kitchen Type</div><div class="val" id="vKitchen">-</div></div>
         <div><div class="label">Parking</div><div class="val" id="vParking">-</div></div>
+        <div><div class="label">Direction</div><div class="val" id="vDirect">-</div></div>
         <div><div class="label">Utility Info</div><div class="val" id="vUtil">-</div></div>
       </div>
     </div>
@@ -81,16 +87,18 @@
     </div>
     <div class="info-card"><h2 class="section-title">Description</h2><p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #555; font-weight: 300; white-space: pre-line;">-</p></div>
     <div class="info-card"><h2 class="section-title">Location & Navigation</h2><div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div><a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a></div>
-    <div class="info-card"><h2 class="section-title">Nearby Lifestyle</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
+    <div class="info-card"><h2 class="section-title">Nearby Lifestyle & Amenities</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
   </main>
   <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
     let images = [], idx = 0;
-    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Mall", lat: 12.5518, lon: 99.9631 }];
+    const LANDMARKS = [
+      { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }, { name: "Market Village", lat: 12.5598, lon: 99.9602 }, { name: "Vana Nava", lat: 12.5273, lon: 99.9642 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Khao Takiab Beach", lat: 12.5186, lon: 99.9774 }, { name: "Hua Hin Airport", lat: 12.6370, lon: 99.9515 }, { name: "Water Park", lat: 12.6046, lon: 99.8897 }
+    ];
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
-    async function init() { if(!hpId) return; await fetchFreshData(); }
+    async function init() { if(!hpId) return; const cached = localStorage.getItem(`pyne_unit_${hpId}`); if(cached) { renderData(JSON.parse(cached).data); setTimeout(hideSplash, 300); } await fetchFreshData(); }
     async function fetchFreshData() { try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) { localStorage.setItem(`pyne_unit_${hpId}`, JSON.stringify({data: json.data})); renderData(json.data); hideSplash(); } } catch(e) { hideSplash(); } }
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
     function renderData(u) {
@@ -108,10 +116,12 @@
       document.getElementById('vOwner').textContent = `${u.Ownership_Type || '-'} (${u.Land_Title_Deed_Type || '-'})`;
       document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
       document.getElementById('vDistrict').textContent = u.District || "-";
+      document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-";
       document.getElementById('vZone').textContent = u.Zone || "-";
       document.getElementById('vStatus').textContent = u.Status || "-";
       document.getElementById('vFurnish').textContent = u.Furnishing || "-";
       document.getElementById('vPoolSys').textContent = u.Pool_System || "-";
+      document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
       document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-";
       document.getElementById('vParking').textContent = u.Parking || "-";
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
@@ -119,7 +129,7 @@
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display='block'; document.getElementById('navLink').style.display='flex';
         document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
+        document.getElementById('navLink').href = `https://www.google.com/maps?q=${u.Coordinates.trim()}`;
         const [la, lo] = u.Coordinates.split(','); const grid = document.getElementById('nearbyGrid');
         grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; }).join('');
       }
