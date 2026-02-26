@@ -12,8 +12,7 @@
     .tab-active { border-bottom: 4px solid #C9A84C; color: #C9A84C; }
     .input-card { background: white; border: 1px solid rgba(201, 168, 76, 0.2); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
     .field-label { font-size: 10px; font-weight: 800; color: #9B8E72; text-transform: uppercase; margin-bottom: 0.5rem; display: block; letter-spacing: 1px; }
-    .field-input { width: 100%; background: #F9F7F0; border: 1px solid transparent; border-radius: 0.85rem; padding: 0.85rem; color: #1A1A1A; outline: none; transition: 0.2s; font-size: 14px; }
-    .field-input:focus { border-color: #C9A84C; background: white; }
+    .field-input { width: 100%; background: #F9F7F0; border: 1px solid transparent; border-radius: 0.75rem; padding: 0.75rem; color: #1A1A1A; outline: none; transition: 0.2s; font-size: 14px; }
     .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid #eee; background: #fdfdfd; margin-bottom: 1rem; }
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; }
     .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
@@ -24,10 +23,10 @@
   </style>
 </head>
 <body>
-  <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#C9A84C] tracking-[0.3em]">SECURE ID GENERATION...</div></div>
+  <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#C9A84C] tracking-[0.3em]">PROCESSING...</div></div>
   <div class="content-wrapper">
     <div class="bg-[#C9A84C] rounded-[2.5rem] p-8 text-white flex justify-between items-center mb-8 shadow-xl">
-      <div><p class="text-white/70 font-800 uppercase tracking-widest text-[10px] mb-2">New Asset Registry</p><h1 id="displayId" class="text-3xl font-800 tracking-tighter italic">HP00-XXXX</h1></div>
+      <div><p class="text-white/70 font-800 uppercase tracking-widest text-[10px] mb-2">Asset Registration</p><h1 id="displayId" class="text-3xl font-800 tracking-tighter italic">NEW ASSET ENTRY</h1></div>
       <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
     <div class="flex gap-8 mb-8 border-b border-gold/20 px-4">
@@ -36,13 +35,13 @@
     </div>
     <div id="tab-photo" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="input-card"><span class="field-label">Main Image</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><span class="text-4xl opacity-10">✨</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-[#C9A84C] text-white rounded-xl font-800 uppercase text-xs">Select Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image"></div>
-        <div class="input-card"><span class="field-label">Asset Gallery</span><div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div><button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-slate-800 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button><input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image"></div>
+        <div class="input-card"><span class="field-label">Main Image</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><span class="text-4xl opacity-10">✨</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-[#C9A84C] text-white rounded-xl font-800 uppercase text-xs">Select Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"></div>
+        <div class="input-card"><span class="field-label">Asset Gallery</span><div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div><button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-slate-800 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button><input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"></div>
       </div>
     </div>
     <div id="tab-info" class="hidden space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">Sequential ID</label><input id="HP_ID" class="field-input !bg-slate-100" readonly></div>
+        <input type="hidden" id="HP_ID">
         <div><label class="field-label">Asset Plot</label><input id="Plot" class="field-input"></div>
         <div><label class="field-label">Status</label><select id="Status" class="field-input"></select></div>
         <div class="bg-gold/5 p-3 rounded-xl col-span-full border border-gold/10"><label class="field-label text-[#C9A84C]">Market Value</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]"></div>
@@ -52,13 +51,13 @@
   <div class="save-bar"><button onclick="createNew()" id="saveBtn" class="btn-create shadow-2xl">Publish to Pyne Database</button></div>
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    let gallery = [], hpId = "";
+    let gallery = [], hpId = "", albumImages = "";
     async function init() {
-      showLoading("FETCHING SECURE ID...");
+      showLoading("READY...");
       const resId = await (await fetch(`${API}?mode=getNextID`)).json();
-      if(resId.ok) { hpId = resId.nextID; document.getElementById('HP_ID').value = hpId; document.getElementById('displayId').innerText = hpId; }
+      if(resId.ok) { hpId = resId.nextID; document.getElementById('HP_ID').value = hpId; }
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
-      ["Status", "Listing_Type"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
+      ["Status"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
       hideLoading();
     }
     async function handleUpload(input, target) {
@@ -68,19 +67,20 @@
         const res = await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId, data: base64, type: f.type, name: f.name }) });
         const result = await res.json();
         if(result.ok) {
-          if(target==='thumb') { document.getElementById('thumbPreview').innerHTML = `<img src="${result.url}" class="w-full h-full object-cover">`; document.getElementById('Thumbnail_Image').value = result.url; }
-          else { gallery.push(result.url); document.getElementById('Album_Image').value = gallery.join(','); renderGallery(); }
+          if(target==='thumb') { document.getElementById('thumbPreview').innerHTML = `<img src="${result.url}" class="w-full h-full object-cover">`; localStorage.setItem('temp_thumb_pyne', result.url); }
+          else { gallery.push(result.url); albumImages = gallery.join(','); renderGallery(); }
         }
       }
       hideLoading();
     }
     function renderGallery() { document.getElementById('galleryPreview').innerHTML = gallery.map(url => `<div class="img-tile"><img src="${url}" class="w-full h-full object-cover"></div>`).join('') || '🗂️'; }
     async function createNew() {
-      if(!confirm("Push new asset to Pyne Database?")) return;
-      showLoading("SYNCING..."); const p = { mode: "addNewUnit", HP_ID: hpId, Project_Name: "The Pyne Plus" };
-      document.querySelectorAll('input, select').forEach(el => { if(el.id) p[el.id] = el.value; });
+      if(!confirm("Publish new asset?")) return;
+      showLoading("PUBLISHING...");
+      const p = { mode: "addNewUnit", HP_ID: hpId, Project_Name: "The Pyne Plus", Thumbnail_Image: localStorage.getItem('temp_thumb_pyne'), Album_Image: albumImages };
+      document.querySelectorAll('input, select').forEach(el => { if(el.id && el.id !== "HP_ID") p[el.id] = el.value; });
       const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('PUBLISHED SUCCESSFULLY! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { localStorage.removeItem('temp_thumb_pyne'); alert('SUCCESS! ✅'); location.href='dashboard.html'; }
     }
     function switchTab(t) { document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info'); document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; }
     function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('upLoading').style.display = 'flex'; }
