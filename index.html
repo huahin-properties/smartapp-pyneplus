@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>The Pyne Plus | Official Site</title>
+  <title>The Pyne Plus | Home</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* 📐 ค่ามาตรฐาน Master V118 */
     :root { --navy: #0B1829; --bg: #FDFAF5; --gold: #C9A84C; --white: #FFFFFF; --border: rgba(201, 168, 76, 0.2); --row-h: 80px; --thumb-w: 105px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--navy); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
@@ -22,14 +21,15 @@
     .card { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 4px 10px rgba(201, 168, 76, 0.05); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: rgba(11, 24, 41, 0.4); }
+    /* 🎯 ป้ายกำกับ Plot แทน ID บนรูป */
+    .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: #FFF; background: var(--gold); padding: 2px 5px; border-radius: 3px; font-weight: 800; text-transform: uppercase; }
     .card-info { flex: 1; padding: 4px 10px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
     .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
     .prop-name { font-size: 0.82rem; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .price-new { font-size: 0.95rem; font-weight: 800; color: #8D732B; white-space: nowrap; }
     .status-tag { font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
     .s-available { color: #2ECC8A; border-color: #2ECC8A; background: rgba(46, 204, 138, 0.05); }
-    .furnish-tag { color: var(--gold); border-color: var(--gold); background: rgba(201, 168, 76, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+    .furnish-tag { color: var(--gold); border-color: var(--gold); background: rgba(201, 168, 76, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
     .admin-float { position: fixed; bottom: 25px; right: 20px; width: 45px; height: 45px; background: var(--gold); border: 2px solid var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(201, 168, 76, 0.3); }
     @media (min-width: 768px) { :root { --row-h: 90px; --thumb-w: 140px; } .prop-list { grid-template-columns: 1fr 1fr; } }
   </style>
@@ -38,23 +38,12 @@
   <header><a href="#" style="color:var(--gold); font-weight:800; text-decoration:none;">THE PYNE PLUS TWO <span style="font-weight:300; color:var(--navy);">HUA HIN</span></a></header>
   <section class="hero">
     <div style="max-width:550px; margin:0 auto;">
-      <input type="text" id="sI" class="search-input" placeholder="Search Collection..." onkeyup="f()">
-      <div class="filters-grid">
-        <select id="zF" onchange="f()" class="filter-select"><option value="">All Plots</option></select>
-        <select id="sF" onchange="f()" class="filter-select"><option value="">Price Sort</option><option value="low">Low → High</option><option value="high">High → Low</option></select>
-        <select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select>
-      </div>
-      <div class="pill-container" id="pillBox">
-        <div class="pill active" data-f="all">All</div>
-        <div class="pill" data-f="Sale">Sale</div><div class="pill" data-f="Rent">Rent</div>
-        <div class="pill" data-f="Pool Villa">Pool Villa</div><div class="pill" data-f="Condo">Condo</div>
-      </div>
+      <input type="text" id="sI" class="search-input" placeholder="Search Plot..." onkeyup="f()">
+      <div class="filters-grid"><select id="zF" onchange="f()" class="filter-select"><option value="">All Plots</option></select><select id="sF" onchange="f()" class="filter-select"><option value="">Price Sort</option><option value="low">Low → High</option><option value="high">High → Low</option></select><select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select></div>
+      <div class="pill-container" id="pillBox"><div class="pill active" data-f="all">All Units</div><div class="pill" data-f="Sale">For Sale</div><div class="pill" data-f="Rent">For Rent</div><div class="pill" data-f="Pool Villa">Pool Villa</div><div class="pill" data-f="Condo">Condo</div></div>
     </div>
   </section>
-  <div style="display:flex; justify-content:space-between; padding:15px; border-top:1px solid var(--border); margin-top:10px;">
-    <h2 style="font-size:0.9rem; color:var(--gold); text-transform:uppercase; font-weight:800;">Collections</h2>
-    <span id="unitCount" style="font-size:0.65rem; color:#9B8E72; font-weight:700;">Loading...</span>
-  </div>
+  <div style="display:flex; justify-content:space-between; padding:15px; border-top:1px solid var(--border); margin-top:10px;"><h2 style="font-size:0.9rem; color:var(--gold); text-transform:uppercase; font-weight:800;">Collections</h2><span id="unitCount" style="font-size:0.65rem; color:#9B8E72; font-weight:700;">Loading...</span></div>
   <main class="prop-list" id="propGrid"></main>
   <a href="gateway.html" class="admin-float"><i class="fas fa-key"></i></a>
   <script>
@@ -62,7 +51,7 @@
     let data = [];
     async function init() {
       try {
-        const res = await fetch(`${API}?mode=getListSmall&project=pyne`); // 🎯 กรองเฉพาะ Pyne
+        const res = await fetch(`${API}?mode=getListSmall&project=pyne`);
         data = await res.json();
         const plots = [...new Set(data.map(p => p.Plot))].filter(Boolean).sort();
         plots.forEach(p => document.getElementById('zF').innerHTML += `<option value="${p}">Plot ${p}</option>`);
@@ -77,16 +66,16 @@
       const b = document.getElementById('bF').value;
       const pill = document.querySelector('.pill.active').dataset.f;
       const sort = document.getElementById('sF').value;
-      let res = data.filter(u => (!q || `${u.HP_ID} ${u.Plot}`.toLowerCase().includes(q)) && (!plot || u.Plot === plot) && (!b || String(u.Bedrooms) === b) && (pill === 'all' || u.Listing_Type === pill || u.Type === pill));
+      let res = data.filter(u => (!q || `${u.Plot}`.toLowerCase().includes(q)) && (!plot || u.Plot === plot) && (!b || String(u.Bedrooms) === b) && (pill === 'all' || u.Listing_Type === pill || u.Type === pill));
       if (sort === "low") res.sort((x,y) => (x.Sale_Price || 0) - (y.Sale_Price || 0));
       else if (sort === "high") res.sort((x,y) => (y.Sale_Price || 0) - (x.Sale_Price || 0));
       document.getElementById('unitCount').textContent = `${res.length} UNITS`;
       document.getElementById('propGrid').innerHTML = res.map(u => `
           <a href="details.html?id=${u.HP_ID}" class="card">
-            <div class="card-img"><span class="hp-id">#${u.HP_ID}</span><img src="${u.Thumbnail_Image}" loading="lazy"></div>
+            <div class="card-img"><span class="hp-id">PLOT ${u.Plot || '-'}</span><img src="${u.Thumbnail_Image}" loading="lazy"></div>
             <div class="card-info">
-              <div class="info-row"><div class="prop-name">Plot ${u.Plot || 'C-XX'}</div><div class="furnish-tag">${u.Furnishing || '-'}</div></div>
-              <div class="info-row"><div style="font-size:0.65rem; color:#9B8E72;">${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} M²</div><div class="price-new">฿${Number(u.Sale_Price).toLocaleString()}</div></div>
+              <div class="info-row"><div class="prop-name">Plot ${u.Plot || 'N/A'}</div><div class="furnish-tag">${u.Furnishing || '-'}</div></div>
+              <div class="info-row"><div style="font-size:0.65rem; color:#9B8E72;">${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} m²</div><div class="price-new">฿${Number(u.Sale_Price).toLocaleString()}</div></div>
               <div class="info-row"><span class="status-tag s-available">${u.Status}</span><div style="font-size:0.58rem; color:#9B8E72;">THE PYNE PLUS</div></div>
             </div>
           </a>`).join('');
