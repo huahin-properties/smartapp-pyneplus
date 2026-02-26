@@ -42,7 +42,6 @@
         <div class="input-card"><span class="field-label">Main Image</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><span class="text-4xl opacity-10">✨</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-[#C9A84C] text-white rounded-xl font-800 uppercase text-xs">Select Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"></div>
         <div class="input-card"><span class="field-label">Asset Gallery</span><div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div><button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-slate-800 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button><input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"></div>
       </div>
-
       <div class="input-card">
         <span class="field-label">Asset Documents (PDF)</span>
         <div class="space-y-3 mt-4">
@@ -56,9 +55,29 @@
     <div id="tab-info" class="hidden space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
         <input type="hidden" id="HP_ID">
-        <div><label class="field-label">Asset Plot</label><input id="Plot" class="field-input"></div>
+        <div><label class="field-label">Asset Plot</label><input id="Plot" class="field-input" placeholder="e.g. PN-01"></div>
         <div><label class="field-label">Status</label><select id="Status" class="field-input"></select></div>
-        <div class="bg-gold/5 p-3 rounded-xl col-span-full border border-gold/10"><label class="field-label text-[#C9A84C]">Market Value</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]"></div>
+        <div><label class="field-label">Bedrooms</label><input type="number" id="Bedrooms" class="field-input"></div>
+
+        <div class="col-span-full border-t border-gold/10 pt-4"></div>
+
+        <div><label class="field-label">Bathrooms</label><input type="number" id="Bathrooms" class="field-input"></div>
+        <div><label class="field-label">Living Area (M²)</label><input type="number" id="Living_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">Land Size (M²)</label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+
+        <div class="col-span-full border-t border-gold/10 pt-4"></div>
+
+        <div><label class="field-label">Listing Type</label><select id="Listing_Type" class="field-input"></select></div>
+        <div><label class="field-label">District</label><select id="District" class="field-input"></select></div>
+        <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
+
+        <div class="col-span-full border-t border-gold/10 pt-4"></div>
+        
+        <div class="col-span-2"><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
+        <div class="bg-gold/5 p-3 rounded-xl border border-gold/10 shadow-inner">
+          <label class="field-label text-[#C9A84C]">Market Value</label>
+          <input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]" placeholder="0">
+        </div>
       </div>
     </div>
   </div>
@@ -71,7 +90,7 @@
       const resId = await (await fetch(`${API}?mode=getNextID`)).json();
       if(resId.ok) { hpId = resId.nextID; document.getElementById('HP_ID').value = hpId; }
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
-      ["Status"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
+      ["Status", "Listing_Type", "District", "Zone", "Furnishing"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
       hideLoading();
     }
     async function handleUpload(input, target, fieldId) {
