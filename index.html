@@ -9,19 +9,64 @@
     :root { --navy: #0B1829; --bg: #FDFAF5; --gold: #C9A84C; --white: #FFFFFF; --border: rgba(201, 168, 76, 0.2); --row-h: 80px; --thumb-w: 105px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--navy); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-    header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
-    .hero { padding: 75px 15px 10px; text-align: center; }
-    .search-input { width: 100%; background: #FFFFFF; border: 1px solid var(--gold); border-radius: 50px; padding: 10px 15px 10px 40px; color: var(--navy); font-weight: 600; font-size: 0.85rem; outline: none; margin-bottom: 10px; }
+
+    /* ✅ คอนเทนเนอร์ควบคุมความสมมาตรกึ่งกลางตามแบบ CoCo */
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 12px;
+    }
+
+    /* 🎯 แถบเมนูด้านบนแก้ไขให้เหมือน CoCo */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 55px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border);
+    }
+    header .page {
+      height: 55px;
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%;
+    }
+
+    .hero { padding: 75px 0 10px; text-align: center; }
+    .search-input { width: 100%; background: #FFFFFF; border: 1.5px solid var(--gold); border-radius: 50px; padding: 10px 15px 10px 40px; color: var(--navy); font-weight: 600; font-size: 0.85rem; outline: none; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(201, 168, 76, 0.05); }
     .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
-    .filter-select { background: #FFFFFF; border: 1px solid var(--gold); border-radius: 8px; padding: 8px; color: var(--navy); font-size: 0.75rem; font-weight: 600; text-align: center; outline: none; appearance: none; }
-    .pill-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-    .pill { white-space: nowrap; padding: 6px 14px; border-radius: 50px; background: #fff; border: 1px solid var(--border); color: #9B8E72; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+    .filter-select { background: #FFFFFF; border: 1px solid var(--gold); border-radius: 8px; padding: 8px; color: var(--navy); font-size: 0.75rem; font-weight: 700; text-align: center; outline: none; appearance: none; }
+
+    /* ✅ ปรับเมนู Pill ให้อยู่กึ่งกลางสมมาตรเหมือน CoCo */
+    .pill-container {
+      display: flex;
+      gap: 8px;
+      justify-content: center; 
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 2px 0 10px;
+    }
+    .pill {
+      white-space: nowrap;
+      padding: 7px 14px;
+      border-radius: 50px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: #9B8E72;
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      user-select: none;
+    }
     .pill.active { background: var(--gold); color: #fff; border-color: var(--gold); }
-    .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 8px; }
+
+    /* ✅ จัดรายการทรัพย์สินให้สมมาตร */
+    .prop-list { padding: 0 0 40px; display: grid; grid-template-columns: 1fr; gap: 8px; }
     .card { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 4px 10px rgba(201, 168, 76, 0.05); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    /* 🎯 ป้ายกำกับ Plot แทน ID บนรูป */
     .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: #FFF; background: var(--gold); padding: 2px 5px; border-radius: 3px; font-weight: 800; text-transform: uppercase; }
     .card-info { flex: 1; padding: 4px 10px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
     .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
@@ -31,24 +76,67 @@
     .s-available { color: #2ECC8A; border-color: #2ECC8A; background: rgba(46, 204, 138, 0.05); }
     .furnish-tag { color: var(--gold); border-color: var(--gold); background: rgba(201, 168, 76, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
     .admin-float { position: fixed; bottom: 25px; right: 20px; width: 45px; height: 45px; background: var(--gold); border: 2px solid var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(201, 168, 76, 0.3); }
-    @media (min-width: 768px) { :root { --row-h: 90px; --thumb-w: 140px; } .prop-list { grid-template-columns: 1fr 1fr; } }
+
+    @media (min-width: 768px) {
+      :root { --row-h: 90px; --thumb-w: 140px; }
+      .prop-list { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .page { padding: 0 16px; }
+    }
   </style>
 </head>
 <body>
-  <header><a href="#" style="color:var(--gold); font-weight:800; text-decoration:none;">THE PYNE PLUS TWO <span style="font-weight:300; color:var(--navy);">HUA HIN</span></a></header>
+
+  <header>
+    <div class="page">
+      <a href="#" style="color:var(--gold); font-weight:800; text-decoration:none; letter-spacing: 1px;">
+        THE PYNE PLUS <span style="font-weight:300; color:var(--navy);">TWO</span>
+      </a>
+      <div style="width:40px;"></div>
+    </div>
+  </header>
+
   <section class="hero">
-    <div style="max-width:550px; margin:0 auto;">
-      <input type="text" id="sI" class="search-input" placeholder="Search Plot..." onkeyup="f()">
-      <div class="filters-grid"><select id="zF" onchange="f()" class="filter-select"><option value="">All Plots</option></select><select id="sF" onchange="f()" class="filter-select"><option value="">Price Sort</option><option value="low">Low → High</option><option value="high">High → Low</option></select><select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select></div>
-      <div class="pill-container" id="pillBox"><div class="pill active" data-f="all">All Units</div><div class="pill" data-f="Sale">For Sale</div><div class="pill" data-f="Rent">For Rent</div><div class="pill" data-f="Pool Villa">Pool Villa</div><div class="pill" data-f="Condo">Condo</div></div>
+    <div class="page">
+      <div style="max-width:550px; margin:0 auto;">
+        <input type="text" id="sI" class="search-input" placeholder="Search Plot..." onkeyup="f()">
+        <div class="filters-grid">
+          <select id="zF" onchange="f()" class="filter-select"><option value="">All Plots</option></select>
+          <select id="sF" onchange="f()" class="filter-select">
+            <option value="">Price Sort</option>
+            <option value="low">Low → High</option>
+            <option value="high">High → Low</option>
+          </select>
+          <select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select>
+        </div>
+
+        <div class="pill-container" id="pillBox">
+          <div class="pill active" data-f="all">All Units</div>
+          <div class="pill" data-f="Sale">For Sale</div>
+          <div class="pill" data-f="Rent">For Rent</div>
+          <div class="pill" data-f="Pool Villa">Pool Villa</div>
+          <div class="pill" data-f="Condo">Condo</div>
+        </div>
+      </div>
     </div>
   </section>
-  <div style="display:flex; justify-content:space-between; padding:15px; border-top:1px solid var(--border); margin-top:10px;"><h2 style="font-size:0.9rem; color:var(--gold); text-transform:uppercase; font-weight:800;">Collections</h2><span id="unitCount" style="font-size:0.65rem; color:#9B8E72; font-weight:700;">Loading...</span></div>
-  <main class="prop-list" id="propGrid"></main>
+
+  <div style="border-top:1px solid var(--border); margin-top:10px;">
+    <div class="page" style="display:flex; justify-content:space-between; padding:15px 0;">
+      <h2 style="font-size:0.85rem; color:var(--gold); text-transform:uppercase; font-weight:800; letter-spacing: 1px;">Collections</h2>
+      <span id="unitCount" style="font-size:0.65rem; color:#9B8E72; font-weight:700;">Loading...</span>
+    </div>
+  </div>
+
+  <main class="page">
+    <div class="prop-list" id="propGrid"></div>
+  </main>
+
   <a href="gateway.html" class="admin-float"><i class="fas fa-key"></i></a>
+
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
     let data = [];
+
     async function init() {
       try {
         const res = await fetch(`${API}?mode=getListSmall&project=pyne`);
@@ -60,27 +148,44 @@
         f();
       } catch (err) { console.error(err); }
     }
+
     function f() {
       const q = document.getElementById('sI').value.toLowerCase();
       const plot = document.getElementById('zF').value;
       const b = document.getElementById('bF').value;
       const pill = document.querySelector('.pill.active').dataset.f;
       const sort = document.getElementById('sF').value;
-      let res = data.filter(u => (!q || `${u.Plot}`.toLowerCase().includes(q)) && (!plot || u.Plot === plot) && (!b || String(u.Bedrooms) === b) && (pill === 'all' || u.Listing_Type === pill || u.Type === pill));
+
+      let res = data.filter(u => 
+        (!q || `${u.Plot}`.toLowerCase().includes(q)) && 
+        (!plot || u.Plot === plot) && 
+        (!b || String(u.Bedrooms) === b) && 
+        (pill === 'all' || u.Listing_Type === pill || u.Type === pill)
+      );
+
       if (sort === "low") res.sort((x,y) => (x.Sale_Price || 0) - (y.Sale_Price || 0));
       else if (sort === "high") res.sort((x,y) => (y.Sale_Price || 0) - (x.Sale_Price || 0));
+
       document.getElementById('unitCount').textContent = `${res.length} UNITS`;
       document.getElementById('propGrid').innerHTML = res.map(u => `
           <a href="details.html?id=${u.HP_ID}" class="card">
-            <div class="card-img"><span class="hp-id">PLOT ${u.Plot || '-'}</span><img src="${u.Thumbnail_Image}" loading="lazy"></div>
+            <div class="card-img"><span class="hp-id">PLOT ${u.Plot || '-'}</span><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/400x250'}" loading="lazy"></div>
             <div class="card-info">
               <div class="info-row"><div class="prop-name">Plot ${u.Plot || 'N/A'}</div><div class="furnish-tag">${u.Furnishing || '-'}</div></div>
               <div class="info-row"><div style="font-size:0.65rem; color:#9B8E72;">${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} m²</div><div class="price-new">฿${Number(u.Sale_Price).toLocaleString()}</div></div>
-              <div class="info-row"><span class="status-tag s-available">${u.Status}</span><div style="font-size:0.58rem; color:#9B8E72;">THE PYNE PLUS</div></div>
+              <div class="info-row"><span class="status-tag s-available">${u.Status}</span><div style="font-size:0.55rem; color:#9B8E72;">THE PYNE PLUS</div></div>
             </div>
           </a>`).join('');
     }
-    document.getElementById('pillBox').addEventListener('click', (e) => { if (e.target.classList.contains('pill')) { document.querySelectorAll('.pill').forEach(p => p.classList.remove('active')); e.target.classList.add('active'); f(); } });
+
+    document.getElementById('pillBox').addEventListener('click', (e) => {
+      if (e.target.classList.contains('pill')) {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        f();
+      }
+    });
+
     window.onload = init;
   </script>
 </body>
