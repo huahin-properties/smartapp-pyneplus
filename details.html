@@ -9,46 +9,39 @@
     :root { --pyne: #C9A84C; --white: #FAF8F2; --border: rgba(201, 168, 76, 0.15); --card-bg: #FFFFFF; --pdf-red: #E02424; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: #2D2D2D; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
-    
     #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
     .splash-brand { color: var(--pyne); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
-    
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(250, 248, 242, 0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .back { text-decoration: none; color: var(--pyne); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
-    
     .gallery-container { margin-top: 65px; padding: 0 15px; max-width: 1100px; margin-left: auto; margin-right: auto; }
     .gallery-card { background: #FFF; border-radius: 18px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 15px 35px rgba(201,168,76,0.1); margin-bottom: 20px; }
     .main-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #FDFCF9; overflow: hidden; } 
     .main-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
     .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.7); color: #1e1e1e; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
-    
     .thumb-row { display: flex; gap: 10px; padding: 12px; overflow-x: auto; background: #FDFCF9; scrollbar-width: none; }
     .thumb { width: 90px; aspect-ratio: 16 / 10; border-radius: 8px; object-fit: cover; opacity: 0.5; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; }
     .thumb.active { opacity: 1; border-color: var(--pyne); }
     .tag-count { position: absolute; right: 15px; bottom: 15px; background: rgba(30,30,30,0.8); color: white; padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: 600; }
-    
     .content { padding: 10px 15px 120px; max-width: 900px; margin: 0 auto; }
     .info-card { background: var(--card-bg); border-radius: 12px; padding: 22px; margin-bottom: 15px; border: 1px solid var(--border); }
     .section-title { font-size: 0.65rem; font-weight: 700; color: var(--pyne); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    
     .label { font-size: 0.55rem; color: #9B8E72; text-transform: uppercase; font-weight: 500; letter-spacing: 1.2px; margin-bottom: 3px; }
     .val { font-size: 0.82rem; font-weight: 400; color: #1E1E1E; }
     .pyne-txt { color: var(--pyne); font-weight: 600; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    
+    .nearby-grid { display: grid; grid-template-columns: 1fr; gap: 2px; }
     .nearby-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
     .loc-name { font-size: 0.78rem; font-weight: 300; }
     .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--pyne); }
-    
     .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
     .btn-nav { width: 100%; background: #1E1E1E; color: #FFF; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; margin-top: 10px; }
 
-    /* 🎯 แถบบาร์ PDF ใหม่สำหรับ PYNE PLUS พร้อมไอคอนแดง */
-    .pdf-download-bar { display: none; background: #FFFFFF; border: 1.5px solid var(--border); padding: 18px 20px; border-radius: 15px; text-decoration: none; align-items: center; justify-content: space-between; margin-top: 15px; transition: 0.3s; box-shadow: 0 4px 15px rgba(201,168,76,0.05); }
-    .pdf-download-bar:active { transform: scale(0.98); background: #FAF8F2; }
+    /* 🎯 แถบบาร์ PDF ใหม่ (ธีม Pyne Plus) พร้อมไอคอนแดง */
+    .pdf-bar { display: none; background: #FFFFFF; border: 1.5px solid var(--border); padding: 18px 20px; border-radius: 15px; text-decoration: none; align-items: center; justify-content: space-between; margin-top: 15px; transition: 0.3s; box-shadow: 0 4px 12px rgba(201, 168, 76, 0.05); }
+    .pdf-bar:active { transform: scale(0.98); background: #FDFCF9; }
     .pdf-label { color: #1E1E1E; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
-    .pdf-icon-red { color: var(--pdf-red); font-size: 1.35rem; }
+    .pdf-icon { color: var(--pdf-red); font-size: 1.35rem; }
 
     .footer { position: fixed; bottom: 0; width: 100%; background: #FFF; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
     .btn-chat { background: var(--pyne); color: #FFF; text-decoration: none; padding: 15px; border-radius: 4px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
@@ -57,20 +50,8 @@
 </head>
 <body>
   <div id="pageSplash"><div class="splash-brand">THE PYNE PLUS</div></div>
-  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700;">THE PYNE PLUS</div><div style="width:40px;"></div></header>
-  
-  <div class="gallery-container">
-    <div class="gallery-card">
-      <div class="main-stage">
-        <img id="mainImg" class="main-img" src="">
-        <div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div>
-        <div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div>
-        <div class="tag-count" id="countLabel">0 / 0</div>
-      </div>
-      <div class="thumb-row" id="thumbStrip"></div>
-    </div>
-  </div>
-
+  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--pyne); font-weight:700;">THE PYNE PLUS TWO</div><div style="width:40px;"></div></header>
+  <div class="gallery-container"><div class="gallery-card"><div class="main-stage"><img id="mainImg" class="main-img" src=""><div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div><div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div><div class="tag-count" id="countLabel">0 / 0</div></div><div class="thumb-row" id="thumbStrip"></div></div></div>
   <main class="content">
     <div class="info-card">
       <h1 id="pPlot" style="font-family:'Playfair Display',serif; font-size: 1.8rem; color: #1E1E1E; margin-bottom: 5px;">Plot ...</h1>
@@ -83,7 +64,6 @@
         <div><div class="label">Price per Sq.m</div><div class="val pyne-txt" id="vPriceSq">-</div></div>
       </div>
     </div>
-
     <div class="info-card">
       <h2 class="section-title">Specifications</h2>
       <div class="grid">
@@ -100,57 +80,36 @@
         <div class="col-span-full"><div class="label">Utility Info</div><div class="val" id="vUtil">-</div></div>
       </div>
     </div>
-
-    <div class="info-card" style="border-left: 4px solid var(--pyne);">
-      <h2 class="section-title">Ownership & Fees</h2>
-      <div class="grid">
-        <div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div>
-        <div><div class="label">Yearly Total</div><div class="val pyne-txt" id="vFeeY">-</div></div>
-        <div><div class="label">Ownership</div><div class="val" id="vOwner">-</div></div>
-        <div><div class="label">Transfer Exp.</div><div class="val" id="vTransfer">-</div></div>
-      </div>
-    </div>
-
+    <div class="info-card" style="border-left: 4px solid var(--pyne);"><h2 class="section-title">Ownership & Fees</h2><div class="grid"><div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div><div><div class="label">Yearly Total</div><div class="val pyne-txt" id="vFeeY">-</div></div><div><div class="label">Ownership</div><div class="val" id="vOwner">-</div></div><div><div class="label">Transfer Exp.</div><div class="val" id="vTransfer">-</div></div></div></div>
     <div class="info-card"><h2 class="section-title">Description</h2><p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #555; font-weight: 300; white-space: pre-line;">-</p></div>
-
     <div class="info-card">
       <h2 class="section-title">Location & Navigation</h2>
       <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
       <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
     </div>
-
     <div class="info-card">
       <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
       <div id="nearbyGrid" class="nearby-grid"></div>
       
-      <a id="pdfBarPyne" href="#" target="_blank" class="pdf-download-bar">
-        <span class="pdf-label">Floor Plan PDF Document</span>
-        <i class="fas fa-file-pdf pdf-icon-red"></i>
+      <a id="floorPlanBar" href="#" target="_blank" class="pdf-bar">
+        <span class="pdf-label">Floor Plan PDF document</span>
+        <i class="fas fa-file-pdf pdf-icon"></i>
       </a>
     </div>
   </main>
-
   <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
-
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
     let images = [], idx = 0;
-    
-    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }];
-
+    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }, { name: "Market Village", lat: 12.5598, lon: 99.9602 }, { name: "Vana Nava", lat: 12.5273, lon: 99.9642 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Khao Takiab Beach", lat: 12.5186, lon: 99.9774 }, { name: "Hua Hin Airport", lat: 12.6370, lon: 99.9515 }, { name: "Water Park", lat: 12.6046, lon: 99.8897 }];
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
-
     async function init() { if(!hpId) return; try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) renderData(json.data); hideSplash(); } catch(e) { hideSplash(); } }
-    
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
-
     function renderData(u) {
-      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0; 
-      const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
-
+      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0; const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
       document.getElementById('pPlot').textContent = `Plot ${u.Plot || '-'}`;
-      document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict || '-'}, ${u.District || '-'}`;
+      document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict || '-'}, ${u.District || '-'} (${u.Zone || '-'})`;
       document.getElementById('pPrice').textContent = `฿${p.toLocaleString()}`;
       document.getElementById('vBB').textContent = `${u.Bedrooms || 0} Bed | ${u.Bathrooms || 0} Bath`;
       document.getElementById('vLiving').textContent = `${u.Living_Area_sq_m || '-'} m²`;
@@ -158,46 +117,32 @@
       document.getElementById('vPriceSq').textContent = `฿${Math.round(p/a).toLocaleString()} / m²`;
       document.getElementById('vFeeM').textContent = `฿${(parseFloat(u.Common_Fee_Rate)||0).toLocaleString()} / m²`;
       document.getElementById('vFeeY').textContent = `฿${Math.round((parseFloat(u.Common_Fee_Rate)||0)*a*12).toLocaleString()} / Yr`;
-      document.getElementById('vOwner').textContent = `${u.Ownership_Type || '-'}`;
+      document.getElementById('vOwner').textContent = `${u.Ownership_Type || '-'} (${u.Land_Title_Deed_Type || '-'})`;
       document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
-      document.getElementById('vStatus').textContent = u.Status || "-"; 
-      document.getElementById('vFurnish').textContent = u.Furnishing || "-";
-      document.getElementById('vDistrict').textContent = u.District || "-"; 
-      document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-"; 
-      document.getElementById('vZone').textContent = u.Zone || "-";
-      document.getElementById('vPoolSys').textContent = u.Pool_System || "-"; 
-      document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
-      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; 
-      document.getElementById('vParking').textContent = u.Parking || "-";
-      document.getElementById('vDirect').textContent = u.Direction || "-"; 
-      document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
+      document.getElementById('vStatus').textContent = u.Status || "-"; document.getElementById('vFurnish').textContent = u.Furnishing || "-";
+      document.getElementById('vDistrict').textContent = u.District || "-"; document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-"; document.getElementById('vZone').textContent = u.Zone || "-";
+      document.getElementById('vPoolSys').textContent = u.Pool_System || "-"; document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
+      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; document.getElementById('vParking').textContent = u.Parking || "-";
+      document.getElementById('vDirect').textContent = u.Direction || "-"; document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
 
-      // 🎯 แสดงแถบบาร์ PDF ของ PYNE PLUS
+      // 🎯 แสดงแถบบาร์ PDF เฉพาะที่มีข้อมูลลิงก์
       if (u.FloorPlan_PDF && u.FloorPlan_PDF !== "#" && u.FloorPlan_PDF.startsWith('http')) {
-        const bar = document.getElementById('pdfBarPyne');
+        const bar = document.getElementById('floorPlanBar');
         bar.href = u.FloorPlan_PDF;
         bar.style.display = 'flex';
       }
 
       if (u.Coordinates && u.Coordinates !== "#") {
-        document.getElementById('mapBox').style.display='block'; 
-        document.getElementById('navLink').style.display='flex';
+        document.getElementById('mapBox').style.display='block'; document.getElementById('navLink').style.display='flex';
         const coords = u.Coordinates.trim();
-        // 🎯 แผนที่และการนำทางพิกัด Pyne Plus เสถียร 100%
-        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=$${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=$${coords}`;
-        
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${coords}`;
         const [la, lo] = coords.split(','); const grid = document.getElementById('nearbyGrid');
-        grid.innerHTML = LANDMARKS.map(loc => { 
-          const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); 
-          return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; 
-        }).join('');
+        grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; }).join('');
       }
-      images = u.__album || [u.Thumbnail_Image]; 
-      if (images.length > 0) { renderThumbs(); setMain(0); }
+      images = u.__album || [u.Thumbnail_Image]; if (images.length > 0) { renderThumbs(); setMain(0); }
     }
-    
     function setMain(i) { idx = (i + images.length) % images.length; const mainImg = document.getElementById('mainImg'); mainImg.style.opacity = '0.5'; setTimeout(() => { mainImg.src = images[idx]; mainImg.style.opacity = '1'; document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`; document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx)); }, 150); }
     function changeSlide(n) { setMain(idx + n); }
     function renderThumbs() { document.getElementById('thumbStrip').innerHTML = images.map((src, i) => `<img class="thumb" src="${src}" onclick="setMain(${i})">`).join(''); }
