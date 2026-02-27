@@ -2,36 +2,82 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Pyne Plus Gateway | Admin Console</title>
+  <title>Security Gateway | Smart Properties System</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* 🎨 พื้นหลังเปลี่ยนเป็นสีขาวครีม สว่าง หรูหรา */
-    body { font-family: 'Montserrat', sans-serif; background: #F8FAF8; color: #1A1A1A; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-    
-    /* 🎨 การ์ดสีขาวล้วน ขอบทองบางๆ และเงาสีทองฟุ้งๆ */
-    .gate-card { background: #FFFFFF; border: 1px solid rgba(201, 168, 76, 0.3); padding: 40px; border-radius: 2.5rem; text-align: center; max-width: 350px; width: 90%; box-shadow: 0 20px 40px rgba(201, 168, 76, 0.15); }
+    :root { --navy: #0B1829; --navy-dark: #060F1A; --gold: #C9A84C; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--navy-dark); color: white; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+    .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem; border-radius: 2.5rem; width: 90%; max-width: 420px; backdrop-filter: blur(20px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+    .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.2rem; color: white; margin-bottom: 1.5rem; outline: none; transition: 0.3s; font-size: 15px; }
+    .field-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); }
+    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: 0.4s; box-shadow: 0 10px 20px rgba(201, 168, 76, 0.2); }
+    .btn-login:active { transform: scale(0.96); opacity: 0.9; }
+    .btn-login:disabled { background: #444; color: #888; cursor: not-allowed; }
   </style>
 </head>
 <body>
-  <div class="gate-card">
-    <div class="text-6xl text-[#C9A84C] mb-8"><i class="fas fa-user-lock"></i></div>
-    
-    <h1 class="text-2xl font-800 mb-2 uppercase tracking-tighter text-[#C9A84C]">Pyne Plus Gateway</h1>
-    <p class="text-[10px] text-[#1A1A1A] font-700 uppercase tracking-[0.3em] mb-10 opacity-80">Exclusive Asset Console</p>
-    
-    <div class="bg-[#FFF9EC] border border-[#C9A84C] p-5 rounded-2xl text-[11px] text-[#8D732B] mb-8 italic font-600 shadow-sm">
-      "Gateway Active: Direct to Dashboard"
+  <div class="login-card text-center">
+    <div class="mb-10">
+      <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/20">
+        <i class="fas fa-user-shield text-[#C9A84C] text-2xl"></i>
+      </div>
+      <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter italic uppercase">Admin Gateway</h2>
+      <p class="text-slate-500 text-[10px] uppercase tracking-[0.2em] mt-2">Identity Verification Required</p>
     </div>
-
-    <button onclick="location.href='dashboard.html'" class="bg-[#C9A84C] text-[#1A1A1A] w-full py-4 rounded-xl font-800 uppercase tracking-widest hover:bg-[#1A1A1A] hover:text-[#C9A84C] transition-all shadow-lg shadow-[#C9A84C]/20">
-      Enter Console
-    </button>
     
-    <button onclick="location.href='index.html'" class="mt-6 text-[10px] text-[#1A1A1A] font-800 uppercase hover:text-[#C9A84C] transition-colors block w-full text-center">
-      Back to Home
-    </button>
+    <input type="email" id="email" class="field-input" placeholder="Email Address" autocomplete="email">
+    <input type="password" id="password" class="field-input" placeholder="Password">
+    
+    <button onclick="handleLogin()" id="loginBtn" class="btn-login">Verify & Enter</button>
+    <div id="errMsg" class="text-red-400 text-[11px] mt-6 font-700 uppercase hidden italic">Access Denied</div>
+    
+    <div class="mt-8 pt-6 border-t border-white/5">
+      <a href="index.html" class="text-slate-500 text-[10px] uppercase font-700 tracking-widest hover:text-gold transition">← Back to Catalog</a>
+    </div>
   </div>
+
+  <script>
+    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
+
+    async function handleLogin() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const btn = document.getElementById('loginBtn');
+      const err = document.getElementById('errMsg');
+
+      if(!email || !password) { alert("กรุณากรอก Email และ Password"); return; }
+
+      btn.innerText = "AUTHENTICATING...";
+      btn.disabled = true;
+      err.classList.add('hidden');
+
+      try {
+        const res = await fetch(API, {
+          method: 'POST',
+          body: JSON.stringify({ mode: 'login', email, password })
+        });
+        const result = await res.json();
+
+        if (result.ok) {
+          // 🏆 บันทึก Session เพื่อใช้ปลดล็อคกุญแจในหน้าอื่นๆ
+          localStorage.setItem('admin_session', 'active');
+          localStorage.setItem('admin_role', result.role);
+          localStorage.setItem('admin_project', result.project); // ค่าจากชีต: All, CoCo, PynePlus
+          
+          location.href = "dashboard.html";
+        } else {
+          err.innerText = result.msg;
+          err.classList.remove('hidden');
+          btn.innerText = "RETRY LOGIN";
+          btn.disabled = false;
+        }
+      } catch (e) {
+        alert("การเชื่อมต่อล้มเหลว กรุณาลองใหม่");
+        btn.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
