@@ -16,10 +16,6 @@
     .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid #eee; background: #fdfdfd; margin-bottom: 1rem; }
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; }
     .img-tile.marked { opacity: 0.3; border: 3px solid #EF4444; filter: grayscale(0.8); }
-    .img-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(239,68,68,0.9); color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
-    .pdf-row { display: flex; align-items: center; gap: 8px; background: #F9F7F0; padding: 15px; border-radius: 18px; margin-bottom: 10px; border: 1px solid rgba(201,168,76,0.1); }
-    .pdf-name { font-size: 9px; color: #8D732B; font-weight: 700; display: block; margin-top: 2px; }
-    .btn-pdf { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
     .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
     .loader { border: 4px solid #eee; border-top: 4px solid #C9A84C; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -35,24 +31,15 @@
       <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
     <div class="flex gap-8 mb-8 border-b border-gold/20 px-4">
-      <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Visual Gallery</button>
+      <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Visual Assets</button>
       <button onclick="switchTab('info')" id="btn-info" class="pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400">Specifications</button>
     </div>
-
     <div id="tab-photo" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="input-card"><span class="field-label">Primary Image</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center relative"><span class="text-4xl opacity-10">✨</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-[#C9A84C] text-white rounded-xl font-800 uppercase text-xs">Update Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image"></div>
-        <div class="input-card"><span class="field-label">Visual Gallery</span><div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div><button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button><input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image"></div>
-      </div>
-      <div class="input-card"><span class="field-label">Asset Documents (PDF)</span>
-        <div class="space-y-3 mt-4">
-          <div class="pdf-row"><div class="flex-1"><span class="text-[10px] font-800 block">FLOOR PLAN</span><span id="txt-FloorPlan_PDF" class="pdf-name truncate">No file</span></div><div class="flex gap-2"><button onclick="viewFile('FloorPlan_PDF')" id="view-FloorPlan_PDF" class="btn-pdf bg-white text-gold hidden"><i class="fas fa-eye"></i></button><button onclick="document.getElementById('f_floor').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button><button onclick="deleteFile('FloorPlan_PDF')" class="btn-pdf bg-red-50 text-red-500"><i class="fas fa-trash"></i></button></div><input type="file" id="f_floor" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'floor', 'FloorPlan_PDF')"><input type="hidden" id="FloorPlan_PDF"></div>
-          <div class="pdf-row"><div class="flex-1"><span class="text-[10px] font-800 block">CUSTOMER BROCHURE</span><span id="txt-Sales_Gallery" class="pdf-name truncate">No file</span></div><div class="flex gap-2"><button onclick="viewFile('Sales_Gallery')" id="view-Sales_Gallery" class="btn-pdf bg-white text-gold hidden"><i class="fas fa-eye"></i></button><button onclick="document.getElementById('f_customer').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button><button onclick="deleteFile('Sales_Gallery')" class="btn-pdf bg-red-50 text-red-500"><i class="fas fa-trash"></i></button></div><input type="file" id="f_customer" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'customer', 'Sales_Gallery')"><input type="hidden" id="Sales_Gallery"></div>
-          <div class="pdf-row"><div class="flex-1"><span class="text-[10px] font-800 block">AGENT FACT SHEET</span><span id="txt-Material_PDF" class="pdf-name truncate">No file</span></div><div class="flex gap-2"><button onclick="viewFile('Material_PDF')" id="view-Material_PDF" class="btn-pdf bg-white text-gold hidden"><i class="fas fa-eye"></i></button><button onclick="document.getElementById('f_agent').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button><button onclick="deleteFile('Material_PDF')" class="btn-pdf bg-red-50 text-red-500"><i class="fas fa-trash"></i></button></div><input type="file" id="f_agent" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'agent', 'Material_PDF')"><input type="hidden" id="Material_PDF"></div>
-        </div>
+        <div class="input-card"><span class="field-label">Main Image</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><span class="text-4xl opacity-10">✨</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 uppercase text-xs">Update Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"></div>
+        <div class="input-card"><span class="field-label">Visual Gallery</span><div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div><button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button><input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"></div>
       </div>
     </div>
-
     <div id="tab-info" class="hidden space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
         <input type="hidden" id="HP_ID">
@@ -68,84 +55,62 @@
         <div><label class="field-label">Land Size</label><input id="Land_Area_sq_m" class="field-input"></div>
         <div><label class="field-label">District</label><select id="District" class="field-input"></select></div>
         <div class="col-span-full border-t border-gold/10 pt-4"></div>
+        
         <div><label class="field-label">Build Stage</label><select id="Build_Stage" class="field-input"></select></div>
         <div><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
-        <div class="bg-gold/5 p-3 rounded-xl border border-gold/10 shadow-inner col-span-full"><label class="field-label text-[#C9A84C]">Sale Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]"></div>
+        
+        <div class="bg-gold/5 p-3 rounded-xl border border-gold/10 col-span-full mt-2"><label class="field-label text-[#C9A84C]">Market Value</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]"></div>
       </div>
     </div>
   </div>
-  <div class="save-bar"><button onclick="saveData()" id="saveBtn" class="btn-update shadow-2xl">Publish Updates</button></div>
-
+  <div class="save-bar"><button onclick="confirmSave()" id="saveBtn" class="btn-update shadow-2xl">Publish Updates</button></div>
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
     const hpId = new URLSearchParams(window.location.search).get('id');
     let currentGallery = [];
-
     async function init() {
       if (!hpId) return;
       showLoading("FETCHING ASSET...");
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
-      // 🎯 ดึง Build_Stage จาก Settings อัตโนมัติ
+      // 🎯 อัปเดตให้ดึงตัวเลือก Build_Stage จาก Settings โดยตรง
       ["Status", "Listing_Type", "Furnishing", "District", "Zone", "Build_Stage"].forEach(f => { 
         if(document.getElementById(f) && meta[f]) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); 
       });
 
       const res = await (await fetch(`${API}?mode=getUnitDetail&id=${hpId}`)).json();
       if (res.ok) {
-        const u = res.data;
-        Object.keys(u).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = u[k]; });
+        const u = res.data; Object.keys(u).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = u[k]; });
         document.getElementById('displayPlot').innerText = "PLOT " + (u.Plot || "N/A");
-        syncPdfUI('FloorPlan_PDF', u.FloorPlan_PDF, u.FloorPlan_Name);
-        syncPdfUI('Sales_Gallery', u.Sales_Gallery, u.Sales_Gallery_Name);
-        syncPdfUI('Material_PDF', u.Material_PDF, u.Material_PDF_Name);
         if(u.Thumbnail_Image) document.getElementById('thumbPreview').innerHTML = `<img src="${u.Thumbnail_Image}" class="w-full h-full object-cover">`;
         currentGallery = u.Album_Image ? u.Album_Image.split(',').filter(Boolean) : [];
         renderGallery();
       }
       hideLoading();
     }
-
-    function syncPdfUI(id, url, name) {
-      const txt = document.getElementById('txt-'+id); const view = document.getElementById('view-'+id);
-      if (url && url !== "") { txt.innerText = name || "File Connected ✅"; view.classList.remove('hidden'); }
-      else { txt.innerText = "No file selected"; view.classList.add('hidden'); }
-    }
-
-    async function handleUpload(input, target, fieldId) {
-      const files = Array.from(input.files); if (!files.length) return;
-      showLoading("UPLOADING...");
+    async function handleUpload(input, target) {
+      const files = Array.from(input.files); if (!files.length) return; showLoading("UPLOADING...");
       for(let f of files) {
         const base64 = await new Promise(res => { const r = new FileReader(); r.readAsDataURL(f); r.onload = () => res(r.result.split(',')[1]); });
         const res = await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId, data: base64, type: f.type, name: f.name }) });
         const result = await res.json();
         if (result.ok) {
-          if (target === 'thumb') { document.getElementById('Thumbnail_Image').value = result.url; document.getElementById('thumbPreview').innerHTML = `<img src="${result.url}" class="w-full h-full object-cover">`; }
-          else if (target === 'album') { currentGallery.push(result.url); document.getElementById('Album_Image').value = currentGallery.join(','); renderGallery(); }
-          else { document.getElementById(fieldId).value = result.url; syncPdfUI(fieldId, result.url, f.name); }
+          if (target === 'thumb') document.getElementById('thumbPreview').innerHTML = `<img src="${result.url}" class="w-full h-full object-cover">`;
+          else { currentGallery.push(result.url); renderGallery(); }
         }
       }
       hideLoading();
     }
-
-    function deleteFile(fieldId) {
-      const url = document.getElementById(fieldId).value; if (!url || !confirm("Delete file?")) return;
-      document.getElementById(fieldId).value = ""; syncPdfUI(fieldId, "", "");
-      fetch(API, { method: 'POST', body: JSON.stringify({ mode: 'deleteFile', url }) });
-    }
-
-    function renderGallery() { box = document.getElementById('galleryPreview'); box.innerHTML = currentGallery.map(url => `<div class="img-tile"><img src="${url}" class="w-full h-full object-cover"></div>`).join('') || '🗂️'; }
-    async function saveData() {
+    function renderGallery() { document.getElementById('galleryPreview').innerHTML = currentGallery.map(url => `<div class="img-tile"><img src="${url}" class="w-full h-full object-cover"></div>`).join('') || '🗂️'; }
+    function switchTab(t) { document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info'); document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; }
+    async function confirmSave() {
       if(!confirm("Publish changes?")) return;
       showLoading("PUBLISHING...");
-      const p = { mode: "updateUnit", HP_ID: hpId };
-      document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
+      const p = { mode: "updateUnit", HP_ID: hpId, Album_Image: currentGallery.join(',') };
+      document.querySelectorAll('input, select').forEach(el => { if(el.id && el.id !== "HP_ID") p[el.id] = el.value; });
       const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
       if((await res.json()).ok) { alert('PUBLISHED! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
-
-    function viewFile(id) { const url = document.getElementById(id).value; if (url) window.open(url, '_blank'); }
-    function switchTab(t) { document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info'); document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; }
     function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('upLoading').style.display = 'flex'; }
     function hideLoading() { document.getElementById('upLoading').style.display = 'none'; }
     window.onload = init;
