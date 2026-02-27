@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Edit Asset | The Pyne Plus V208</title>
+  <title>Edit Asset | The Pyne Plus V209</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,20 +13,16 @@
     .input-card { background: white; border: 1px solid rgba(201, 168, 76, 0.2); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
     .field-label { font-size: 10px; font-weight: 800; color: #9B8E72; text-transform: uppercase; margin-bottom: 0.5rem; display: block; letter-spacing: 1px; }
     .field-input { width: 100%; background: #F9F7F0; border: 1px solid transparent; border-radius: 0.85rem; padding: 0.85rem; color: #1A1A1A; outline: none; transition: 0.2s; font-size: 14px; }
-    
-    .img-tile { position: relative; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; }
+    .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid #eee; background: #fdfdfd; margin-bottom: 1rem; }
+    .img-tile { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; }
     .img-tile.marked { opacity: 0.3; border: 3px solid #EF4444; filter: grayscale(0.8); }
     .img-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(239,68,68,0.9); color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border: 2px solid white; }
-    .img-tile.marked .img-x { background: #10B981; transform: rotate(45deg); }
-
     .pdf-row { display: flex; align-items: center; gap: 8px; background: #F9F7F0; padding: 15px; border-radius: 18px; margin-bottom: 10px; border: 1px solid rgba(201,168,76,0.1); }
     .pdf-name { font-size: 9px; color: #8D732B; font-weight: 700; display: block; margin-top: 2px; }
     .btn-pdf { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: 0.2s; }
-
     .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
     .loader { border: 4px solid #eee; border-top: 4px solid #C9A84C; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    
     .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); border-top: 1px solid rgba(201, 168, 76, 0.1); padding: 25px 20px; z-index: 1000; }
     .btn-update { background: #C9A84C; color: white; width: 100%; max-width: 1000px; margin: 0 auto; display: block; height: 60px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 4px; }
     .btn-delete-batch { background: #EF4444; color: white; padding: 12px; border-radius: 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: none; width: 100%; }
@@ -39,7 +35,6 @@
       <div><p class="text-white/70 font-800 uppercase tracking-widest text-[10px] mb-2">Asset Specification Editor</p><h1 id="displayPlot" class="text-3xl font-800 tracking-tighter italic">PLOT --</h1></div>
       <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
-    
     <div class="flex gap-8 mb-8 border-b border-gold/20 px-4">
       <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Visual Assets</button>
       <button onclick="switchTab('info')" id="btn-info" class="pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400">Specifications</button>
@@ -47,56 +42,14 @@
 
     <div id="tab-photo" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="input-card">
-          <span class="field-label">Main Image</span>
-          <div id="thumbPreview" class="thumb-stage flex items-center justify-center relative"><span class="text-4xl opacity-10">✨</span></div>
-          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 uppercase text-xs">Update Cover</button>
-          <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')">
-          <input type="hidden" id="Thumbnail_Image">
-        </div>
-        
-        <div class="input-card">
-          <span class="field-label">Visual Gallery</span>
-          <div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div>
-          <button id="delBtn" onclick="processBatchDelete()" class="btn-delete-batch">Confirm Delete Selected</button>
-          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button>
-          <input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')">
-          <input type="hidden" id="Album_Image">
-        </div>
+        <div class="input-card"><span class="field-label">Main Image</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center relative"><span class="text-4xl opacity-10">✨</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 uppercase text-xs">Update Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image"></div>
+        <div class="input-card"><span class="field-label">Visual Gallery</span><div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div><button id="delBtn" onclick="processBatchDelete()" class="btn-delete-batch">Confirm Delete Selected</button><button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 uppercase text-xs">Add Visuals</button><input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image"></div>
       </div>
-
-      <div class="input-card"><span class="field-label">Asset Documents (PDF Management)</span>
+      <div class="input-card"><span class="field-label">Asset Documents (PDF Manager)</span>
         <div class="space-y-3 mt-4">
-          <div class="pdf-row">
-            <div class="flex-1"><span class="text-[10px] font-800 block text-[#9B8E72]">FLOOR PLAN</span><span id="txt-FloorPlan_PDF" class="pdf-name truncate">No file attached</span></div>
-            <div class="flex gap-2">
-              <button onclick="viewFile('FloorPlan_PDF')" id="view-FloorPlan_PDF" class="btn-pdf bg-white text-gold border border-gold/20 hidden"><i class="fas fa-eye"></i></button>
-              <button onclick="document.getElementById('f_floor').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
-              <button onclick="deleteFile('FloorPlan_PDF')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button>
-            </div>
-            <input type="file" id="f_floor" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'floor', 'FloorPlan_PDF')">
-            <input type="hidden" id="FloorPlan_PDF">
-          </div>
-          <div class="pdf-row">
-            <div class="flex-1"><span class="text-[10px] font-800 block text-[#9B8E72]">CUSTOMER BROCHURE</span><span id="txt-Sales_Gallery" class="pdf-name truncate">No file attached</span></div>
-            <div class="flex gap-2">
-              <button onclick="viewFile('Sales_Gallery')" id="view-Sales_Gallery" class="btn-pdf bg-white text-gold border border-gold/20 hidden"><i class="fas fa-eye"></i></button>
-              <button onclick="document.getElementById('f_customer').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
-              <button onclick="deleteFile('Sales_Gallery')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button>
-            </div>
-            <input type="file" id="f_customer" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'customer', 'Sales_Gallery')">
-            <input type="hidden" id="Sales_Gallery">
-          </div>
-          <div class="pdf-row">
-            <div class="flex-1"><span class="text-[10px] font-800 block text-[#9B8E72]">AGENT FACT SHEET</span><span id="txt-Material_PDF" class="pdf-name truncate">No file attached</span></div>
-            <div class="flex gap-2">
-              <button onclick="viewFile('Material_PDF')" id="view-Material_PDF" class="btn-pdf bg-white text-gold border border-gold/20 hidden"><i class="fas fa-eye"></i></button>
-              <button onclick="document.getElementById('f_agent').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
-              <button onclick="deleteFile('Material_PDF')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button>
-            </div>
-            <input type="file" id="f_agent" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'agent', 'Material_PDF')">
-            <input type="hidden" id="Material_PDF">
-          </div>
+          <div class="pdf-row"><div class="flex-1"><span class="text-[10px] font-800 block text-[#9B8E72]">FLOOR PLAN</span><span id="txt-FloorPlan_PDF" class="pdf-name truncate">No file attached</span></div><div class="flex gap-2"><button onclick="viewFile('FloorPlan_PDF')" id="view-FloorPlan_PDF" class="btn-pdf bg-white text-gold border border-gold/20 hidden"><i class="fas fa-eye"></i></button><button onclick="document.getElementById('f_floor').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button><button onclick="deleteFile('FloorPlan_PDF')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button></div><input type="file" id="f_floor" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'floor', 'FloorPlan_PDF')"><input type="hidden" id="FloorPlan_PDF"></div>
+          <div class="pdf-row"><div class="flex-1"><span class="text-[10px] font-800 block text-[#9B8E72]">CUSTOMER BROCHURE</span><span id="txt-Sales_Gallery" class="pdf-name truncate">No file attached</span></div><div class="flex gap-2"><button onclick="viewFile('Sales_Gallery')" id="view-Sales_Gallery" class="btn-pdf bg-white text-gold border border-gold/20 hidden"><i class="fas fa-eye"></i></button><button onclick="document.getElementById('f_customer').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button><button onclick="deleteFile('Sales_Gallery')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button></div><input type="file" id="f_customer" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'customer', 'Sales_Gallery')"><input type="hidden" id="Sales_Gallery"></div>
+          <div class="pdf-row"><div class="flex-1"><span class="text-[10px] font-800 block text-[#9B8E72]">AGENT FACT SHEET</span><span id="txt-Material_PDF" class="pdf-name truncate">No file attached</span></div><div class="flex gap-2"><button onclick="viewFile('Material_PDF')" id="view-Material_PDF" class="btn-pdf bg-white text-gold border border-gold/20 hidden"><i class="fas fa-eye"></i></button><button onclick="document.getElementById('f_agent').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button><button onclick="deleteFile('Material_PDF')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button></div><input type="file" id="f_agent" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'agent', 'Material_PDF')"><input type="hidden" id="Material_PDF"></div>
         </div>
       </div>
     </div>
@@ -104,22 +57,32 @@
     <div id="tab-info" class="hidden space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
         <input type="hidden" id="HP_ID">
+        
         <div><label class="field-label">Plot Reference</label><input id="Plot" class="field-input"></div>
         <div><label class="field-label">Status</label><select id="Status" class="field-input"></select></div>
-        <div><label class="field-label">Listing</label><select id="Listing_Type" class="field-input"></select></div>
-        <div class="col-span-full border-t border-gold/10 pt-4"></div>
+        <div><label class="field-label">Listing Type</label><select id="Listing_Type" class="field-input"></select></div>
+        
+        <div class="col-span-full border-t border-gold/10 pt-2"></div>
+        
         <div><label class="field-label">Bedrooms</label><input type="number" id="Bedrooms" class="field-input"></div>
         <div><label class="field-label">Bathrooms</label><input type="number" id="Bathrooms" class="field-input"></div>
-        <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
-        <div class="col-span-full border-t border-gold/10 pt-4"></div>
-        <div><label class="field-label">Living Area</label><input id="Living_Area_sq_m" class="field-input"></div>
-        <div><label class="field-label">Land Size</label><input id="Land_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">Living Area (M²)</label><input id="Living_Area_sq_m" class="field-input"></div>
+        
+        <div class="col-span-full border-t border-gold/10 pt-2"></div>
+        
+        <div><label class="field-label">Land Size (M²)</label><input id="Land_Area_sq_m" class="field-input"></div>
         <div><label class="field-label">District</label><select id="District" class="field-input"></select></div>
-        <div class="col-span-full border-t border-gold/10 pt-4"></div>
+        <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
+        
+        <div class="col-span-full border-t border-gold/10 pt-2"></div>
+        
         <div><label class="field-label">Build Stage</label><select id="Build_Stage" class="field-input"></select></div>
         <div><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
+        <div class="bg-gold/5 p-3 rounded-xl border border-gold/10 shadow-inner"><label class="field-label text-[#C9A84C]">Market Value</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]" placeholder="0"></div>
+
+        <div class="col-span-full border-t border-gold/10 pt-2"></div>
+        
         <div class="col-span-full"><label class="field-label">Detailed Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
-        <div class="bg-gold/5 p-3 rounded-xl border border-gold/10 col-span-full"><label class="field-label text-[#C9A84C]">Market Value</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]"></div>
       </div>
     </div>
   </div>
@@ -145,7 +108,7 @@
         syncPdfUI('Sales_Gallery', u.Sales_Gallery, u.Sales_Gallery_Name);
         syncPdfUI('Material_PDF', u.Material_PDF, u.Material_PDF_Name);
         thumbUrl = u.Thumbnail_Image; renderMainThumb(thumbUrl);
-        gallery = u.Album_Image ? u.Album_Image.split(',').filter(Boolean) : [];
+        gallery = u.__album ? u.__album : (u.Album_Image ? u.Album_Image.split(',').filter(Boolean) : []);
         renderGallery();
       }
       hideLoading();
@@ -166,7 +129,7 @@
         const result = await res.json();
         if (result.ok) {
           if (target === 'thumb') { thumbUrl = result.url; renderMainThumb(thumbUrl); }
-          else if (target === 'album') { gallery.push(result.url); renderGallery(); }
+          else if (target === 'album') { gallery.push(result.url); document.getElementById('Album_Image').value = gallery.join(','); renderGallery(); }
           else { pdfData[fieldId] = result.url; syncPdfUI(fieldId, result.url, f.name); }
         }
       }
