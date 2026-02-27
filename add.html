@@ -62,7 +62,9 @@
         <div><label class="field-label">District</label><select id="District" class="field-input"></select></div>
         <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
         <div class="col-span-full border-t border-gold/10 pt-4"></div>
-        <div class="col-span-2"><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
+        
+        <div><label class="field-label">Build Stage</label><select id="Build_Stage" class="field-input"></select></div>
+        <div><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
         <div class="bg-gold/5 p-3 rounded-xl border border-gold/10 shadow-inner"><label class="field-label text-[#C9A84C]">Market Value</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#C9A84C]" placeholder="0"></div>
       </div>
     </div>
@@ -76,7 +78,8 @@
       const resId = await (await fetch(`${API}?mode=getNextID`)).json();
       if(resId.ok) { hpId = resId.nextID; document.getElementById('HP_ID').value = hpId; }
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
-      ["Status", "Listing_Type", "District", "Zone", "Furnishing"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
+      // 🎯 อัปเดตให้ดึง Build_Stage มาใส่ใน Dropdown อัตโนมัติ
+      ["Status", "Listing_Type", "District", "Zone", "Furnishing", "Build_Stage"].forEach(f => { if(document.getElementById(f) && meta[f]) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
       hideLoading();
     }
     async function handleUpload(input, target, fieldId) {
