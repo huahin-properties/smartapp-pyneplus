@@ -206,7 +206,7 @@
               });
             }
           });
-          document.getElementById('displayPlot').innerText = "EDIT MASTER: " + (u.Plot || u.HP_ID);
+          document.getElementById('displayPlot').innerText = "EDIT : " + (u.Plot || u.HP_ID);
           thumbUrl = u.Thumbnail_Image || ""; renderMainThumb(thumbUrl);
           gallery = u.Album_Image ? u.Album_Image.split(',').filter(Boolean) : []; renderGallery();
           if(u.FloorPlan_PDF) syncPdfUI('FloorPlan_PDF', u.FloorPlan_PDF, "Current File ✅");
