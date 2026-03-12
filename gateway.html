@@ -9,15 +9,18 @@
   <style>
     :root { --navy: #0B1829; --navy-dark: #060F1A; --gold: #C9A84C; }
     body { font-family: 'Montserrat', sans-serif; background: var(--navy-dark); color: white; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
-    .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem; border-radius: 2.5rem; width: 90%; max-width: 400px; backdrop-filter: blur(20px); }
-    .input-group { position: relative; margin-bottom: 1.5rem; text-align: left; }
+    .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2.2rem; border-radius: 2.5rem; width: 92%; max-width: 400px; backdrop-filter: blur(20px); }
+    .input-group { position: relative; margin-bottom: 1.2rem; text-align: left; }
     .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.1rem 1.2rem; color: white; outline: none; transition: 0.3s; font-size: 15px; }
     .field-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); }
-    .eye-btn { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; z-index: 10; font-size: 1.1rem; }
-    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: 0.4s; border: none; cursor: pointer; }
-    .btn-login:disabled { opacity: 0.5; }
-    .quick-access { display: none; margin-bottom: 2rem; padding: 1rem; background: rgba(201,168,76,0.1); border: 1px solid var(--gold); border-radius: 1rem; cursor: pointer; animation: fadeIn 0.5s; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .eye-btn { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; z-index: 10; font-size: 1.1rem; padding: 5px; }
+    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: 0.4s; border: none; cursor: pointer; margin-top: 0.5rem; }
+    .btn-login:active { transform: scale(0.96); }
+    
+    /* ⚡ แถบทางลัดแบบนิ่งสนิท */
+    .quick-access { display: none; margin-bottom: 2rem; padding: 1.2rem; background: rgba(201, 168, 76, 0.08); border: 1px solid rgba(201, 168, 76, 0.4); border-radius: 1.2rem; cursor: pointer; transition: 0.3s; }
+    .quick-access:hover { background: rgba(201, 168, 76, 0.15); border-color: var(--gold); }
+    .quick-access:active { transform: scale(0.98); }
   </style>
 </head>
 <body>
@@ -27,12 +30,17 @@
         <i class="fas fa-user-shield text-[#C9A84C] text-3xl"></i>
       </div>
       <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter uppercase italic">Admin Gateway</h2>
-      <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-2">Verification Required</p>
+      <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-2">Identity Verification Required</p>
     </div>
 
     <div id="quickBtn" class="quick-access" onclick="location.href='dashboard.html'">
-      <div class="text-[10px] font-800 text-gold uppercase tracking-widest mb-1">Found Active Session</div>
-      <div class="text-xs font-700">CLICK TO ENTER DASHBOARD ➔</div>
+      <div class="flex items-center justify-between">
+        <div class="text-left">
+          <div class="text-[9px] font-800 text-gold uppercase tracking-widest mb-1 opacity-70">Active Session Found</div>
+          <div class="text-xs font-800 text-white">RESUME TO DASHBOARD</div>
+        </div>
+        <i class="fas fa-chevron-right text-gold text-xs"></i>
+      </div>
     </div>
     
     <div class="input-group">
@@ -44,8 +52,10 @@
       <i class="fas fa-eye eye-btn" id="eyeIcon" onclick="togglePass()"></i>
     </div>
     
-    <button id="loginBtn" onclick="handleLogin()" class="btn-login">ENTER SYSTEM</button>
-    <div id="status" class="text-gold text-[10px] mt-4 hidden">Verifying...</div>
+    <button id="loginBtn" onclick="handleLogin()" class="btn-login">LOGIN SYSTEM</button>
+    <div id="status" class="text-gold text-[10px] mt-4 font-700 uppercase tracking-widest hidden">
+      <i class="fas fa-circle-notch animate-spin mr-2"></i>Verifying...
+    </div>
     
     <div class="mt-8 pt-6 border-t border-white/5">
       <a href="index.html" class="text-slate-500 text-[10px] uppercase font-700 tracking-widest hover:text-gold transition">← Back to Catalog</a>
@@ -55,12 +65,12 @@
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
 
-    // 🚀 เช็คสิทธิ์เพื่อโชว์ปุ่มทางลัด (ไม่วาร์ปเอง เพื่อแก้ปัญหากระพริบ)
-    window.onload = () => {
-      if (localStorage.getItem('admin_session') === 'active') {
+    // 🚀 เช็คสิทธิ์เพื่อแสดงปุ่มทางลัดแบบทันที (ไม่กระพริบ)
+    if (localStorage.getItem('admin_session') === 'active') {
+      document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('quickBtn').style.display = 'block';
-      }
-    };
+      });
+    }
 
     function togglePass() {
       const p = document.getElementById('password');
@@ -78,7 +88,7 @@
       const btn = document.getElementById('loginBtn');
       const st = document.getElementById('status');
 
-      if(!email || !pass) { alert("กรุณากรอกข้อมูลให้ครบถ้วน"); return; }
+      if(!email || !pass) { alert("กรุณากรอกข้อมูลให้ครบถ้วนครับ"); return; }
 
       btn.disabled = true;
       st.classList.remove('hidden');
@@ -96,13 +106,14 @@
           localStorage.setItem('admin_project', result.project);
           location.href = "dashboard.html";
         } else {
-          alert("❌ " + (result.msg || "Login Failed"));
+          alert("❌ ไม่สำเร็จ: " + (result.msg || "ข้อมูลไม่ถูกต้อง"));
+          st.classList.add('hidden');
         }
       } catch (e) {
-        alert("⚠️ Connection Error.");
+        alert("⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
+        st.classList.add('hidden');
       } finally {
         btn.disabled = false;
-        st.classList.add('hidden');
       }
     }
   </script>
