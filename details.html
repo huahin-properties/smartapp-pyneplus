@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Asset Specifications | THE PYNE PLUS V1.1</title>
+  <title>Asset Specifications | THE PYNE PLUS V1.2</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
@@ -11,7 +11,7 @@
     body{background-color:var(--white);color:#2D2D2D;font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased}
     #pageSplash{position:fixed;inset:0;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;transition:opacity 0.4s}
     .splash-brand{color:var(--pyne);font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;letter-spacing:2px}
-    header{position:fixed;top:0;width:100%;height:55px;background:rgba(250,248,242,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 15px}
+    header{position:fixed;top:0;width:100%;height:55px;background:rgba(250, 248, 242, 0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 15px}
     .back{text-decoration:none;color:var(--pyne);font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px}
 
     /* 🎯 Mirroring Master Image Standard 100% */
@@ -42,6 +42,11 @@
     .pdf-bar { display: none; background: #FFFFFF; border: 1.5px solid var(--border); padding: 18px 20px; border-radius: 15px; text-decoration: none; align-items: center; justify-content: space-between; margin-top: 15px; transition: 0.3s; box-shadow: 0 4px 12px rgba(201, 168, 76, 0.05); }
     .pdf-label { color: #1E1E1E; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
     .pdf-icon { color: var(--pdf-red); font-size: 1.35rem; }
+    
+    /* 🎯 Floating Admin Edit Button (Pyne Gold Theme) */
+    .admin-float { position: fixed; bottom: 85px; right: 20px; width: 52px; height: 52px; background: var(--pyne); border: 2px solid #FFF; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #FFF; font-size: 22px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(201, 168, 76, 0.3); transition: 0.3s; }
+    .admin-float:active { transform: scale(0.9); }
+
     .footer { position: fixed; bottom: 0; width: 100%; background: #FFF; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
     .btn-chat { background: var(--pyne); color: #FFF; text-decoration: none; padding: 15px; border-radius: 4px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
     @media (min-width: 768px) { .nearby-grid { grid-template-columns: 1fr 1fr; gap: 0 30px; } }
@@ -108,6 +113,9 @@
         </a>
       </div>
     </main>
+
+    <a id="adminEditBtn" href="#" class="admin-float"><i class="fas fa-pencil-alt"></i></a>
+
     <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
   </div>
 
@@ -119,13 +127,25 @@
     
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
     
-    async function init() { if(!hpId) return; try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) renderData(json.data); hideSplash(); } catch(e) { hideSplash(); } }
+    async function init() { 
+      if(!hpId) return; 
+      
+      // ✅ Secure Role Check for Admin Edit Icon
+      const session = localStorage.getItem('admin_session');
+      const project = localStorage.getItem('admin_project');
+      if (session === 'active' && (project === 'PynePlus' || project === 'All')) {
+        const btn = document.getElementById('adminEditBtn');
+        btn.href = `edit.html?id=${hpId}`;
+        btn.style.display = 'flex';
+      }
+
+      try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) renderData(json.data); hideSplash(); } catch(e) { hideSplash(); } 
+    }
     
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
     
     function renderData(u) {
-      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0; 
-      const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
+      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0; const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
       document.getElementById('pPlot').textContent = `Plot ${u.Plot || '-'}`;
       document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict || '-'}, ${u.District || '-'} (${u.Zone || '-'})`;
       document.getElementById('pPrice').textContent = `฿${p.toLocaleString()}`;
@@ -137,25 +157,15 @@
       document.getElementById('vFeeY').textContent = `฿${Math.round((parseFloat(u.Common_Fee_Rate)||0)*a*12).toLocaleString()} / Yr`;
       document.getElementById('vOwner').textContent = `${u.Ownership_Type || '-'} (${u.Land_Title_Deed_Type || '-'})`;
       document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
-      document.getElementById('vStatus').textContent = u.Status || "-"; 
-      document.getElementById('vFurnish').textContent = u.Furnishing || "-";
-      document.getElementById('vDistrict').textContent = u.District || "-"; 
-      document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-"; 
-      document.getElementById('vZone').textContent = u.Zone || "-";
-      document.getElementById('vPoolSys').textContent = u.Pool_System || "-"; 
-      document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
-      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; 
-      document.getElementById('vParking').textContent = u.Parking || "-";
-      document.getElementById('vDirect').textContent = u.Direction || "-"; 
-      document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
+      document.getElementById('vStatus').textContent = u.Status || "-"; document.getElementById('vFurnish').textContent = u.Furnishing || "-";
+      document.getElementById('vDistrict').textContent = u.District || "-"; document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-"; document.getElementById('vZone').textContent = u.Zone || "-";
+      document.getElementById('vPoolSys').textContent = u.Pool_System || "-"; document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
+      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; document.getElementById('vParking').textContent = u.Parking || "-";
+      document.getElementById('vDirect').textContent = u.Direction || "-"; document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
-
       if (u.FloorPlan_PDF && u.FloorPlan_PDF !== "#" && u.FloorPlan_PDF.startsWith('http')) {
-        const bar = document.getElementById('floorPlanBar');
-        bar.href = u.FloorPlan_PDF;
-        bar.style.display = 'flex';
+        const bar = document.getElementById('floorPlanBar'); bar.href = u.FloorPlan_PDF; bar.style.display = 'flex';
       }
-
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display='block'; document.getElementById('navLink').style.display='flex';
         const coords = u.Coordinates.trim();
@@ -164,22 +174,12 @@
         const [la, lo] = coords.split(','); const grid = document.getElementById('nearbyGrid');
         grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; }).join('');
       }
-      
       images = u.Album_Image ? u.Album_Image.split(',').map(x=>x.trim()).filter(Boolean) : [u.Thumbnail_Image];
       if (images.length > 0) { renderThumbs(); setMain(0); }
     }
-    
-    function setMain(i) { 
-      idx = (i + images.length) % images.length; 
-      const mainImg = document.getElementById('mainImg'); 
-      mainImg.src = images[idx]; 
-      document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`; 
-      document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx)); 
-    }
-    
+    function setMain(i) { idx = (i + images.length) % images.length; const mainImg = document.getElementById('mainImg'); mainImg.src = images[idx]; document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`; document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx)); }
     function changeSlide(n) { setMain(idx + n); }
     function renderThumbs() { document.getElementById('thumbStrip').innerHTML = images.map((src, i) => `<img class="thumb" src="${src}" onclick="setMain(${i})" loading="lazy">`).join(''); }
-    
     window.onload = init;
   </script>
 </body>
