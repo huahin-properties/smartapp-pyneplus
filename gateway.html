@@ -2,47 +2,46 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Security Gateway | Login Required</title>
+  <title>Admin Gateway | Security Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root { --navy: #0B1829; --navy-dark: #060F1A; --gold: #C9A84C; }
     body { font-family: 'Montserrat', sans-serif; background: var(--navy-dark); color: white; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
-    .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem; border-radius: 2.5rem; width: 90%; max-width: 420px; backdrop-filter: blur(20px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-    .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.2rem; color: white; outline: none; transition: 0.3s; font-size: 15px; }
+    .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem; border-radius: 2.5rem; width: 90%; max-width: 400px; backdrop-filter: blur(20px); }
+    .input-group { position: relative; margin-bottom: 1.5rem; text-align: left; }
+    .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.1rem 1.2rem; color: white; outline: none; transition: 0.3s; font-size: 15px; }
     .field-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); }
-    .pass-wrapper { position: relative; width: 100%; margin-bottom: 1.5rem; }
-    .eye-icon { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; transition: 0.3s; }
-    .eye-icon:hover { opacity: 1; }
-    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: 0.4s; }
-    .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
-    .mini-status { font-size: 10px; color: var(--gold); margin-top: 15px; display: none; }
+    .eye-btn { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; z-index: 10; }
+    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: 0.4s; border: none; cursor: pointer; }
+    .btn-login:disabled { opacity: 0.5; }
+    .status-msg { font-size: 11px; color: var(--gold); margin-top: 15px; display: none; font-weight: 600; }
   </style>
 </head>
 <body>
   <div class="login-card text-center">
     <div class="mb-10">
-      <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30 shadow-xl shadow-gold/20">
+      <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30">
         <i class="fas fa-user-shield text-[#C9A84C] text-3xl"></i>
       </div>
-      <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter italic uppercase">Admin Gateway</h2>
-      <p class="text-slate-500 text-[10px] uppercase tracking-[0.2em] mt-2 italic">Credentials verification required</p>
+      <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter uppercase italic">Admin Gateway</h2>
+      <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-2">Verification Required</p>
     </div>
     
-    <div class="mb-4 text-left">
+    <div class="input-group">
       <input type="email" id="email" class="field-input" placeholder="Email Address">
     </div>
 
-    <div class="pass-wrapper">
+    <div class="input-group">
       <input type="password" id="password" class="field-input" placeholder="Password">
-      <i class="fas fa-eye eye-icon" id="togglePass" onclick="togglePassword()"></i>
+      <i class="fas fa-eye eye-btn" id="eyeIcon" onclick="togglePass()"></i>
     </div>
     
-    <button id="loginBtn" onclick="handleLogin()" class="btn-login">LOGIN SYSTEM</button>
-    <div id="loading" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Checking Database...</div>
+    <button id="loginBtn" onclick="handleLogin()" class="btn-login">ENTER SYSTEM</button>
+    <div id="status" class="status-msg"><i class="fas fa-spinner fa-spin mr-2"></i>Verifying...</div>
     
-    <div class="mt-8 pt-6 border-t border-white/5 text-center">
+    <div class="mt-8 pt-6 border-t border-white/5">
       <a href="index.html" class="text-slate-500 text-[10px] uppercase font-700 tracking-widest hover:text-gold transition">← Back to Catalog</a>
     </div>
   </div>
@@ -50,62 +49,47 @@
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
 
-    // 🎯 ฟังก์ชันสลับการมองเห็นรหัสผ่าน
-    function togglePassword() {
-      const passInput = document.getElementById('password');
-      const eyeIcon = document.getElementById('togglePass');
-      if (passInput.type === 'password') {
-        passInput.type = 'text';
-        eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+    function togglePass() {
+      const p = document.getElementById('password');
+      const i = document.getElementById('eyeIcon');
+      if (p.type === 'password') {
+        p.type = 'text'; i.classList.replace('fa-eye', 'fa-eye-slash');
       } else {
-        passInput.type = 'password';
-        eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        p.type = 'password'; i.classList.replace('fa-eye-slash', 'fa-eye');
       }
     }
 
     async function handleLogin() {
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
       const btn = document.getElementById('loginBtn');
-      const load = document.getElementById('loading');
+      const st = document.getElementById('status');
 
-      if(!email || !password) { 
-        alert("กรุณากรอก Email และ Password"); 
-        return; 
-      }
+      if(!email || !pass) { alert("กรุณากรอกข้อมูลให้ครบ"); return; }
 
       btn.disabled = true;
-      load.style.display = 'block';
+      st.style.display = 'block';
 
       try {
         const res = await fetch(API, {
           method: 'POST',
-          body: JSON.stringify({ 
-            mode: 'checkLogin', 
-            email: email, 
-            password: password 
-          })
+          body: JSON.stringify({ mode: 'checkLogin', email: email, password: pass })
         });
-        
         const result = await res.json();
 
         if(result.ok) {
-          // ✅ เก็บข้อมูลลง LocalStorage
           localStorage.setItem('admin_session', 'active');
           localStorage.setItem('admin_role', result.role);
           localStorage.setItem('admin_project', result.project);
-          localStorage.setItem('admin_email', email);
-          
           location.href = "dashboard.html";
         } else {
-          alert("❌ ข้อมูลไม่ถูกต้อง: " + (result.msg || "กรุณาตรวจสอบ Email และ Password"));
+          alert(result.msg || "Login Failed");
         }
       } catch (e) {
-        console.error(e);
-        alert("⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
+        alert("ระบบขัดข้อง: ตรวจสอบการ Deploy Code.gs หรือ Internet");
       } finally {
         btn.disabled = false;
-        load.style.display = 'none';
+        st.style.display = 'none';
       }
     }
   </script>
