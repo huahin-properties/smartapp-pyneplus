@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>The Pyne Plus | Official Catalog</title>
+  <title>Project Catalog | HUA HIN PROPERTIES V176</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root { --navy: #0B1829; --bg: #FDFAF5; --gold: #C9A84C; --white: #FFFFFF; --border: rgba(201, 168, 76, 0.2); --row-h: 80px; --thumb-w: 105px; }
+    :root { --navy: #0B1829; --bg: #FDFAF5; --gold: #C9A84C; --white: #FFFFFF; --border: rgba(201, 168, 76, 0.2); --row-h: 85px; --thumb-w: 115px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--navy); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
     
@@ -19,7 +19,6 @@
     
     .hero { padding: 75px 15px 10px; text-align: center; }
 
-    /* 🎯 Master Style Search Wrapper with Reset Button */
     .search-box-wrapper { position: relative; width: 100%; max-width: 550px; margin: 0 auto 10px; }
     .search-input { width: 100%; background: #FFFFFF; border: 1.5px solid var(--gold); border-radius: 50px; padding: 10px 45px 10px 40px; color: var(--navy); font-weight: 600; font-size: 0.85rem; outline: none; box-shadow: 0 4px 10px rgba(201, 168, 76, 0.05); }
     .search-icon-fixed { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gold); opacity: 0.5; font-size: 0.9rem; }
@@ -39,26 +38,24 @@
     .card { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 4px 10px rgba(201, 168, 76, 0.05); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; background: #eee; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: #FFF; background: var(--gold); padding: 2px 5px; border-radius: 3px; font-weight: 800; text-transform: uppercase; }
     
-    .card-info { flex: 1; padding: 4px 10px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
+    .card-info { flex: 1; padding: 6px 12px; display: flex; flex-direction: column; justify-content: center; gap: 3px; min-width: 0; }
     .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
-    .prop-name { font-size: 0.82rem; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .price-new { font-size: 0.95rem; font-weight: 800; color: #8D732B; white-space: nowrap; }
-    .status-tag { font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
-    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: rgba(46, 204, 138, 0.05); }
-    .furnish-tag { color: var(--gold); border-color: var(--gold); background: rgba(201, 168, 108, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
+    .prop-name { font-size: 0.85rem; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .price-new { font-size: 0.98rem; font-weight: 800; color: #8D732B; white-space: nowrap; }
+    .status-tag { font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; border: 1px solid; font-weight: 800; text-transform: uppercase; color: #2ECC8A; border-color: #2ECC8A; background: rgba(46, 204, 138, 0.05); }
+    .area-tag { color: var(--gold); font-size: 0.6rem; font-weight: 700; letter-spacing: -0.2px; }
     
     .admin-float { position: fixed; bottom: 25px; right: 20px; width: 45px; height: 45px; background: var(--gold); border: 2px solid var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(201, 168, 76, 0.3); }
 
-    @media (min-width: 768px) { :root { --row-h: 90px; --thumb-w: 140px; } .prop-list { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 768px) { :root { --row-h: 95px; --thumb-w: 150px; } .prop-list { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
 <body>
 
   <header>
     <a href="#" style="color:var(--gold); font-weight:800; text-decoration:none; letter-spacing: 1px;">
-      THE PYNE PLUS <span style="font-weight:300; color:var(--navy);">LUXURY</span>
+      PROJECT <span style="font-weight:300; color:var(--navy);">CATALOG</span>
     </a>
   </header>
 
@@ -82,10 +79,10 @@
     </div>
 
     <div class="pill-container" id="pillBox">
-      <div class="pill active" data-f="all">ALL Plots</div>
-      <div class="pill" data-f="Ready to Move In">Ready</div>
-      <div class="pill" data-f="Under Construction">Building</div>
-      <div class="pill" data-f="Land & Build to Order">Plots</div>
+      <div class="pill active" data-f="all">ALL</div>
+      <div class="pill" data-f="Ready to Move In">READY</div>
+      <div class="pill" data-f="Under Construction">BUILDING</div>
+      <div class="pill" data-f="Land & Build to Order">PLOTS</div>
     </div>
   </section>
 
@@ -100,28 +97,25 @@
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const TARGET_PROJECT = "The Pyne Plus";
     let data = [];
 
     async function init() {
-      // ✅ Instant View from Cache
-      const cached = localStorage.getItem('cache_pyne_v4_8');
+      const cached = localStorage.getItem('cache_project_v176');
       if (cached) { data = JSON.parse(cached); updateFilters(); f(); }
 
       try {
         const res = await fetch(`${API}?mode=getListSmall`);
         const allData = await res.json();
-        
-        // 🎯 LOCKDOWN: Pyne Plus Only & Online Only
-        data = allData.filter(u => u.Project_Name === TARGET_PROJECT && u.System_Status === "Online");
-        
-        localStorage.setItem('cache_pyne_v4_8', JSON.stringify(data));
+        // 🎯 ดึงข้อมูล Online ทั้งหมด
+        data = allData.filter(u => u.System_Status === "Online");
+        localStorage.setItem('cache_project_v176', JSON.stringify(data));
         updateFilters(); 
         f();
       } catch (err) { console.error(err); }
     }
 
     function updateFilters() {
+      // 🎯 กรองตาม Plot (หมายเลขแปลง)
       const plots = [...new Set(data.map(p => p.Plot))].filter(Boolean).sort();
       document.getElementById('zF').innerHTML = '<option value="">All Plots</option>' + plots.map(p => `<option value="${p}">Plot ${p}</option>`).join('');
       
@@ -160,22 +154,23 @@
       document.getElementById('propGrid').innerHTML = res.map(u => `
           <a href="details.html?id=${u.HP_ID}" class="card">
             <div class="card-img">
-              <span class="hp-id">PLOT ${u.Plot || '-'}</span>
-              <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/400x250?text=Syncing...'}" 
-                   loading="lazy" onerror="this.src='https://via.placeholder.com/400x250?text=No+Image'">
+              <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/400x250?text=No+Image'}" loading="lazy">
             </div>
             <div class="card-info">
               <div class="info-row">
                 <div class="prop-name">Plot ${u.Plot || 'N/A'}</div>
-                <div class="furnish-tag">${u.Furnishing || '-'}</div>
-              </div>
-              <div class="info-row">
-                <div style="font-size:0.62rem; color:#9B8E72; font-weight:600;">${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} m²</div>
                 <div class="price-new">฿${(Number(u.Sale_Price)||0).toLocaleString()}</div>
               </div>
+              
               <div class="info-row">
-                <span class="status-tag s-available">${u.Status}</span>
-                <div style="font-size:0.55rem; color:#9B8E72; font-weight:600;">THE PYNE PLUS</div>
+                <div class="area-tag">
+                  L: ${u.Land_Area_sq_w || '0'} sq.w / ${u.Land_Area_sq_m || '0'} m² | B: ${u.Living_Area_sq_m || '0'} m²
+                </div>
+              </div>
+
+              <div class="info-row">
+                <div style="font-size:0.62rem; color:#9B8E72; font-weight:600;">${u.Bedrooms} Bed | ${u.Bathrooms} Bath</div>
+                <span class="status-tag">${u.Status}</span>
               </div>
             </div>
           </a>`).join('');
