@@ -2,30 +2,36 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Pyne Plus Dashboard | Admin Console</title>
+  <title>CoCo Dashboard | Admin Console</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #FDFAF5; color: #0B1829; padding: 20px; }
-    .unit-row { background: white; border: 1px solid rgba(201, 168, 76, 0.15); border-radius: 1.2rem; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(201, 168, 76, 0.03); transition: 0.2s; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAF8; color: #1A3617; padding: 20px; }
+    .unit-row { background: white; border: 1px solid rgba(45, 90, 39, 0.1); border-radius: 1.2rem; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: 0.2s; }
     .unit-row:active { transform: scale(0.98); }
     .status-badge { font-size: 8px; font-weight: 800; padding: 3px 8px; border-radius: 50px; text-transform: uppercase; border: 1px solid currentColor; }
+    
+    /* 🎯 สไตล์ปุ่ม Logout */
+    .logout-btn { position: fixed; top: 15px; right: 15px; background: rgba(239, 68, 68, 0.1); border: 1px solid #EF4444; color: #EF4444; padding: 8px 16px; border-radius: 12px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: 0.3s; cursor: pointer; z-index: 9999; }
+    .logout-btn:hover { background: #EF4444; color: white; }
   </style>
 </head>
 <body>
+  <button onclick="handleLogout()" class="logout-btn"><i class="fas fa-power-off"></i> Logout</button>
+
   <div class="flex justify-between items-center mb-8 mt-4 px-2">
     <div>
-      <h1 class="text-xl font-800 uppercase text-[#C9A84C]">Pyne Dashboard</h1>
+      <h1 class="text-xl font-800 uppercase text-[#2D5A27]">CoCo Dashboard</h1>
       <p id="authBadge" class="text-[9px] font-700 text-slate-400 uppercase tracking-widest"></p>
     </div>
     <div class="flex gap-4 items-center">
-      <button onclick="localStorage.clear(); location.href='gateway.html';" class="text-slate-400 font-800 text-[9px] uppercase hover:text-red-500">Logout</button>
-      <button onclick="location.href='add.html'" class="bg-[#C9A84C] text-white px-5 py-2.5 rounded-xl font-800 text-[10px] uppercase shadow-lg shadow-gold-900/20"><i class="fas fa-plus mr-2"></i>Add Unit</button>
+      <button onclick="handleLogout()" class="text-slate-400 font-800 text-[9px] uppercase hover:text-red-500">Exit</button>
+      <button onclick="location.href='add.html'" class="bg-[#2D5A27] text-white px-5 py-2.5 rounded-xl font-800 text-[10px] uppercase shadow-lg shadow-green-900/20"><i class="fas fa-plus mr-2"></i>Add Unit</button>
     </div>
   </div>
 
-  <input type="text" id="sI" onkeyup="filter()" placeholder="Search Plot or HP-ID..." class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 mb-6 outline-none focus:border-[#C9A84C] shadow-sm font-600 text-sm">
+  <input type="text" id="sI" onkeyup="filter()" placeholder="Search Plot or HP-ID..." class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 mb-6 outline-none focus:border-[#2D5A27] shadow-sm font-600 text-sm">
   
   <div id="list">
     <div class="animate-pulse flex flex-col gap-3">
@@ -36,15 +42,22 @@
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const TARGET_PROJECT = "The Pyne Plus";
+    const TARGET_PROJECT = "CoCo Hua Hin 88";
     let data = [];
 
+    // 🎯 ฟังก์ชัน Logout
+    function handleLogout() {
+      if(confirm("ต้องการออกจากระบบเพื่อเปลี่ยนผู้ใช้งานใช่หรือไม่?")) {
+        localStorage.clear();
+        location.href = 'gateway.html';
+      }
+    }
+
     async function init() {
-      // 🔐 Check Authority (Allows Master or Pyne Admin)
       const session = localStorage.getItem('admin_session');
       const project = localStorage.getItem('admin_project');
       const role = localStorage.getItem('admin_role');
-      if (session !== 'active' || (project !== 'PynePlus' && project !== 'All')) { 
+      if (session !== 'active' || (project !== 'CoCo' && project !== 'All')) { 
         location.href = 'gateway.html'; 
         return; 
       }
@@ -54,7 +67,7 @@
         const res = await fetch(`${API}?mode=getListSmall`);
         const allData = await res.json();
         data = allData.filter(u => u.Project_Name === TARGET_PROJECT);
-        localStorage.setItem('cache_pyne_dash', JSON.stringify(data));
+        localStorage.setItem('cache_coco_dash', JSON.stringify(data));
         render(data);
       } catch (e) { console.error("Sync Failed"); }
     }
@@ -67,18 +80,18 @@
       }
       listEl.innerHTML = items.map(u => `
         <div class="unit-row">
-          <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/150'}" class="w-16 h-16 rounded-xl object-cover bg-slate-50">
+          <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/150'}" class="w-16 h-16 rounded-xl object-cover bg-slate-100">
           <div class="flex-1 min-width-0">
             <div class="flex items-center gap-2 mb-1">
               <div class="text-[9px] text-slate-400 font-800 uppercase">#${u.HP_ID}</div>
-              <div class="status-badge ${u.System_Status === 'Online' ? 'text-green-600' : 'text-slate-400'}">${u.System_Status}</div>
+              <div class="status-badge ${u.System_Status === 'Online' ? 'text-green-500' : 'text-slate-400'}">${u.System_Status}</div>
             </div>
-            <div class="font-800 text-sm truncate uppercase text-[#0B1829]">Plot ${u.Plot || 'N/A'}</div>
-            <div class="text-[9px] text-[#C9A84C] font-800 uppercase tracking-tighter mt-0.5">
+            <div class="font-800 text-sm truncate uppercase text-[#2D5A27]">Plot ${u.Plot || 'N/A'}</div>
+            <div class="text-[9px] text-[#CEA86C] font-800 uppercase tracking-tighter mt-0.5">
               ${u.Status} | ${u.Bedrooms} BED | ${u.Bathrooms} BATH
             </div>
           </div>
-          <button onclick="location.href='edit.html?id=${u.HP_ID}'" class="bg-slate-50 p-3.5 rounded-2xl hover:bg-[#C9A84C] hover:text-white transition-all text-slate-400 border border-slate-100">
+          <button onclick="location.href='edit.html?id=${u.HP_ID}'" class="bg-slate-50 p-3.5 rounded-2xl hover:bg-[#2D5A27] hover:text-white transition-all text-slate-400 border border-slate-100">
             <i class="fas fa-edit text-xs"></i>
           </button>
         </div>`).join('');
