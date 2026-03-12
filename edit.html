@@ -1,353 +1,80 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Master Editor V3.5 | Multi-Ownership Control</title>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Security Gateway | Login Required</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root { --brand: #262626; --accent: #C9A84C; --bg: #F8FAF8; }
-    body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: #1A3017; margin: 0; padding: 0; }
-    .content-wrapper { padding: 20px 20px 200px; max-width: 1240px; margin: 0 auto; }
-    .tab-bar { display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; }
-    .tab-btn { padding: 1rem 0; font-weight: 800; font-size: 11px; text-transform: uppercase; color: #999; cursor: pointer; position: relative; background: none; border: none; transition: 0.3s; }
-    .tab-btn.active { color: var(--accent); }
-    .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--accent); border-radius: 10px; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    .input-card { background: white; border: 1px solid rgba(0,0,0,0.05); padding: 2.2rem; border-radius: 2.2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.02); }
-    .field-label { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 0.6rem; display: block; letter-spacing: 0.5px; }
-    .field-label span { color: #2D5A27; font-size: 12px; margin-left: 10px; font-weight: 700; border-left: 2px solid #ddd; padding-left: 10px; }
-    .field-input { width: 100%; background: #F9F9F8; border: 1.5px solid transparent; border-radius: 1rem; padding: 1rem; font-size: 15px; outline: none; transition: 0.3s; }
-    .field-input:focus { border-color: var(--brand); background: white; }
-    .field-input[readonly] { background: #f0f2f0; color: #2D5A27; font-weight: 700; }
-    .img-tile { position: relative; aspect-ratio: 1; border-radius: 1rem; overflow: hidden; border: 1px solid #eee; }
-    .img-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(239,68,68,0.9); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border: 2px solid white; font-size: 10px; }
-    .bulk-check { position: absolute; top: 8px; left: 8px; width: 20px; height: 20px; z-index: 10; cursor: pointer; }
-    .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.98); border-top: 1px solid #eee; padding: 25px 20px; z-index: 1000; text-align: center; }
-    .btn-update { background: var(--brand); color: white; width: 100%; max-width: 800px; height: 70px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 20px; }
-    .mini-status { font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--accent); display: none; margin-top: 5px; }
-    .mini-status.active { display: flex; align-items: center; gap: 5px; }
-
-    /* 🎯 Custom Style สำหรับ Multi-Select Ownership */
-    .ownership-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
-    .own-item { display: flex; align-items: center; gap: 10px; background: #F9F9F8; padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
-    .own-item:hover { background: #F0F2F0; }
-    .own-item input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
-    .own-item span { font-size: 13px; font-weight: 600; color: #444; }
+    :root { --navy: #0B1829; --navy-dark: #060F1A; --gold: #C9A84C; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--navy-dark); color: white; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+    .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem; border-radius: 2.5rem; width: 90%; max-width: 420px; backdrop-filter: blur(20px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+    .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.2rem; color: white; margin-bottom: 1.5rem; outline: none; transition: 0.3s; font-size: 15px; }
+    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: 0.4s; }
+    .warp-btn { cursor: pointer; transition: 0.4s; }
+    .mini-status { font-size: 10px; color: var(--gold); margin-top: 10px; display: none; }
   </style>
 </head>
 <body>
-  <div class="content-wrapper">
-    <div class="bg-[#262626] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
-      <div class="relative z-10"><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">THE PYNE PLUS LUXURY</p><h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">EDIT ASSET</h1></div>
-    </div>
-    <div class="tab-bar">
-      <button id="btn-photo" class="tab-btn active" onclick="switchTab('photo')">Visual Assets</button>
-      <button id="btn-info" class="tab-btn" onclick="switchTab('info')">Specifications (38 Items)</button>
-    </div>
-
-    <div id="tab-photo" class="tab-content active space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="input-card">
-          <span class="field-label">Main Image <span>รูปภาพหน้าปก</span></span>
-          <div id="thumbPreview" class="relative w-full aspect-video rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden">
-            <i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i>
-          </div>
-          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 mt-4 text-xs">UPDATE COVER</button>
-          <div id="status_thumb" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing...</div>
-          <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image">
-        </div>
-        <div class="input-card">
-          <div class="flex justify-between items-end mb-2">
-            <span class="field-label">Visual Gallery <span>อัลบั้มรูปภาพ</span></span>
-            <button id="bulkDelBtn" onclick="bulkDelete()" class="text-[10px] font-800 text-red-500 uppercase border border-red-200 px-3 py-1 rounded-lg hidden">Delete Selected</button>
-          </div>
-          <div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div>
-          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 text-xs">ADD VISUALS</button>
-          <div id="status_album" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing...</div>
-          <input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image">
-        </div>
+  <div class="login-card text-center">
+    <div class="mb-10">
+      <div class="warp-btn w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30 shadow-xl shadow-gold/20">
+        <i class="fas fa-user-shield text-[#C9A84C] text-3xl"></i>
       </div>
-      <div class="input-card">
-        <span class="field-label">Master Documents (PDF) <span>จัดการไฟล์เอกสาร</span></span>
-        <div class="space-y-3 mt-4">
-          <div class="pdf-row">
-            <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
-            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Floor Plan</span><span id="txt-FloorPlan_PDF" class="text-[11px] font-700 text-[#262626] truncate italic">No file attached</span></div>
-            <div class="flex gap-2">
-              <button onclick="viewFile('FloorPlan_PDF')" id="view-FloorPlan_PDF" class="btn-pdf-action bg-white text-emerald-600 border border-emerald-100 hidden"><i class="fas fa-eye"></i></button>
-              <button onclick="document.getElementById('f_floor').click()" class="btn-pdf-action bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
-              <button onclick="clearFile('FloorPlan_PDF')" id="del-FloorPlan_PDF" class="btn-pdf-action bg-red-50 text-red-500 border border-red-100 hidden"><i class="fas fa-trash"></i></button>
-            </div>
-            <input type="file" id="f_floor" class="hidden" accept=".pdf" onchange="handleUpload(this, 'floor', 'FloorPlan_PDF')"><input type="hidden" id="FloorPlan_PDF">
-          </div>
-          <div class="pdf-row">
-            <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
-            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Customer Brochure</span><span id="txt-Customer_PDF" class="text-[11px] font-700 text-[#262626] truncate italic">No file attached</span></div>
-            <div class="flex gap-2">
-              <button onclick="viewFile('Customer_PDF')" id="view-Customer_PDF" class="btn-pdf-action bg-white text-emerald-600 border border-emerald-100 hidden"><i class="fas fa-eye"></i></button>
-              <button onclick="document.getElementById('f_customer').click()" class="btn-pdf-action bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
-              <button onclick="clearFile('Customer_PDF')" id="del-Customer_PDF" class="btn-pdf-action bg-red-50 text-red-500 border border-red-100 hidden"><i class="fas fa-trash"></i></button>
-            </div>
-            <input type="file" id="f_customer" class="hidden" accept=".pdf" onchange="handleUpload(this, 'customer', 'Customer_PDF')"><input type="hidden" id="Customer_PDF">
-          </div>
-          <div class="pdf-row">
-            <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
-            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Agent Fact Sheet</span><span id="txt-Agent_PDF" class="text-[11px] font-700 text-[#262626] truncate italic">No file selected</span></div>
-            <div class="flex gap-2">
-              <button onclick="viewFile('Agent_PDF')" id="view-Agent_PDF" class="btn-pdf-action bg-white text-emerald-600 border border-emerald-100 hidden"><i class="fas fa-eye"></i></button>
-              <button onclick="document.getElementById('f_agent').click()" class="btn-pdf-action bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
-              <button onclick="clearFile('Agent_PDF')" id="del-Agent_PDF" class="btn-pdf-action bg-red-50 text-red-500 border border-red-100 hidden"><i class="fas fa-trash"></i></button>
-            </div>
-            <input type="file" id="f_agent" class="hidden" accept=".pdf" onchange="handleUpload(this, 'agent', 'Agent_PDF')"><input type="hidden" id="Agent_PDF">
-          </div>
-        </div>
-      </div>
+      <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter italic uppercase">Admin Gateway</h2>
+      <p id="msg" class="text-slate-500 text-[10px] uppercase tracking-[0.2em] mt-2 italic">Enter credentials to proceed</p>
     </div>
-
-    <div id="tab-info" class="tab-content space-y-6">
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div><label class="field-label">1. HP_ID <span>รหัสทรัพย์สิน</span></label><input id="HP_ID" class="field-input !bg-slate-100 font-800" readonly></div>
-        <div><label class="field-label">2. Listing Type <span>ประกาศ</span></label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">3. Asset Category <span>ประเภท</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="เช่น M17"></div>
-        <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
-        
-        <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#F9F9F8] border-2 border-[#eee] shadow-inner">
-          <div><label class="field-label text-blue-600 font-800">7. Sale Price <span>ราคาขายสุทธิ</span></label><input type="number" id="Sale_Price" class="field-input !bg-white" oninput="runCalc()" placeholder="เช่น 7800000"></div>
-          <div><label class="field-label">8. Living Area (m2) <span>พื้นที่ใช้สอย</span></label><input type="number" id="Living_Area_sq_m" class="field-input !bg-white" oninput="runCalc()" placeholder="เช่น 345"></div>
-          <div><label class="field-label">9. Price/m2 <span>ราคาต่อ ตร.ม.</span></label><input type="number" id="Price_sq_m" class="field-input" readonly value="0"></div>
-          <div class="col-span-full border-t border-[#eee] pt-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div><label class="field-label font-800">10. Common Fee Rate <span>ส่วนกลาง (/m²)</span></label><input type="number" id="Common_Fee_Rate" class="field-input !bg-white" oninput="runCalc()" placeholder="เช่น 4"></div>
-            <div><label class="field-label">11. Monthly Common Fee <span>ค่าส่วนกลางรายเดือน</span></label><input id="Monthly_Common_Fee" class="field-input" readonly value="0"></div>
-            <div><label class="field-label">12. Yearly Common Fee <span>ค่าส่วนกลางรายปี</span></label><input id="Common_Fee_Yearly" class="field-input" readonly value="0"></div>
-          </div>
-        </div>
-
-        <div><label class="field-label">13. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input" placeholder="เช่น 500"></div>
-        <div><label class="field-label">14. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input" placeholder="เช่น 125"></div>
-        <div><label class="field-label">15. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">16. District <span>อำเภอ</span></label><select id="District" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">17. Sub-District <span>ตำบล</span></label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">18. Zone <span>โซน</span></label><select id="Zone" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">19. Bedrooms <span>ห้องนอน</span></label><select id="Bedrooms" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">20. Bathrooms <span>ห้องน้ำ</span></label><select id="Bathrooms" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">21. Parking Spaces <span>ที่จอดรถ</span></label><select id="Parking" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">22. Kitchen Style <span>สไตล์ครัว</span></label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">23. Direction Facing <span>ทิศหน้าบ้าน</span></label><select id="Direction" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">24. Electricity <span>ระบบไฟฟ้า</span></label><select id="Electricity" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">25. Pool Size <span>ขนาดสระ</span></label><input id="Pool_Size" class="field-input" placeholder="เช่น 4x8"></div>
-        <div><label class="field-label">26. Pool Depth <span>ความลึกสระ</span></label><input id="Pool_Depth" class="field-input" placeholder="เช่น 1.2"></div>
-        <div><label class="field-label">27. Pool System <span>ระบบสระ</span></label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">28. View Profile <span>วิว</span></label><select id="View_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">29. Water Source <span>แหล่งน้ำ</span></label><select id="Water_Source" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">30. Extras <span>จุดเด่นเพิ่มเติม</span></label><select id="Extras" class="field-input dynamic-opt"></select></div>
-        
-        <div class="col-span-1 md:col-span-2">
-          <label class="field-label">31. Ownership <span>การถือครอง (เลือกได้หลายแบบ)</span></label>
-          <div class="ownership-grid">
-            <label class="own-item"><input type="checkbox" name="own_opt" value="Thai Freehold"> <span>Thai Freehold</span></label>
-            <label class="own-item"><input type="checkbox" name="own_opt" value="Foreign Freehold"> <span>Foreign Freehold</span></label>
-            <label class="own-item"><input type="checkbox" name="own_opt" value="Leasehold (30 Years)"> <span>Leasehold (30 Years)</span></label>
-            <label class="own-item"><input type="checkbox" name="own_opt" value="Leasehold (Renewable)"> <span>Leasehold (Renewable)</span></label>
-            <label class="own-item"><input type="checkbox" name="own_opt" value="Company Ownership"> <span>Company Ownership</span></label>
-            <label class="own-item"><input type="checkbox" name="own_opt" value="Usufruct"> <span>Usufruct</span></label>
-            <label class="own-item"><input type="checkbox" name="own_opt" value="Superficies"> <span>Superficies</span></label>
-          </div>
-          <input type="hidden" id="Ownership_Type">
-        </div>
-
-        <div><label class="field-label">32. Land Title Deed <span>ประเภทโฉนด</span></label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">33. Transfer Exp. <span>ค่าใช้จ่ายวันโอน</span></label><input id="Transfer_Expenses" class="field-input" placeholder="เช่น 50/50"></div>
-        <div><label class="field-label">34. Marketing Badge <span>ป้ายกำกับ</span></label><select id="Badge" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">35. Build Stage <span>ก่อสร้าง</span></label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">36. GPS Coordinates <span>พิกัด</span></label><input id="Coordinates" class="field-input" placeholder="12.56, 99.95"></div>
-        <div class="col-span-full"><label class="field-label">37. Property Description <span>คำบรรยายรายละเอียด</span></label><textarea id="Description" rows="4" class="field-input" placeholder="ใส่รายละเอียดทรัพย์สิน..."></textarea></div>
-        <div class="col-span-full bg-slate-100 p-6 rounded-2xl border-2 border-dashed border-slate-300">
-          <label class="field-label !text-blue-600 font-800">38. System Visibility <span>สถานะในระบบ</span></label>
-          <select id="System_Status" class="field-input !bg-white dynamic-opt"></select>
-        </div>
-      </div>
+    
+    <input type="email" id="email" class="field-input" placeholder="Email Address" required>
+    <input type="password" id="password" class="field-input" placeholder="Password" required>
+    
+    <button id="loginBtn" onclick="handleLogin()" class="btn-login">LOGIN SYSTEM</button>
+    <div id="loading" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Verifying...</div>
+    
+    <div class="mt-8 pt-6 border-t border-white/5">
+      <a href="index.html" class="text-slate-500 text-[10px] uppercase font-700 tracking-widest hover:text-gold transition">← Back to Catalog</a>
     </div>
   </div>
 
-  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl">PUBLISH UPDATES</button></div>
-
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const hpId = new URLSearchParams(window.location.search).get('id');
-    let gallery = [], thumbUrl = "", pdfData = {};
 
-    async function init() {
-      if (!hpId) return;
+    async function handleLogin() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('loginBtn');
+      const load = document.getElementById('loading');
+
+      if(!email || !password) { alert("กรุณากรอกข้อมูลให้ครบถ้วน"); return; }
+
+      btn.disabled = true;
+      load.style.display = 'block';
+
       try {
-        const metaRes = await (await fetch(API, { method:'POST', body: JSON.stringify({ mode: 'getMetadata' }) })).json();
-        if (metaRes.ok) {
-          document.querySelectorAll('select.dynamic-opt').forEach(el => {
-            const options = metaRes.data[el.id] || [];
-            el.innerHTML = `<option value="">-- Select --</option>` + options.map(v => `<option value="${v}">${v}</option>`).join('');
-          });
+        const res = await fetch(API, {
+          method: 'POST',
+          body: JSON.stringify({ mode: 'checkLogin', email: email, password: password })
+        });
+        const result = await res.json();
+
+        if(result.ok) {
+          // 🏆 บันทึกสถานะเพื่อปลดล็อกระบบ
+          localStorage.setItem('admin_session', 'active');
+          localStorage.setItem('admin_role', result.role);
+          localStorage.setItem('admin_project', result.project);
+          
+          location.href = "dashboard.html";
+        } else {
+          alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
         }
-        const unitRes = await (await fetch(`${API}?mode=getUnitDetail&id=${hpId}`)).json();
-        if (unitRes.ok) {
-          const u = unitRes.data;
-          Object.keys(u).forEach(k => { 
-            const el = document.getElementById(k); 
-            if (el) el.value = u[k]; 
-            
-            // 🎯 คืนค่า Checkbox สำหรับ Ownership เมื่อโหลดข้อมูล
-            if (k === 'Ownership_Type' && u[k]) {
-              const vals = u[k].split(',').map(s => s.trim());
-              document.querySelectorAll('input[name="own_opt"]').forEach(cb => {
-                if (vals.includes(cb.value)) cb.checked = true;
-              });
-            }
-          });
-          document.getElementById('displayPlot').innerText = "EDIT : " + (u.Plot || u.HP_ID);
-          thumbUrl = u.Thumbnail_Image || ""; renderMainThumb(thumbUrl);
-          gallery = u.Album_Image ? u.Album_Image.split(',').filter(Boolean) : []; renderGallery();
-          if(u.FloorPlan_PDF) syncPdfUI('FloorPlan_PDF', u.FloorPlan_PDF, "Current File ✅");
-          if(u.Customer_PDF) syncPdfUI('Customer_PDF', u.Customer_PDF, "Current File ✅");
-          if(u.Agent_PDF) syncPdfUI('Agent_PDF', u.Agent_PDF, "Current File ✅");
-          runCalc(); 
-        }
-      } catch (e) { console.error("Init Error"); }
-    }
-
-    async function compressImage(file) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-          const img = new Image();
-          img.src = e.target.result;
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 1200;
-            let width = img.width, height = img.height;
-            if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-            canvas.width = width; canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.7).split(',')[1]);
-          };
-        };
-      });
-    }
-
-    async function handleUpload(input, target, fieldId) {
-      if(!input.files.length) return;
-      const statusEl = document.getElementById(`status_${target === 'album' ? 'album' : 'thumb'}`);
-      if(statusEl) statusEl.classList.add('active');
-
-      const tasks = Array.from(input.files).map(async (f) => {
-        const base64 = f.type.includes("image") ? await compressImage(f) : await new Promise(r => { const rd = new FileReader(); rd.readAsDataURL(f); rd.onload = () => r(rd.result.split(',')[1]); });
-        const res = await (await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId: hpId, data: base64, type: f.type, name: f.name }) })).json();
-        return { res, target, fieldId };
-      });
-
-      const results = await Promise.all(tasks);
-      results.forEach(({res, target, fieldId}) => {
-        if(res.ok) {
-          if(target === 'thumb') { thumbUrl = res.url; renderMainThumb(thumbUrl); }
-          else if(target === 'album') { gallery.push(res.url); renderGallery(); }
-          else if(fieldId) { pdfData[fieldId] = res.url; syncPdfUI(fieldId, res.url, res.fileName); }
-        }
-      });
-      if(statusEl) statusEl.classList.remove('active');
-    }
-
-    function renderMainThumb(url) {
-      const box = document.getElementById('thumbPreview');
-      box.innerHTML = url ? `
-        <div class="img-x" onclick="deleteThumb()">✕</div>
-        <img src="${url}" class="w-full h-full object-cover">` : `<i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i>`;
-      document.getElementById('Thumbnail_Image').value = url;
-    }
-
-    function renderGallery() {
-      const box = document.getElementById('galleryPreview');
-      box.innerHTML = gallery.map((url, i) => `
-        <div class="img-tile">
-          <input type="checkbox" class="bulk-check" data-idx="${i}">
-          <img src="${url}" class="w-full h-full object-cover">
-        </div>`).join('');
-      document.getElementById('Album_Image').value = gallery.join(',');
-      document.getElementById('bulkDelBtn').classList.toggle('hidden', gallery.length === 0);
-    }
-
-    async function deleteThumb() {
-      if(!confirm("Remove cover image?")) return;
-      const oldUrl = thumbUrl;
-      thumbUrl = "";
-      renderMainThumb("");
-      await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [oldUrl] }) });
-    }
-
-    async function bulkDelete() {
-      const checked = Array.from(document.querySelectorAll('.bulk-check:checked'));
-      if(!checked.length) return;
-      if(!confirm(`Delete ${checked.length} selected images?`)) return;
-
-      const indices = checked.map(c => parseInt(c.dataset.idx)).sort((a,b) => b-a);
-      const urlsToDelete = indices.map(idx => gallery[idx]);
-      
-      indices.forEach(idx => gallery.splice(idx, 1));
-      renderGallery();
-      await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: urlsToDelete }) });
-    }
-
-    function syncPdfUI(id, url, name) {
-      const txt = document.getElementById('txt-'+id); const view = document.getElementById('view-'+id); const del = document.getElementById('del-'+id);
-      if (url) { txt.innerText = name; view.classList.remove('hidden'); del.classList.remove('hidden'); document.getElementById(id).value = url; pdfData[id] = url; }
-      else { txt.innerText = "No file attached"; view.classList.add('hidden'); del.classList.add('hidden'); document.getElementById(id).value = ""; }
-    }
-
-    function viewFile(id) { if(pdfData[id]) window.open(pdfData[id], '_blank'); }
-    
-    async function clearFile(id) {
-      if(!confirm("Remove document?")) return;
-      const oldUrl = pdfData[id];
-      pdfData[id] = "";
-      syncPdfUI(id, "", "");
-      await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [oldUrl] }) });
-    }
-
-    function runCalc() {
-      const price = parseFloat(document.getElementById('Sale_Price').value) || 0;
-      const area = parseFloat(document.getElementById('Living_Area_sq_m').value) || 0;
-      const rate = parseFloat(document.getElementById('Common_Fee_Rate').value) || 0;
-      if (area > 0) {
-        document.getElementById('Price_sq_m').value = Math.round(price / area);
-        const monthly = Math.round(area * rate);
-        document.getElementById('Monthly_Common_Fee').value = monthly.toLocaleString();
-        document.getElementById('Common_Fee_Yearly').value = (monthly * 12).toLocaleString();
+      } catch (e) {
+        alert("ระบบขัดข้อง กรุณาลองใหม่");
+      } finally {
+        btn.disabled = false;
+        load.style.display = 'none';
       }
     }
-
-    async function saveData() {
-      if(!confirm("Update Master Entry?")) return;
-      
-      // 🎯 รวมค่า Ownership จาก Checkbox ก่อนอัปเดต
-      const selectedOwns = Array.from(document.querySelectorAll('input[name="own_opt"]:checked')).map(cb => cb.value);
-      document.getElementById('Ownership_Type').value = selectedOwns.join(', ');
-
-      document.getElementById('btn_save').innerText = "SYNCING UPDATES...";
-      const p = { mode: "updateUnit", HP_ID: hpId, Thumbnail_Image: thumbUrl, Album_Image: gallery.join(',') };
-      document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
-      const res = await (await fetch(API, { method: 'POST', body: JSON.stringify(p) })).json();
-      if(res.ok) { alert("SUCCESS! ✅"); location.href='dashboard.html'; }
-    }
-
-    function switchTab(t) {
-      document.querySelectorAll('.tab-content, .tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById('tab-' + t).classList.add('active');
-      document.getElementById('btn-' + (t === 'photo' ? 'photo' : 'info')).classList.add('active');
-    }
-    window.onload = init;
   </script>
 </body>
 </html>
