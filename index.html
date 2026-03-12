@@ -39,7 +39,8 @@
     .card { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 4px 10px rgba(201, 168, 76, 0.05); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; background: #eee; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: #FFF; background: var(--gold); padding: 2px 5px; border-radius: 3px; font-weight: 800; text-transform: uppercase; }
+    
+    /* 🎯 ส่วนของ .hp-id ถูกนำออกไปตามสั่งเพื่อให้รูปใสสะอาด */
     
     .card-info { flex: 1; padding: 4px 10px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
     .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
@@ -160,7 +161,6 @@
       document.getElementById('propGrid').innerHTML = res.map(u => `
           <a href="details.html?id=${u.HP_ID}" class="card">
             <div class="card-img">
-              <span class="hp-id">PLOT ${u.Plot || '-'}</span>
               <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/400x250?text=Syncing...'}" 
                    loading="lazy" onerror="this.src='https://via.placeholder.com/400x250?text=No+Image'">
             </div>
