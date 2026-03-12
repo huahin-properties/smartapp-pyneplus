@@ -2,13 +2,14 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Asset | THE PYNE PLUS LUXURY V4.21</title>
+  <title>Add Asset | THE PYNE PLUS LUXURY V4.22</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root { --brand: #2D5A27; --accent: #CEA86C; --bg: #F8FAF8; }
-    body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: #1A3017; margin: 0; padding: 0; }
+    /* 🎯 ปรับทีมสีเป็นธีมหลักของ Pyne Plus (ทอง-กรมท่า) */
+    :root { --brand: #C9A84C; --navy: #0B1829; --bg: #FDFAF5; }
+    body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--navy); margin: 0; padding: 0; }
     .content-wrapper { padding: 20px 20px 200px; max-width: 1240px; margin: 0 auto; }
     .tab-bar { display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; }
     .tab-btn { padding: 1rem 0; font-weight: 800; font-size: 11px; text-transform: uppercase; color: #999; cursor: pointer; position: relative; background: none; border: none; transition: 0.3s; }
@@ -16,39 +17,40 @@
     .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--brand); border-radius: 10px; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    .input-card { background: white; border: 1px solid rgba(45,90,39,0.05); padding: 2.2rem; border-radius: 2.2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.02); }
+    .input-card { background: white; border: 1px solid rgba(201,168,76,0.1); padding: 2.2rem; border-radius: 2.2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.02); }
     .field-label { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 0.6rem; display: block; letter-spacing: 0.5px; }
     .field-label span { color: var(--brand); font-size: 12px; margin-left: 10px; font-weight: 700; border-left: 2px solid #ddd; padding-left: 10px; }
-    .field-input { width: 100%; background: #F9F9F8; border: 1.5px solid transparent; border-radius: 1rem; padding: 1rem; font-size: 15px; outline: none; transition: 0.3s; }
+    .field-input { width: 100%; background: #FDFCF9; border: 1.5px solid transparent; border-radius: 1rem; padding: 1rem; font-size: 15px; outline: none; transition: 0.3s; color: var(--navy); }
     .field-input:focus { border-color: var(--brand); background: white; }
-    .field-input[readonly] { background: #f0f2f0; color: var(--brand); font-weight: 700; }
+    .field-input[readonly] { background: #f8f6f2; color: var(--brand); font-weight: 700; }
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 1rem; overflow: hidden; border: 1px solid #eee; }
     .img-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(239,68,68,0.9); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border: 2px solid white; font-size: 10px; }
-    .pdf-row { display: flex; align-items: center; gap: 15px; background: #F9F9F8; padding: 15px; border-radius: 1.2rem; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.03); }
-    .pdf-icon { width: 45px; height: 45px; background: #E8F0E7; color: var(--brand); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .pdf-row { display: flex; align-items: center; gap: 15px; background: #FDFCF9; padding: 15px; border-radius: 1.2rem; margin-bottom: 10px; border: 1px solid rgba(201,168,76,0.05); }
+    .pdf-icon { width: 45px; height: 45px; background: #FAF3E0; color: var(--brand); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
     .btn-pdf-action { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: 0.2s; cursor: pointer; border: none; }
     .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.98); border-top: 1px solid #eee; padding: 25px 20px; z-index: 1000; text-align: center; }
-    .btn-update { background: var(--brand); color: white; width: 100%; max-width: 800px; height: 70px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 20px; box-shadow: 0 10px 30px rgba(45,90,39,0.2); }
+    .btn-update { background: var(--navy); color: white; width: 100%; max-width: 800px; height: 70px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 20px; box-shadow: 0 10px 30px rgba(11,24,41,0.2); }
     .mini-status { font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--brand); display: none; margin-top: 5px; }
     .mini-status.active { display: flex; align-items: center; gap: 5px; }
 
     /* 🎯 Custom Style สำหรับ Multi-Select Ownership */
     .ownership-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
-    .own-item { display: flex; align-items: center; gap: 10px; background: #F9F9F8; padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
-    .own-item:hover { background: #F0F2F0; }
+    .own-item { display: flex; align-items: center; gap: 10px; background: #FDFCF9; padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+    .own-item:hover { background: #FAF3E0; }
     .own-item input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--brand); }
     .own-item span { font-size: 13px; font-weight: 600; color: #444; }
   </style>
 </head>
 <body>
   <div class="content-wrapper">
-    <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
+    <div class="bg-[#0B1829] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">THE PYNE PLUS LUXURY | Enrollment Suite</p>
+        <p class="text-[#C9A84C] font-800 uppercase tracking-widest text-[10px] mb-2">THE PYNE PLUS LUXURY | Enrollment Suite</p>
         <h1 class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">ADD + NEW ASSET</h1>
       </div>
-      <i class="fas fa-leaf absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
+      <i class="fas fa-crown absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
+    
     <div class="tab-bar">
       <button id="btn-photo" class="tab-btn active" onclick="switchTab('photo')">Visual Assets</button>
       <button id="btn-info" class="tab-btn" onclick="switchTab('info')">Specifications (38 Items)</button>
@@ -77,7 +79,7 @@
         <div class="space-y-3 mt-4">
           <div class="pdf-row">
             <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
-            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Floor Plan</span><span id="txt-FloorPlan_PDF" class="text-[11px] font-700 text-[#2D5A27] truncate italic">No file selected</span></div>
+            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Floor Plan</span><span id="txt-FloorPlan_PDF" class="text-[11px] font-700 text-[#0B1829] truncate italic">No file selected</span></div>
             <div class="flex gap-2">
               <button onclick="viewFile('FloorPlan_PDF')" id="view-FloorPlan_PDF" class="btn-pdf-action bg-white text-emerald-600 border border-emerald-100 hidden"><i class="fas fa-eye"></i></button>
               <button onclick="document.getElementById('f_floor').click()" class="btn-pdf-action bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
@@ -94,15 +96,12 @@
         <input type="hidden" id="HP_ID" value="">
         
         <div><label class="field-label">2. Listing Type <span>ประกาศ</span></label><input id="Listing_Type" class="field-input font-800" readonly value="Sale"></div>
-        
         <div><label class="field-label">3. Asset Category <span>ประเภท</span></label><input id="Type" class="field-input font-800" readonly value="Pool Villa"></div>
-        
         <div><label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label><input id="Project_Name" class="field-input font-800" readonly value="The Pyne Plus"></div>
-        
         <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="เช่น M17"></div>
         <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
         
-        <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#F9F9F8] border-2 border-[#eee] shadow-inner">
+        <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#FDFCF9] border-2 border-[#eee] shadow-inner">
           <div><label class="field-label text-blue-600 font-800">7. Sale Price <span>ราคาขายสุทธิ</span></label><input type="number" id="Sale_Price" class="field-input !bg-white" oninput="runCalc()" placeholder="เช่น 7800000"></div>
           <div><label class="field-label">8. Living Area (m2) <span>พื้นที่ใช้สอย</span></label><input type="number" id="Living_Area_sq_m" class="field-input !bg-white" oninput="runCalc()" placeholder="เช่น 345"></div>
           <div><label class="field-label">9. Price/m2 <span>ราคาต่อ ตร.ม.</span></label><input type="number" id="Price_sq_m" class="field-input" readonly value="0"></div>
@@ -159,7 +158,7 @@
       </div>
     </div>
   </div>
-  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl">PUBLISH TO COCO VAULT</button></div>
+  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl">PUBLISH TO PYNE VAULT</button></div>
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
@@ -172,12 +171,10 @@
           const meta = res.data;
           document.querySelectorAll('select.dynamic-opt').forEach(el => {
             let options = meta[el.id] || [];
-            // กรองเอา Rented ออกจากสถานะขาย (ถ้ามี)
             if(el.id === 'Status') options = options.filter(v => v !== 'Rented');
             if (options.length > 0) el.innerHTML = `<option value="">-- Select --</option>` + options.map(v => `<option value="${v}">${v}</option>`).join('');
           });
         }
-        // ✅ รัน ID ใหม่เบื้องหลังปกติ
         const idRes = await (await fetch(`${API}?mode=getNextId`)).json();
         if(idRes.ok) { currentHpId = idRes.nextId; document.getElementById('HP_ID').value = currentHpId; }
       } catch (e) { console.error("Init Error"); }
