@@ -13,20 +13,20 @@
     .input-group { position: relative; margin-bottom: 1.5rem; text-align: left; }
     .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.1rem 1.2rem; color: white; outline: none; transition: 0.3s; font-size: 15px; }
     .field-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); }
-    .eye-btn { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; z-index: 10; }
+    .eye-btn { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; z-index: 10; font-size: 1.1rem; }
     .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: 0.4s; border: none; cursor: pointer; }
     .btn-login:disabled { opacity: 0.5; }
     .status-msg { font-size: 11px; color: var(--gold); margin-top: 15px; display: none; font-weight: 600; }
   </style>
 </head>
 <body>
-  <div class="login-card text-center">
+  <div id="loginPanel" class="login-card text-center">
     <div class="mb-10">
-      <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30">
+      <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30 shadow-xl shadow-gold/20">
         <i class="fas fa-user-shield text-[#C9A84C] text-3xl"></i>
       </div>
       <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter uppercase italic">Admin Gateway</h2>
-      <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-2">Verification Required</p>
+      <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-2" id="hintText">Verification Required</p>
     </div>
     
     <div class="input-group">
@@ -39,7 +39,7 @@
     </div>
     
     <button id="loginBtn" onclick="handleLogin()" class="btn-login">ENTER SYSTEM</button>
-    <div id="status" class="status-msg"><i class="fas fa-spinner fa-spin mr-2"></i>Verifying...</div>
+    <div id="status" class="status-msg"></div>
     
     <div class="mt-8 pt-6 border-t border-white/5">
       <a href="index.html" class="text-slate-500 text-[10px] uppercase font-700 tracking-widest hover:text-gold transition">← Back to Catalog</a>
@@ -49,25 +49,47 @@
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
 
+    // 🚀 1. เช็คทันทีที่เปิดหน้าเว็บ: ถ้า Login อยู่แล้ว ให้วาร์ปไปเลย
+    window.onload = () => {
+      const session = localStorage.getItem('admin_session');
+      if (session === 'active') {
+        const status = document.getElementById('status');
+        const hint = document.getElementById('hintText');
+        status.innerHTML = `<i class="fas fa-bolt mr-2"></i>Resuming session, please wait...`;
+        status.style.display = 'block';
+        hint.innerText = "Welcome back Admin";
+        
+        // ดีเลย์เล็กน้อยเพื่อความนุ่มนวลก่อนวาร์ป
+        setTimeout(() => {
+          location.href = "dashboard.html";
+        }, 800);
+      }
+    };
+
+    // 👁️ 2. ฟังก์ชันดวงตาเปิด-ปิดรหัส
     function togglePass() {
       const p = document.getElementById('password');
       const i = document.getElementById('eyeIcon');
       if (p.type === 'password') {
-        p.type = 'text'; i.classList.replace('fa-eye', 'fa-eye-slash');
+        p.type = 'text'; 
+        i.classList.replace('fa-eye', 'fa-eye-slash');
       } else {
-        p.type = 'password'; i.classList.replace('fa-eye-slash', 'fa-eye');
+        p.type = 'password'; 
+        i.classList.replace('fa-eye-slash', 'fa-eye');
       }
     }
 
+    // 🔐 3. ฟังก์ชันจัดการ Login
     async function handleLogin() {
-      const email = document.getElementById('email').value;
-      const pass = document.getElementById('password').value;
+      const email = document.getElementById('email').value.trim();
+      const pass = document.getElementById('password').value.trim();
       const btn = document.getElementById('loginBtn');
       const st = document.getElementById('status');
 
-      if(!email || !pass) { alert("กรุณากรอกข้อมูลให้ครบ"); return; }
+      if(!email || !pass) { alert("กรุณากรอกข้อมูลให้ครบถ้วน"); return; }
 
       btn.disabled = true;
+      st.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Verifying...`;
       st.style.display = 'block';
 
       try {
@@ -78,18 +100,21 @@
         const result = await res.json();
 
         if(result.ok) {
+          // ✅ เก็บค่าถาวรลงใน Browser จนกว่าจะ Logout
           localStorage.setItem('admin_session', 'active');
           localStorage.setItem('admin_role', result.role);
           localStorage.setItem('admin_project', result.project);
+          localStorage.setItem('admin_email', email);
           location.href = "dashboard.html";
         } else {
-          alert(result.msg || "Login Failed");
+          alert("❌ " + (result.msg || "Login Failed"));
+          st.style.display = 'none';
         }
       } catch (e) {
-        alert("ระบบขัดข้อง: ตรวจสอบการ Deploy Code.gs หรือ Internet");
+        alert("⚠️ Connection Error. Please try again.");
+        st.style.display = 'none';
       } finally {
         btn.disabled = false;
-        st.style.display = 'none';
       }
     }
   </script>
