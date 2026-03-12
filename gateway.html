@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Security Gateway | Smart Properties System</title>
+  <title>Security Gateway | Login Required</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -10,30 +10,39 @@
     :root { --navy: #0B1829; --navy-dark: #060F1A; --gold: #C9A84C; }
     body { font-family: 'Montserrat', sans-serif; background: var(--navy-dark); color: white; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
     .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2rem; border-radius: 2.5rem; width: 90%; max-width: 420px; backdrop-filter: blur(20px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-    .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.2rem; color: white; margin-bottom: 1.5rem; outline: none; transition: 0.3s; font-size: 15px; }
+    .field-input { width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 1.2rem; padding: 1.2rem; color: white; outline: none; transition: 0.3s; font-size: 15px; }
     .field-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); }
-    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: 0.4s; box-shadow: 0 10px 20px rgba(201, 168, 76, 0.2); }
-    .btn-login:active { transform: scale(0.96); opacity: 0.9; }
-    .btn-login:disabled { background: #444; color: #888; cursor: not-allowed; }
+    .pass-wrapper { position: relative; width: 100%; margin-bottom: 1.5rem; }
+    .eye-icon { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; transition: 0.3s; }
+    .eye-icon:hover { opacity: 1; }
+    .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: 0.4s; }
+    .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
+    .mini-status { font-size: 10px; color: var(--gold); margin-top: 15px; display: none; }
   </style>
 </head>
 <body>
   <div class="login-card text-center">
     <div class="mb-10">
-      <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/20">
-        <i class="fas fa-user-shield text-[#C9A84C] text-2xl"></i>
+      <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30 shadow-xl shadow-gold/20">
+        <i class="fas fa-user-shield text-[#C9A84C] text-3xl"></i>
       </div>
       <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter italic uppercase">Admin Gateway</h2>
-      <p class="text-slate-500 text-[10px] uppercase tracking-[0.2em] mt-2">Identity Verification Required</p>
+      <p class="text-slate-500 text-[10px] uppercase tracking-[0.2em] mt-2 italic">Credentials verification required</p>
     </div>
     
-    <input type="email" id="email" class="field-input" placeholder="Email Address" autocomplete="email">
-    <input type="password" id="password" class="field-input" placeholder="Password">
+    <div class="mb-4 text-left">
+      <input type="email" id="email" class="field-input" placeholder="Email Address">
+    </div>
+
+    <div class="pass-wrapper">
+      <input type="password" id="password" class="field-input" placeholder="Password">
+      <i class="fas fa-eye eye-icon" id="togglePass" onclick="togglePassword()"></i>
+    </div>
     
-    <button onclick="handleLogin()" id="loginBtn" class="btn-login">Verify & Enter</button>
-    <div id="errMsg" class="text-red-400 text-[11px] mt-6 font-700 uppercase hidden italic">Access Denied</div>
+    <button id="loginBtn" onclick="handleLogin()" class="btn-login">LOGIN SYSTEM</button>
+    <div id="loading" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Checking Database...</div>
     
-    <div class="mt-8 pt-6 border-t border-white/5">
+    <div class="mt-8 pt-6 border-t border-white/5 text-center">
       <a href="index.html" class="text-slate-500 text-[10px] uppercase font-700 tracking-widest hover:text-gold transition">← Back to Catalog</a>
     </div>
   </div>
@@ -41,41 +50,62 @@
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
 
+    // 🎯 ฟังก์ชันสลับการมองเห็นรหัสผ่าน
+    function togglePassword() {
+      const passInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('togglePass');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        passInput.type = 'password';
+        eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
     async function handleLogin() {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
       const btn = document.getElementById('loginBtn');
-      const err = document.getElementById('errMsg');
+      const load = document.getElementById('loading');
 
-      if(!email || !password) { alert("กรุณากรอก Email และ Password"); return; }
+      if(!email || !password) { 
+        alert("กรุณากรอก Email และ Password"); 
+        return; 
+      }
 
-      btn.innerText = "AUTHENTICATING...";
       btn.disabled = true;
-      err.classList.add('hidden');
+      load.style.display = 'block';
 
       try {
         const res = await fetch(API, {
           method: 'POST',
-          body: JSON.stringify({ mode: 'login', email, password })
+          body: JSON.stringify({ 
+            mode: 'checkLogin', 
+            email: email, 
+            password: password 
+          })
         });
+        
         const result = await res.json();
 
-        if (result.ok) {
-          // 🏆 บันทึก Session เพื่อใช้ปลดล็อคกุญแจในหน้าอื่นๆ
+        if(result.ok) {
+          // ✅ เก็บข้อมูลลง LocalStorage
           localStorage.setItem('admin_session', 'active');
           localStorage.setItem('admin_role', result.role);
-          localStorage.setItem('admin_project', result.project); // ค่าจากชีต: All, CoCo, PynePlus
+          localStorage.setItem('admin_project', result.project);
+          localStorage.setItem('admin_email', email);
           
           location.href = "dashboard.html";
         } else {
-          err.innerText = result.msg;
-          err.classList.remove('hidden');
-          btn.innerText = "RETRY LOGIN";
-          btn.disabled = false;
+          alert("❌ ข้อมูลไม่ถูกต้อง: " + (result.msg || "กรุณาตรวจสอบ Email และ Password"));
         }
       } catch (e) {
-        alert("การเชื่อมต่อล้มเหลว กรุณาลองใหม่");
+        console.error(e);
+        alert("⚠️ เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
+      } finally {
         btn.disabled = false;
+        load.style.display = 'none';
       }
     }
   </script>
