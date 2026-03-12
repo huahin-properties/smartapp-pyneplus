@@ -16,17 +16,23 @@
     .eye-btn { position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); color: var(--gold); cursor: pointer; opacity: 0.6; z-index: 10; font-size: 1.1rem; }
     .btn-login { background: var(--gold); color: var(--navy-dark); width: 100%; padding: 1.2rem; border-radius: 4rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: 0.4s; border: none; cursor: pointer; }
     .btn-login:disabled { opacity: 0.5; }
-    .status-msg { font-size: 11px; color: var(--gold); margin-top: 15px; display: none; font-weight: 600; }
+    .quick-access { display: none; margin-bottom: 2rem; padding: 1rem; background: rgba(201,168,76,0.1); border: 1px solid var(--gold); border-radius: 1rem; cursor: pointer; animation: fadeIn 0.5s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
-  <div id="loginPanel" class="login-card text-center">
+  <div class="login-card text-center">
     <div class="mb-10">
-      <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30 shadow-xl shadow-gold/20">
+      <div class="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold/30">
         <i class="fas fa-user-shield text-[#C9A84C] text-3xl"></i>
       </div>
       <h2 class="text-2xl font-800 text-[#C9A84C] tracking-tighter uppercase italic">Admin Gateway</h2>
-      <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-2" id="hintText">Verification Required</p>
+      <p class="text-slate-500 text-[10px] uppercase tracking-widest mt-2">Verification Required</p>
+    </div>
+
+    <div id="quickBtn" class="quick-access" onclick="location.href='dashboard.html'">
+      <div class="text-[10px] font-800 text-gold uppercase tracking-widest mb-1">Found Active Session</div>
+      <div class="text-xs font-700">CLICK TO ENTER DASHBOARD ➔</div>
     </div>
     
     <div class="input-group">
@@ -39,7 +45,7 @@
     </div>
     
     <button id="loginBtn" onclick="handleLogin()" class="btn-login">ENTER SYSTEM</button>
-    <div id="status" class="status-msg"></div>
+    <div id="status" class="text-gold text-[10px] mt-4 hidden">Verifying...</div>
     
     <div class="mt-8 pt-6 border-t border-white/5">
       <a href="index.html" class="text-slate-500 text-[10px] uppercase font-700 tracking-widest hover:text-gold transition">← Back to Catalog</a>
@@ -49,37 +55,23 @@
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
 
-    // 🚀 1. เช็คทันทีที่เปิดหน้าเว็บ: ถ้า Login อยู่แล้ว ให้วาร์ปไปเลย
+    // 🚀 เช็คสิทธิ์เพื่อโชว์ปุ่มทางลัด (ไม่วาร์ปเอง เพื่อแก้ปัญหากระพริบ)
     window.onload = () => {
-      const session = localStorage.getItem('admin_session');
-      if (session === 'active') {
-        const status = document.getElementById('status');
-        const hint = document.getElementById('hintText');
-        status.innerHTML = `<i class="fas fa-bolt mr-2"></i>Resuming session, please wait...`;
-        status.style.display = 'block';
-        hint.innerText = "Welcome back Admin";
-        
-        // ดีเลย์เล็กน้อยเพื่อความนุ่มนวลก่อนวาร์ป
-        setTimeout(() => {
-          location.href = "dashboard.html";
-        }, 800);
+      if (localStorage.getItem('admin_session') === 'active') {
+        document.getElementById('quickBtn').style.display = 'block';
       }
     };
 
-    // 👁️ 2. ฟังก์ชันดวงตาเปิด-ปิดรหัส
     function togglePass() {
       const p = document.getElementById('password');
       const i = document.getElementById('eyeIcon');
       if (p.type === 'password') {
-        p.type = 'text'; 
-        i.classList.replace('fa-eye', 'fa-eye-slash');
+        p.type = 'text'; i.classList.replace('fa-eye', 'fa-eye-slash');
       } else {
-        p.type = 'password'; 
-        i.classList.replace('fa-eye-slash', 'fa-eye');
+        p.type = 'password'; i.classList.replace('fa-eye-slash', 'fa-eye');
       }
     }
 
-    // 🔐 3. ฟังก์ชันจัดการ Login
     async function handleLogin() {
       const email = document.getElementById('email').value.trim();
       const pass = document.getElementById('password').value.trim();
@@ -89,8 +81,7 @@
       if(!email || !pass) { alert("กรุณากรอกข้อมูลให้ครบถ้วน"); return; }
 
       btn.disabled = true;
-      st.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Verifying...`;
-      st.style.display = 'block';
+      st.classList.remove('hidden');
 
       try {
         const res = await fetch(API, {
@@ -100,21 +91,18 @@
         const result = await res.json();
 
         if(result.ok) {
-          // ✅ เก็บค่าถาวรลงใน Browser จนกว่าจะ Logout
           localStorage.setItem('admin_session', 'active');
           localStorage.setItem('admin_role', result.role);
           localStorage.setItem('admin_project', result.project);
-          localStorage.setItem('admin_email', email);
           location.href = "dashboard.html";
         } else {
           alert("❌ " + (result.msg || "Login Failed"));
-          st.style.display = 'none';
         }
       } catch (e) {
-        alert("⚠️ Connection Error. Please try again.");
-        st.style.display = 'none';
+        alert("⚠️ Connection Error.");
       } finally {
         btn.disabled = false;
+        st.classList.add('hidden');
       }
     }
   </script>
